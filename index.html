@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>농작물 청취조사 계산기</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #f0f7f0;
+  --surface:  #e4f0e4;
+  --card:     #ffffff;
+  --border:   #b8d9b8;
+  --border2:  #d4ebd4;
+  --accent:   #2e7d32;
+  --accent2:  #388e3c;
+  --accent3:  #43a047;
+  --accentlt: #e8f5e9;
+  --accentmd: #c8e6c9;
+  --danger:   #c62828;
+  --dangerlt: #ffebee;
+  --warn:     #e65100;
+  --text:     #1a2e1a;
+  --text2:    #3a5a3a;
+  --muted:    #6a8f6a;
+  --white:    #ffffff;
+  --mono:     'JetBrains Mono', monospace;
+  --sans:     'Noto Sans KR', sans-serif;
+  --radius:   12px;
+  --shadow:   0 2px 12px rgba(46,125,50,0.10);
+  --shadow2:  0 4px 20px rgba(46,125,50,0.15);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 40px; }
+
+/* ── Header ── */
+.header {
+  background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%);
+  padding: 16px 18px; box-shadow: 0 2px 10px rgba(46,125,50,0.3);
+}
+.header-top { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.header-icon {
+  width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+  flex-shrink: 0; border: 1.5px solid rgba(255,255,255,0.35);
+}
+.header-title { font-size: 17px; font-weight: 900; color: #fff; letter-spacing: -0.3px; line-height:1.2; }
+.header-sub   { font-size: 11px; color: rgba(255,255,255,0.75); margin-top: 2px; }
+.header-fields { display: flex; flex-direction: column; gap: 8px; }
+.header-row    { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.header-field label {
+  display: block; font-size: 10px; color: rgba(255,255,255,0.8);
+  font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px;
+}
+.header-field input {
+  width: 100%; background: rgba(255,255,255,0.18); border: 1.5px solid rgba(255,255,255,0.35);
+  border-radius: 8px; color: #fff; font-size: 13px; padding: 9px 10px;
+  font-family: var(--sans); outline: none; -webkit-appearance: none;
+}
+.header-field input::placeholder { color: rgba(255,255,255,0.55); }
+.header-field input:focus { border-color: #fff; background: rgba(255,255,255,0.28); }
+
+/* ── Section ── */
+.section { padding: 14px 14px 0; }
+.section-label {
+  font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+}
+.section-label::after { content:''; flex:1; height:1.5px; background: var(--border2); }
+
+/* ── 지역 선택 ── */
+.region-selector { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+.region-btn {
+  background: var(--card); border: 2px solid var(--border); border-radius: 10px;
+  padding: 11px 6px; cursor: pointer; color: var(--text2); font-family: var(--sans);
+  font-size: 14px; font-weight: 700; text-align: center; transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  display: flex; flex-direction: column; align-items: center; gap: 3px; box-shadow: var(--shadow);
+}
+.region-btn .rbadge { font-size: 9px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+.region-btn:active { transform: scale(0.97); }
+.region-btn.active { border-color: var(--accent); background: var(--accentlt); color: var(--accent); box-shadow: 0 0 0 1px var(--accent),var(--shadow); }
+.region-btn.active .rbadge { color: var(--accent2); }
+
+/* ── Crop Grid (3열) ── */
+.crop-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+.crop-btn {
+  background: var(--card); border: 2px solid var(--border); border-radius: var(--radius);
+  padding: 11px 6px; cursor: pointer; transition: all 0.18s; text-align: center;
+  color: var(--text2); font-family: var(--sans); -webkit-tap-highlight-color: transparent;
+  display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: var(--shadow);
+}
+.crop-btn:active { transform: scale(0.97); }
+.crop-btn.active { border-color: var(--accent); background: var(--accentlt); box-shadow: 0 0 0 1px var(--accent),var(--shadow2); }
+.crop-btn .crop-emoji { font-size: 24px; }
+.crop-btn .crop-name  { font-size: 13px; font-weight: 700; color: var(--text); line-height:1.2; }
+.crop-btn .crop-unit  { font-size: 10px; color: var(--muted); background: var(--surface); padding: 2px 6px; border-radius: 20px; font-family: var(--mono); }
+
+/* ── Calc Card ── */
+.calc-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
+
+/* 면적: 평 ⇄ m² 한 줄 */
+.area-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; margin-bottom: 12px; }
+.area-field { display: flex; flex-direction: column; gap: 4px; }
+.area-field label { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; }
+.area-input-wrap { display: flex; gap: 5px; align-items: center; }
+.area-input {
+  flex:1; background: var(--surface); border: 1.5px solid var(--border); border-radius: 8px;
+  color: var(--text); font-size: 18px; font-weight: 700; font-family: var(--mono);
+  padding: 10px 6px; outline: none; width: 100%; -webkit-appearance: none; text-align: center;
+}
+.area-input:focus { border-color: var(--accent); background: var(--accentlt); }
+.area-unit-tag { font-size: 12px; font-weight: 700; color: var(--accent2); background: var(--accentmd); border-radius: 6px; padding: 5px 8px; white-space: nowrap; }
+.area-arrow { display: flex; flex-direction: column; align-items: center; color: var(--muted); font-size: 18px; padding-top: 18px; }
+
+/* 단위무게 + 수확수량 한 줄 */
+.qty-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.qty-field { display: flex; flex-direction: column; gap: 4px; }
+.qty-field label { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; display: flex; align-items: center; gap: 4px; }
+.qty-input-wrap { display: flex; gap: 5px; align-items: center; }
+.qty-input {
+  flex:1; background: var(--surface); border: 1.5px solid var(--border); border-radius: 8px;
+  color: var(--text); font-size: 18px; font-weight: 700; font-family: var(--mono);
+  padding: 10px 6px; outline: none; width: 100%; -webkit-appearance: none; text-align: center;
+}
+.qty-input:focus { border-color: var(--accent); background: var(--accentlt); }
+.qty-unit-tag { font-size: 11px; font-weight: 700; color: var(--accent2); background: var(--accentmd); border-radius: 6px; padding: 5px 7px; white-space: nowrap; }
+
+/* ────────────────────────────────
+   캡처 대상 전용 영역
+──────────────────────────────── */
+#result-capture {
+  background: var(--bg);
+  padding: 14px;
+}
+
+/* 캡처 영역 내부 — 조사정보 요약 */
+.survey-summary {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 12px 14px; margin-bottom: 10px;
+}
+.survey-summary-title {
+  font-size: 10px; font-weight: 800; letter-spacing: 1.2px; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 5px;
+}
+.survey-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; }
+.ss-item { display: flex; gap: 6px; align-items: baseline; }
+.ss-label { font-size: 10px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+.ss-val   { font-size: 13px; font-weight: 700; color: var(--text); }
+.ss-full  { grid-column: 1/-1; }
+
+/* ── Result Card ── */
+.result-card {
+  background: linear-gradient(135deg, #e8f5e9 0%, #f5fbf5 100%);
+  border: 2px solid var(--accent); border-radius: var(--radius);
+  padding: 16px; box-shadow: var(--shadow2); margin-bottom: 10px;
+}
+.result-main { text-align: center; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--accentmd); }
+.result-label { font-size: 11px; font-weight: 800; letter-spacing: 2px; color: var(--accent2); text-transform: uppercase; margin-bottom: 4px; }
+.result-value { font-family: var(--mono); font-size: 54px; font-weight: 700; color: var(--accent); line-height: 1; letter-spacing: -2px; }
+.result-value .unit { font-size: 20px; color: var(--muted); font-weight: 500; margin-left: 4px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 700; font-family: var(--mono); margin-top: 8px;
+}
+.badge.up   { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.badge.down { background: var(--dangerlt); color: var(--danger); border: 1px solid #ffcdd2; }
+.badge.flat { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+
+/* 계산식 표시 */
+.formula-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 12px; margin-top: 12px;
+  font-family: var(--mono); font-size: 12px; color: var(--text2); line-height: 1.7;
+}
+.formula-box .f-title { font-size: 10px; font-weight: 800; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+.formula-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.f-key { color: var(--accent2); font-weight: 700; }
+.f-eq  { color: var(--muted); }
+.f-num { color: var(--text); font-weight: 700; }
+
+/* 결과 좌/우 배치 */
+.result-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.result-col  { display: flex; flex-direction: column; gap: 8px; }
+.result-col-label { font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; padding-left: 2px; }
+.result-item { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; box-shadow: var(--shadow); }
+.result-item .ri-label { font-size: 10px; color: var(--muted); font-weight: 700; letter-spacing: 0.5px; margin-bottom: 3px; }
+.result-item .ri-val { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text); }
+.result-item .ri-val .ri-unit { font-size: 12px; color: var(--muted); margin-left: 2px; }
+
+/* ── Chart ── */
+.chart-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
+.chart-title { font-size: 13px; font-weight: 700; margin-bottom: 12px; color: var(--text2); display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.chart-wrap  { position: relative; height: 220px; }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-size: 11px; }
+.chart-legend-item { display: flex; align-items: center; gap: 5px; color: var(--muted); }
+.legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+/* ── Data Table ── */
+.data-table-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.data-table-header {
+  padding: 12px 16px; font-size: 12px; font-weight: 700; color: var(--text2);
+  border-bottom: 1px solid var(--border2); background: var(--surface);
+  display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none;
+}
+.data-table-header .toggle-icon { margin-left: auto; font-size: 14px; transition: transform 0.2s; color: var(--muted); }
+.data-table-header.open .toggle-icon { transform: rotate(180deg); }
+.data-table-wrap { overflow-x: auto; display: none; }
+.data-table-wrap.visible { display: block; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; font-family: var(--mono); }
+/* 지역 그룹 헤더 */
+.th-region {
+  background: var(--accentmd); color: var(--accent); font-size: 11px; font-weight: 800;
+  padding: 7px 10px; text-align: center; letter-spacing: 0.5px; border-right: 2px solid var(--border);
+}
+.th-region:last-child { border-right: none; }
+.th-sub {
+  background: var(--surface); padding: 6px 10px; text-align: center;
+  font-size: 10px; color: var(--muted); font-weight: 700; letter-spacing: 0.5px;
+  border-right: 1px solid var(--border2); white-space: nowrap;
+}
+.th-sub:last-child { border-right: none; }
+.th-crop { background: var(--surface); padding: 6px 10px; text-align: left; font-size: 10px; color: var(--muted); font-weight: 700; }
+tbody td { padding: 9px 10px; border-bottom: 1px solid var(--border2); text-align: center; color: var(--text); border-right: 1px solid var(--border2); }
+tbody td:last-child { border-right: none; }
+tbody td:first-child { text-align: left; font-family: var(--sans); font-size: 11px; border-right: 2px solid var(--border); }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: var(--accentlt); }
+/* 지역 경계선 */
+.td-region-end { border-right: 2px solid var(--border) !important; }
+.editable-td input {
+  background: transparent; border: none; color: var(--accent2); font-family: var(--mono);
+  font-size: 12px; width: 56px; text-align: center; outline: none; padding: 2px 4px; border-radius: 4px;
+}
+.editable-td input:focus { background: var(--accentlt); }
+
+/* ── Capture Button ── */
+.capture-section { padding: 14px 14px 36px; }
+.fab-btn {
+  width: 100%; background: var(--accent); color: #fff; border: none; border-radius: var(--radius);
+  padding: 17px; font-size: 16px; font-weight: 900; font-family: var(--sans);
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  cursor: pointer; box-shadow: 0 4px 16px rgba(46,125,50,0.35);
+  transition: all 0.18s; letter-spacing: -0.3px; -webkit-tap-highlight-color: transparent;
+}
+.fab-btn:active { transform: scale(0.98); opacity: 0.9; }
+.fab-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── 캡처 모달 ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 9999;
+  flex-direction: column; align-items: center; justify-content: flex-start;
+  padding: 20px 16px 40px; overflow-y: auto; -webkit-overflow-scrolling: touch;
+}
+.modal-overlay.show { display: flex; }
+.modal-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); width: 100%; max-width: 500px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+.modal-header { padding: 14px 16px; font-size: 14px; font-weight: 700; color: var(--text); border-bottom: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: space-between; }
+.modal-close { background: none; border: none; color: var(--muted); font-size: 24px; cursor: pointer; padding: 0 4px; line-height:1; }
+.modal-img-wrap { padding: 12px; text-align: center; }
+.modal-img-wrap img { width: 100%; border-radius: 8px; display: block; border: 1px solid var(--border); }
+.modal-hint { padding: 6px 16px 14px; font-size: 13px; color: var(--muted); text-align: center; }
+.modal-dl-btn { display: block; width: calc(100% - 32px); margin: 0 16px 16px; background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: 14px; font-size: 15px; font-weight: 700; font-family: var(--sans); cursor: pointer; text-align: center; text-decoration: none; }
+
+/* ── Toast ── */
+.toast {
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-20px);
+  background: var(--accent); color: #fff; padding: 10px 20px; border-radius: 24px;
+  font-size: 14px; font-weight: 700; opacity: 0; transition: all 0.3s; z-index: 99999;
+  pointer-events: none; white-space: nowrap; box-shadow: 0 4px 16px rgba(46,125,50,0.4);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.empty-result { text-align: center; padding: 24px 20px; color: var(--muted); font-size: 14px; }
+.empty-result .em-icon { font-size: 34px; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<!-- 캡처 결과 모달 -->
+<div class="modal-overlay" id="capture-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span>📸 조사 결과 이미지</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-img-wrap"><img id="modal-img" src="" alt="캡처 결과"></div>
+    <div class="modal-hint" id="modal-hint">이미지를 길게 눌러 저장하거나 아래 버튼을 누르세요.</div>
+    <a class="modal-dl-btn" id="modal-dl-btn" href="#" download="조사결과.png">💾 이미지 다운로드</a>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     입력 폼 영역 (캡처 제외)
+════════════════════════════════════ -->
+<div id="input-form-area">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="header-icon">🌾</div>
+    <div>
+      <div class="header-title">농작물 청취조사 계산기</div>
+      <div class="header-sub">현장 생산량 환산 · 지역 비교 · 결과 저장</div>
+    </div>
+  </div>
+  <div class="header-fields">
+    <div class="header-field">
+      <label>조사 주소</label>
+      <input type="text" id="input-address" placeholder="주소 입력 후 캡처하세요." oninput="updateSummary()">
+    </div>
+    <div class="header-row">
+      <div class="header-field">
+        <label>조사 연월일</label>
+        <input type="date" id="input-date" oninput="updateSummary()">
+      </div>
+      <div class="header-field">
+        <label>조사자</label>
+        <input type="text" id="input-surveyor" placeholder="성명" oninput="updateSummary()">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ① 지역 선택 -->
+<div class="section">
+  <div class="section-label">① 비교 지역 선택</div>
+  <div class="region-selector">
+    <button class="region-btn active" data-region="대구" onclick="selectRegion(this,'대구')">
+      <span>🏙️ 대구</span><span class="rbadge">선택됨</span>
+    </button>
+    <button class="region-btn" data-region="경북" onclick="selectRegion(this,'경북')">
+      <span>🌄 경북</span><span class="rbadge">비교 기준</span>
+    </button>
+    <button class="region-btn" data-region="강원" onclick="selectRegion(this,'강원')">
+      <span>🏔️ 강원</span><span class="rbadge">비교 기준</span>
+    </button>
+  </div>
+</div>
+
+<!-- ② 작물 선택 -->
+<div class="section">
+  <div class="section-label">② 작물 선택</div>
+  <div class="crop-grid" id="crop-grid"></div>
+</div>
+
+<!-- ③ 면적·수량 입력 -->
+<div class="section" style="margin-top:4px">
+  <div class="section-label">③ 면적 · 수량 입력</div>
+  <div class="calc-card">
+    <div class="area-row">
+      <div class="area-field">
+        <label>📐 평</label>
+        <div class="area-input-wrap">
+          <input class="area-input" type="number" id="inp-pyeong" placeholder="0" inputmode="decimal" oninput="onPyeong()">
+          <span class="area-unit-tag">평</span>
+        </div>
+      </div>
+      <div class="area-arrow">⇄</div>
+      <div class="area-field">
+        <label>m²</label>
+        <div class="area-input-wrap">
+          <input class="area-input" type="number" id="inp-m2" placeholder="0" inputmode="decimal" oninput="onM2()">
+          <span class="area-unit-tag">m²</span>
+        </div>
+      </div>
+    </div>
+    <div class="qty-row">
+      <div class="qty-field">
+        <label>⚖️ 단위당 무게</label>
+        <div class="qty-input-wrap">
+          <input class="qty-input" type="number" id="inp-unit-weight" value="18" inputmode="decimal" oninput="recalc()">
+          <span class="qty-unit-tag">kg</span>
+        </div>
+      </div>
+      <div class="qty-field">
+        <label>📦 수확 수량</label>
+        <div class="qty-input-wrap">
+          <input class="qty-input" type="number" id="inp-qty" placeholder="0" inputmode="decimal" oninput="recalc()">
+          <span class="qty-unit-tag" id="qty-unit-label">단위</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑥ 비교 데이터 편집 -->
+<div class="section" style="margin-top:4px; padding-bottom: 14px;">
+  <div class="section-label">⑥ 비교 데이터 편집</div>
+  <div class="data-table-card">
+    <div class="data-table-header" onclick="toggleTable(this)">
+      <span>📋</span> 지역별 전년·평년 데이터 (10a당 kg) — 탭하여 수정
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="data-table-wrap" id="data-table-wrap">
+      <table id="data-table"></table>
+    </div>
+  </div>
+</div>
+
+</div><!-- /input-form-area -->
+
+<!-- ════════════════════════════════════
+     캡처 대상 영역 (결과+차트만)
+════════════════════════════════════ -->
+<div id="result-capture">
+
+  <!-- 조사 정보 요약 -->
+  <div class="survey-summary" id="survey-summary">
+    <div class="survey-summary-title">🌾 농작물 청취조사 결과</div>
+    <div class="survey-summary-grid" id="summary-grid">
+      <div class="ss-item ss-full"><span class="ss-label">주소</span><span class="ss-val" id="sum-address">—</span></div>
+      <div class="ss-item"><span class="ss-label">조사일</span><span class="ss-val" id="sum-date">—</span></div>
+      <div class="ss-item"><span class="ss-label">조사자</span><span class="ss-val" id="sum-surveyor">—</span></div>
+      <div class="ss-item"><span class="ss-label">작물</span><span class="ss-val" id="sum-crop">—</span></div>
+      <div class="ss-item"><span class="ss-label">면적</span><span class="ss-val" id="sum-area">—</span></div>
+    </div>
+  </div>
+
+  <!-- ④ 계산 결과 -->
+  <div id="result-area">
+    <div class="empty-result"><div class="em-icon">🌱</div><div>작물을 선택하고 면적·수량을 입력하세요</div></div>
+  </div>
+
+  <!-- ⑤ 지역별 비교 차트 -->
+  <div style="margin-top:10px">
+    <div class="chart-card" id="chart-card">
+      <div class="empty-result"><div class="em-icon">📊</div><div>계산 결과가 나오면 그래프가 표시됩니다</div></div>
+    </div>
+  </div>
+
+</div><!-- /result-capture -->
+
+<!-- 캡처 버튼 -->
+<div class="capture-section">
+  <button class="fab-btn" id="capture-btn" onclick="captureResult()">
+    <span>📸</span> 결과 화면 캡처하기
+  </button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── 데이터 ── */
+const CROPS = [
+  { id:'apple',  emoji:'🍎', name:'사과',        unit:'컨테이너', defaultKg:18  },
+  { id:'pear',   emoji:'🍐', name:'배',          unit:'컨테이너', defaultKg:18  },
+  { id:'pepper', emoji:'🌶️', name:'고추',        unit:'근',       defaultKg:0.6 },
+  { id:'sesame', emoji:'🌿', name:'참깨',        unit:'되',       defaultKg:1.2 },
+  { id:'potato', emoji:'🥔', name:'가을감자',    unit:'박스',     defaultKg:10  },
+  { id:'sweet',  emoji:'🍠', name:'고구마',      unit:'박스',     defaultKg:10  },
+  { id:'barley', emoji:'🌾', name:'보리(겉/쌀)', unit:'톤백',     defaultKg:500 },
+  { id:'wheat',  emoji:'🥖', name:'밀',          unit:'톤백',     defaultKg:500 },
+];
+const REGION_DATA = {
+  apple:  { 대구_전년:2834, 대구_평년:2650, 경북_전년:2612, 경북_평년:2490, 강원_전년:2180, 강원_평년:2095 },
+  pear:   { 대구_전년:2350, 대구_평년:2210, 경북_전년:2420, 경북_평년:2310, 강원_전년:1920, 강원_평년:1860 },
+  pepper: { 대구_전년:285,  대구_평년:272,  경북_전년:308,  경북_평년:293,  강원_전년:324,  강원_평년:312  },
+  sesame: { 대구_전년:86,   대구_평년:83,   경북_전년:91,   경북_평년:88,   강원_전년:97,   강원_평년:93   },
+  potato: { 대구_전년:2130, 대구_평년:2010, 경북_전년:2310, 경북_평년:2200, 강원_전년:2520, 강원_평년:2410 },
+  sweet:  { 대구_전년:2640, 대구_평년:2510, 경북_전년:2830, 경북_평년:2710, 강원_전년:2410, 강원_평년:2310 },
+  barley: { 대구_전년:385,  대구_평년:372,  경북_전년:405,  경북_평년:392,  강원_전년:358,  강원_평년:344  },
+  wheat:  { 대구_전년:342,  대구_평년:331,  경북_전년:364,  경북_평년:352,  강원_전년:381,  강원_평년:371  },
+};
+
+let selectedCrop   = null;
+let selectedRegion = '대구';
+let chartInst      = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('input-date').value = new Date().toISOString().slice(0,10);
+  renderCropGrid();
+  renderDataTable();
+  updateSummary();
+});
+
+/* 숫자 포맷 — 소수점 없음 */
+function fmt(n) {
+  if (!n || isNaN(n) || n === 0) return '—';
+  return Math.round(n).toLocaleString('ko-KR');
+}
+function fmtDec(n, d=1) {
+  if (!n || isNaN(n)) return '—';
+  return n.toLocaleString('ko-KR', {maximumFractionDigits: d, minimumFractionDigits: 0});
+}
+
+/* 지역 선택 */
+function selectRegion(btn, region) {
+  selectedRegion = region;
+  document.querySelectorAll('.region-btn').forEach(b => {
+    b.classList.remove('active');
+    b.querySelector('.rbadge').textContent = '비교 기준';
+  });
+  btn.classList.add('active');
+  btn.querySelector('.rbadge').textContent = '선택됨';
+  recalc();
+}
+
+/* 작물 그리드 */
+function renderCropGrid() {
+  const grid = document.getElementById('crop-grid');
+  grid.innerHTML = '';
+  CROPS.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'crop-btn';
+    btn.dataset.id = c.id;
+    btn.innerHTML = `<span class="crop-emoji">${c.emoji}</span><span class="crop-name">${c.name}</span><span class="crop-unit">${c.unit}·${c.defaultKg}kg</span>`;
+    btn.onclick = () => selectCrop(c.id);
+    grid.appendChild(btn);
+  });
+}
+
+/* 작물 선택 */
+function selectCrop(id) {
+  selectedCrop = CROPS.find(c => c.id === id);
+  document.querySelectorAll('.crop-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.crop-btn[data-id="${id}"]`).classList.add('active');
+  document.getElementById('inp-unit-weight').value = selectedCrop.defaultKg;
+  document.getElementById('qty-unit-label').textContent = selectedCrop.unit;
+  updateSummary();
+  recalc();
+}
+
+/* 면적 환산 */
+const PY2M2 = 3.3058;
+function onPyeong() {
+  const v = parseFloat(document.getElementById('inp-pyeong').value) || 0;
+  document.getElementById('inp-m2').value = v ? (v * PY2M2).toFixed(1) : '';
+  updateSummary(); recalc();
+}
+function onM2() {
+  const v = parseFloat(document.getElementById('inp-m2').value) || 0;
+  document.getElementById('inp-pyeong').value = v ? (v / PY2M2).toFixed(1) : '';
+  updateSummary(); recalc();
+}
+
+/* 요약 정보 업데이트 */
+function updateSummary() {
+  const addr  = document.getElementById('input-address').value  || '—';
+  const date  = document.getElementById('input-date').value     || '—';
+  const surv  = document.getElementById('input-surveyor').value || '—';
+  const crop  = selectedCrop ? `${selectedCrop.emoji} ${selectedCrop.name}` : '—';
+  const m2val = parseFloat(document.getElementById('inp-m2').value) || 0;
+  const pyval = parseFloat(document.getElementById('inp-pyeong').value) || 0;
+  const area  = m2val > 0 ? `${fmtDec(pyval)}평 (${fmtDec(m2val)} m²)` : '—';
+
+  document.getElementById('sum-address').textContent  = addr;
+  document.getElementById('sum-date').textContent     = date;
+  document.getElementById('sum-surveyor').textContent = surv;
+  document.getElementById('sum-crop').textContent     = crop;
+  document.getElementById('sum-area').textContent     = area;
+}
+
+/* 계산 */
+function recalc() {
+  if (!selectedCrop) return;
+  const m2     = parseFloat(document.getElementById('inp-m2').value)         || 0;
+  const qty    = parseFloat(document.getElementById('inp-qty').value)         || 0;
+  const unitKg = parseFloat(document.getElementById('inp-unit-weight').value) || selectedCrop.defaultKg;
+  const totalKg = qty * unitKg;
+  const per10a  = m2 > 0 ? (totalKg / m2) * 1000 : 0;
+  renderResult(totalKg, per10a, m2, qty, unitKg);
+  renderChart(per10a);
+}
+
+/* 결과 렌더링 */
+function renderResult(totalKg, per10a, m2, qty, unitKg) {
+  const rd   = REGION_DATA[selectedCrop.id];
+  const base = rd ? rd[`${selectedRegion}_평년`] : 0;
+
+  // 뱃지
+  let badge = '';
+  if (base > 0 && per10a > 0) {
+    const pct  = (per10a - base) / base * 100;
+    const sign = pct >= 0 ? '+' : '';
+    const cls  = pct > 5 ? 'up' : pct < -5 ? 'down' : 'flat';
+    const icon = pct > 5 ? '▲' : pct < -5 ? '▼' : '─';
+    badge = `<span class="badge ${cls}">${icon} ${sign}${Math.round(pct)}% (${selectedRegion} 평년 대비)</span>`;
+  }
+
+  // 계산식
+  const formulaHtml = (m2 > 0 && totalKg > 0) ? `
+    <div class="formula-box">
+      <div class="f-title">📐 계산식</div>
+      <div class="formula-row">
+        <span class="f-key">10a당 수량</span>
+        <span class="f-eq">=</span>
+        <span class="f-num">(${fmt(totalKg)} kg ÷ ${fmtDec(m2)} m²)</span>
+        <span class="f-eq">×</span>
+        <span class="f-num">1,000</span>
+        <span class="f-eq">=</span>
+        <span class="f-key">${fmt(per10a)} kg/10a</span>
+      </div>
+    </div>` : '';
+
+  document.getElementById('result-area').innerHTML = `
+    <div class="result-card">
+      <div class="result-main">
+        <div class="result-label">10a당 수량</div>
+        <div class="result-value">${fmt(per10a)}<span class="unit">kg</span></div>
+        ${badge}
+        ${formulaHtml}
+      </div>
+      <div class="result-cols">
+        <div class="result-col">
+          <div class="result-col-label">📐 경작 정보</div>
+          <div class="result-item">
+            <div class="ri-label">경작 면적</div>
+            <div class="ri-val">${m2>0?fmtDec(m2):'—'}<span class="ri-unit">m²</span></div>
+          </div>
+          <div class="result-item">
+            <div class="ri-label">단위 무게</div>
+            <div class="ri-val">${unitKg}<span class="ri-unit">kg/${selectedCrop.unit}</span></div>
+          </div>
+        </div>
+        <div class="result-col">
+          <div class="result-col-label">📦 생산 정보</div>
+          <div class="result-item">
+            <div class="ri-label">전체 생산량</div>
+            <div class="ri-val">${fmt(totalKg)}<span class="ri-unit">kg</span></div>
+          </div>
+          <div class="result-item">
+            <div class="ri-label">수확 수량</div>
+            <div class="ri-val">${qty>0?qty:'—'}<span class="ri-unit">${selectedCrop.unit}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* 차트 */
+function renderChart(per10a) {
+  const card = document.getElementById('chart-card');
+  const rd   = REGION_DATA[selectedCrop.id];
+  card.innerHTML = `
+    <div class="chart-title">📊 ${selectedCrop.name} — 지역별 10a당 수량 비교 <span style="color:var(--accent);font-size:11px;font-weight:700">[기준: ${selectedRegion}]</span></div>
+    <div class="chart-wrap"><canvas id="compare-chart"></canvas></div>
+    <div class="chart-legend" id="chart-legend"></div>`;
+  const regions  = ['대구','경북','강원'];
+  const labels   = [...regions,'조사지'];
+  const prevData = [...regions.map(r=>rd[`${r}_전년`]),null];
+  const normData = [...regions.map(r=>rd[`${r}_평년`]),null];
+  const survData = [null,null,null, per10a>0?per10a:null];
+  const prevBg   = regions.map(r=>r===selectedRegion?'rgba(56,142,60,0.85)':'rgba(56,142,60,0.35)');
+  const normBg   = regions.map(r=>r===selectedRegion?'rgba(165,214,167,0.9)':'rgba(165,214,167,0.45)');
+  if (chartInst) { chartInst.destroy(); chartInst=null; }
+  const ctx = document.getElementById('compare-chart').getContext('2d');
+  chartInst = new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels,
+      datasets:[
+        {label:'전년 수량',data:prevData,backgroundColor:[...prevBg,'transparent'],borderColor:'#388e3c',borderWidth:1.5,borderRadius:5},
+        {label:'5년 평년',data:normData,backgroundColor:[...normBg,'transparent'],borderColor:'#81c784',borderWidth:1.5,borderRadius:5},
+        {label:'이번 조사',data:survData,backgroundColor:['transparent','transparent','transparent','rgba(239,108,0,0.85)'],borderColor:'#e65100',borderWidth:2,borderRadius:5},
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, animation:{duration:400},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'#fff',borderColor:'#b8d9b8',borderWidth:1,
+          titleColor:'#2e7d32',bodyColor:'#3a5a3a',
+          callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y!=null?Math.round(c.parsed.y).toLocaleString()+' kg':'없음'}`}
+        }
+      },
+      scales:{
+        x:{grid:{color:'rgba(184,217,184,0.5)'},ticks:{color:'#6a8f6a',font:{family:"'Noto Sans KR'",size:12}}},
+        y:{
+          grid:{color:'rgba(184,217,184,0.5)'},
+          ticks:{color:'#6a8f6a',font:{family:"'JetBrains Mono'",size:11},callback:v=>Math.round(v).toLocaleString()},
+          title:{display:true,text:'kg / 10a',color:'#6a8f6a',font:{size:10}}
+        }
+      }
+    }
+  });
+  document.getElementById('chart-legend').innerHTML=`
+    <div class="chart-legend-item"><div class="legend-dot" style="background:#388e3c"></div>전년 수량</div>
+    <div class="chart-legend-item"><div class="legend-dot" style="background:#a5d6a7"></div>5년 평년</div>
+    <div class="chart-legend-item"><div class="legend-dot" style="background:#e65100"></div>이번 조사</div>
+    <div class="chart-legend-item" style="margin-left:auto;color:var(--accent);font-weight:700;font-size:11px">★ 기준: ${selectedRegion}</div>`;
+}
+
+/* 데이터 테이블 — 지역별 묶음 헤더 */
+function renderDataTable() {
+  // 헤더행1: 작물 | 대구(span2) | 경북(span2) | 강원(span2)
+  // 헤더행2:      | 전년 | 평년 | 전년 | 평년 | 전년 | 평년
+  let html = `<thead>
+    <tr>
+      <th class="th-crop" rowspan="2">작물</th>
+      <th class="th-region" colspan="2">🏙️ 대구</th>
+      <th class="th-region" colspan="2">🌄 경북</th>
+      <th class="th-region" colspan="2">🏔️ 강원</th>
+    </tr>
+    <tr>
+      <th class="th-sub">전년</th>
+      <th class="th-sub td-region-end">평년</th>
+      <th class="th-sub">전년</th>
+      <th class="th-sub td-region-end">평년</th>
+      <th class="th-sub">전년</th>
+      <th class="th-sub">평년</th>
+    </tr>
+  </thead><tbody>`;
+
+  const colOrder = ['대구_전년','대구_평년','경북_전년','경북_평년','강원_전년','강원_평년'];
+  CROPS.forEach(c => {
+    html += `<tr><td>${c.emoji} ${c.name}</td>` +
+      colOrder.map((col, i) => {
+        const isRegionEnd = (i===1 || i===3); // 대구평년, 경북평년 뒤에 경계
+        return `<td class="editable-td${isRegionEnd?' td-region-end':''}">
+          <input type="number" value="${REGION_DATA[c.id][col]}"
+            data-crop="${c.id}" data-col="${col}"
+            onchange="updateRegionData(this)" inputmode="numeric">
+        </td>`;
+      }).join('') + '</tr>';
+  });
+
+  document.getElementById('data-table').innerHTML = html + '</tbody>';
+}
+function updateRegionData(inp) {
+  REGION_DATA[inp.dataset.crop][inp.dataset.col] = parseFloat(inp.value)||0;
+  if (selectedCrop && selectedCrop.id === inp.dataset.crop) recalc();
+  showToast('데이터 업데이트 ✓');
+}
+function toggleTable(hdr) {
+  hdr.classList.toggle('open');
+  document.getElementById('data-table-wrap').classList.toggle('visible');
+}
+
+/* 캡처 — result-capture 영역만 */
+function isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; }
+
+let captureCount = 0; // 캡처 횟수 카운터
+
+async function captureResult() {
+  const btn = document.getElementById('capture-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span>⏳</span> 이미지 생성 중...';
+  try {
+    await new Promise(r => setTimeout(r, 200));
+    updateSummary();
+    const el = document.getElementById('result-capture');
+    const canvas = await html2canvas(el, {
+      backgroundColor: '#f0f7f0',
+      scale: Math.min(window.devicePixelRatio||1, 2),
+      useCORS: true, allowTaint: true, logging: false,
+      x:0, y:0, scrollX:0, scrollY:0,
+      width: el.scrollWidth, height: el.scrollHeight,
+      windowWidth: el.scrollWidth, windowHeight: el.scrollHeight,
+    });
+    const dataUrl = canvas.toDataURL('image/png', 1.0);
+    const date  = (document.getElementById('input-date').value||'').replace(/-/g,'');
+    const crop  = selectedCrop ? selectedCrop.name : 'survey';
+    captureCount++;
+    const num   = String(captureCount).padStart(3, '0'); // 001, 002, 003 …
+    const fname = `조사결과_${crop}_${date||'result'}_${num}.png`;
+    document.getElementById('modal-img').src = dataUrl;
+    const dlBtn = document.getElementById('modal-dl-btn');
+    dlBtn.href = dataUrl; dlBtn.download = fname;
+    if (isIOS()) {
+      document.getElementById('modal-hint').textContent = '📱 iOS: 이미지를 길게 눌러 "사진 앱에 저장"을 선택하세요.';
+    } else {
+      document.getElementById('modal-hint').textContent = '✅ 다운로드가 시작됩니다. 아래 버튼으로 다시 받을 수 있습니다.';
+      const a = document.createElement('a');
+      a.href=dataUrl; a.download=fname;
+      document.body.appendChild(a); a.click();
+      setTimeout(()=>document.body.removeChild(a), 500);
+    }
+    document.getElementById('capture-modal').classList.add('show');
+  } catch(e) {
+    console.error(e);
+    showToast('⚠️ 캡처 오류: '+(e.message||String(e)));
+  }
+  btn.disabled = false;
+  btn.innerHTML = '<span>📸</span> 결과 화면 캡처하기';
+}
+function closeModal() { document.getElementById('capture-modal').classList.remove('show'); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
