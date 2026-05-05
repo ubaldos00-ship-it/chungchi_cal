@@ -152,11 +152,11 @@ body{padding-top:62px;padding-bottom:48px;}
 }
 .add-row-btn:active{transform:scale(0.97);opacity:0.9;}
 
-/* 수확수량 row: 수량 | 단위(편집) | → | kg 결과 | 삭제 */
+/* 수확수량 row: 수량 | kg/단위(편집) | × | kg 결과 | − 삭제 */
 .qty-rows{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
 .qty-row-item{
   display:grid;
-  grid-template-columns:80px 70px 16px 1fr 28px;
+  grid-template-columns:75px 65px 22px 1fr 28px;
   gap:5px;align-items:center;
   background:var(--surface);border:1px solid var(--border2);border-radius:8px;
   padding:7px 8px;
@@ -167,15 +167,21 @@ body{padding-top:62px;padding-bottom:48px;}
   padding:6px 4px;outline:none;width:100%;-webkit-appearance:none;text-align:center;
 }
 .qty-inp:focus{border-color:var(--accent);background:var(--accentlt);}
-.qty-unit-inp{
+.qty-unitkg-inp{
   background:#fff;border:1.5px solid var(--accentmd);border-radius:6px;
-  color:var(--accent);font-size:11px;font-weight:700;font-family:var(--f);
-  padding:6px 4px;outline:none;width:100%;text-align:center;
+  color:var(--accent);font-size:13px;font-weight:700;font-family:var(--f);
+  padding:6px 4px;outline:none;width:100%;-webkit-appearance:none;text-align:center;
 }
-.qty-unit-inp:focus{border-color:var(--accent);}
-.qty-arrow{color:var(--muted);font-size:13px;text-align:center;}
+.qty-unitkg-inp:focus{border-color:var(--accent);}
+.qty-arrow{color:var(--accent2);font-size:15px;font-weight:900;text-align:center;}
 .qty-calc{font-size:13px;font-weight:700;color:var(--accent);text-align:right;white-space:nowrap;}
-.qty-del{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:0;line-height:1;text-align:center;}
+.qty-del{
+  background:var(--dangerlt);border:1.5px solid #ffcdd2;border-radius:6px;
+  color:var(--danger);font-size:16px;font-weight:900;cursor:pointer;
+  padding:0;line-height:1;text-align:center;width:26px;height:26px;
+  display:flex;align-items:center;justify-content:center;
+  -webkit-tap-highlight-color:transparent;
+}
 
 /* 합계 */
 .qty-total{
@@ -347,10 +353,10 @@ tbody tr:last-child td{border-bottom:none;}
 
 <!-- ══ 고정 헤더 ══ -->
 <div class="header">
-  <div class="header-icon">🌾</div>
+  <div class="header-icon">🎤</div>
   <div>
     <div class="header-title">청취 10a당 생산량 계산기</div>
-    <div class="header-sub">현장 생산량 환산 · 지역 비교 · 결과 저장</div>
+    <div class="header-sub">면적환산 · 수확단위 환산과 전년자료 비교</div>
   </div>
 </div>
 
@@ -434,14 +440,14 @@ tbody tr:last-child td{border-bottom:none;}
 
     <!-- 수확수량 행 -->
     <div class="qty-section-header">
-      <span class="qty-section-title">📦 수확 수량</span>
+      <span class="qty-section-title">📦 수확수량 입력하기</span>
       <button class="add-row-btn" onclick="addQtyRow()">＋ 행 추가</button>
     </div>
 
     <!-- 컬럼 헤더 -->
-    <div style="display:grid;grid-template-columns:80px 70px 16px 1fr 28px;gap:5px;margin-bottom:4px;padding:0 8px;">
+    <div style="display:grid;grid-template-columns:75px 65px 22px 1fr 28px;gap:5px;margin-bottom:4px;padding:0 8px;">
       <span style="font-size:10px;font-weight:700;color:var(--muted);text-align:center;">수량</span>
-      <span style="font-size:10px;font-weight:700;color:var(--muted);text-align:center;">단위</span>
+      <span style="font-size:10px;font-weight:700;color:var(--muted);text-align:center;">kg/단위</span>
       <span></span>
       <span style="font-size:10px;font-weight:700;color:var(--muted);text-align:right;">수확량</span>
       <span></span>
@@ -451,6 +457,10 @@ tbody tr:last-child td{border-bottom:none;}
 
     <!-- 합계 -->
     <div class="qty-total" id="qty-total">
+      <div class="qt-row">
+        <span class="qt-lbl">수량 합계</span>
+        <span class="qt-val" id="total-qty">—</span>
+      </div>
       <div class="qt-row">
         <span class="qt-lbl">평   합계</span>
         <span class="qt-val" id="total-pyeong">—</span>
@@ -689,20 +699,21 @@ function updateRowCalc(id){
 
 function renderQtyRows(){
   const container = document.getElementById('qty-rows');
-  const defUnit   = selectedCrop ? selectedCrop.unit : '단위';
+  const defUnitKg = selectedCrop ? selectedCrop.unitKg : 1;
+  const defUnitNm = selectedCrop ? selectedCrop.unit : '단위';
   container.innerHTML = '';
   qtyRows.forEach(row=>{
     const calcKg = row.qty>0 ? (row.qty*row.unitKg).toLocaleString('ko-KR',{maximumFractionDigits:1})+' kg' : '—';
     const div = document.createElement('div');
     div.className='qty-row-item';
     div.innerHTML=`
-      <input class="qty-inp" type="number" placeholder="0" inputmode="numeric"
+      <input class="qty-inp" type="number" placeholder="0" inputmode="decimal"
         value="${row.qty||''}" oninput="updateRowQty('${row.id}',this.value)">
-      <input class="qty-unit-inp" type="text" value="${row.unit||defUnit}"
-        oninput="updateRowUnit('${row.id}',this.value)">
-      <span class="qty-arrow">→</span>
+      <input class="qty-unitkg-inp" type="number" placeholder="${defUnitKg}" inputmode="decimal"
+        value="${row.unitKg}" oninput="updateRowUnitKg('${row.id}',this.value)">
+      <span class="qty-arrow">×</span>
       <span class="qty-calc" id="qc-${row.id}">${calcKg}</span>
-      <button class="qty-del" onclick="removeQtyRow('${row.id}')" title="삭제">✕</button>`;
+      <button class="qty-del" onclick="removeQtyRow('${row.id}')" title="삭제">−</button>`;
     container.appendChild(div);
   });
   updateTotals();
@@ -711,8 +722,13 @@ function renderQtyRows(){
 /* ── 합계 업데이트 ── */
 function updateTotals(){
   const totalKg  = qtyRows.reduce((s,r)=>s+(r.qty*(r.unitKg||1)),0);
+  const totalQty = qtyRows.reduce((s,r)=>s+(r.qty||0),0);
   const pyeong   = parseFloat(document.getElementById('inp-pyeong').value)||0;
   const m2val    = parseFloat(document.getElementById('inp-m2').value)||0;
+  const unitNm   = selectedCrop ? selectedCrop.unit : '단위';
+
+  const qtyEl = document.getElementById('total-qty');
+  if(qtyEl) qtyEl.textContent = totalQty>0 ? `${totalQty.toLocaleString()} ${unitNm}` : '—';
 
   document.getElementById('total-pyeong').textContent =
     pyeong>0 ? `${fmtD(pyeong)}평 (${fmtD(m2val)} m²)` : '—';
