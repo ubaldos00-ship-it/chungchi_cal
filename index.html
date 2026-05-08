@@ -7,7 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{overscroll-behavior-y:contain;font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;background:#f0f2f5;color:#1a1a2e;font-size:15px;line-height:1.5}
+html,body{overscroll-behavior-y:contain;font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;background:#f4f7f4;color:#1a1a2e;font-size:16px;line-height:1.55}
 body{padding:0 0 80px}
 html{overflow-y:scroll}
 .header{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,#1a6b35,#27ae60);color:#fff;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.18)}
@@ -16,17 +16,17 @@ html{overflow-y:scroll}
 .hd-t h1{font-size:15px;font-weight:700}
 .hd-t p{font-size:11px;opacity:.8}
 .home-btn{background:rgba(255,255,255,.2);border:none;color:#fff;padding:7px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap}
-.card{background:#fff;margin:10px 12px;border-radius:14px;padding:14px;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.card{background:#fff;margin:10px 12px;border-radius:16px;padding:15px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
 .ct{font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;color:#1a6b35}
 .ct .n{background:#1a6b35;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
 .desc{color:#c0392b;font-size:12px;margin-bottom:9px;font-weight:500}
-input[type="text"],input[type="number"],input[type="date"],select{padding:8px 9px;border:1.5px solid #d5d8dc;border-radius:9px;font-size:14px;color:blue;background:#fff;transition:all .2s;-webkit-appearance:none;appearance:none}
+input[type="text"],input[type="number"],input[type="date"],select,textarea{padding:10px 10px;border:1.5px solid #d5d8dc;border-radius:10px;font-size:16px;color:#1455d9;background:#fff;transition:all .2s;-webkit-appearance:none;appearance:none}
 input:focus,select:focus{outline:none;border-color:#27ae60;animation:blink .5s ease-in-out 2}
 @keyframes blink{0%{background:#fffde7}50%{background:#fff}100%{background:#fffde7}}
 input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#e0e0e0!important}
 .s1r{display:flex;gap:5px;align-items:center}
-.s1l{font-size:11px;color:#666;white-space:nowrap}
-.btn{padding:9px 14px;border:none;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:3px}
+.s1l{font-size:12px;color:#666;white-space:nowrap}
+.btn{padding:10px 15px;border:none;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:3px}
 .btn:active{opacity:.8}
 .bp{background:#27ae60;color:#fff}.bd{background:#fff;color:#c0392b;border:1.5px solid #f5b7b1}.bdk{background:#2c3e50;color:#fff}
 .bsm{padding:6px 12px;font-size:12px;min-height:34px;border-radius:8px}
@@ -41,10 +41,10 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .rb{width:28px;height:28px;border-radius:50%;border:none;background:#fadbd8;color:#c0392b;font-size:15px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .hr2{display:flex;gap:3px;align-items:center;margin-bottom:5px;flex-wrap:nowrap}
 .hl{font-size:11px;color:#555;white-space:nowrap;flex-shrink:0}
-.tb{background:#f8f9fa;border-radius:8px;padding:9px;margin-top:7px;display:flex;justify-content:space-around;flex-wrap:wrap;gap:5px}
+.tb{background:#fff8dd;border:2px solid #f3d37a;border-radius:14px;padding:12px;margin-top:10px;display:flex;justify-content:space-around;flex-wrap:wrap;gap:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
 .ti{text-align:center;flex:1;min-width:70px}
-.tv{font-size:15px;font-weight:700;color:#1a6b35}
-.tl{font-size:10px;color:#888}
+.tv{font-size:22px;font-weight:900;color:#0f7a3a;letter-spacing:-.5px}
+.tl{font-size:12px;color:#6b7280;font-weight:700}
 .sb{background:#eafaf1;border:2px solid #27ae60;border-radius:11px;padding:13px;margin-top:7px}
 .sv{font-size:22px;font-weight:800;color:#1a6b35}
 .fm{font-size:10px;color:#888;margin-top:4px;word-break:break-all}
@@ -60,12 +60,12 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .ab.op{display:block}
 .ch{transition:transform .2s;font-size:11px;color:#888}
 .ch.op{transform:rotate(180deg)}
-.rc{background:linear-gradient(135deg,#1a6b35,#27ae60);color:#fff;margin:10px 12px;border-radius:14px;padding:15px;box-shadow:0 4px 14px rgba(26,107,53,.25)}
-.rr{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.15)}
+.rc{background:linear-gradient(135deg,#f7fbf7,#eef8f0);color:#173b27;margin:10px 12px;border:1px solid #cfe7d2;border-radius:16px;padding:15px;box-shadow:0 2px 10px rgba(26,107,53,.10)}
+.rr{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(26,107,53,.12);gap:12px}
 .rr:last-child{border:none}
-.rl{font-size:12px;opacity:.85}
-.rv{font-size:14px;font-weight:700}
-.ri{color:#a9dfbf}.rd{color:#f1948a}
+.rl{font-size:13px;color:#56705e;font-weight:700;white-space:nowrap}
+.rv{font-size:15px;font-weight:800;color:#163b28;text-align:right;word-break:break-word}
+.ri{color:#087a40!important}.rd{color:#d33b2f!important}
 .cc{background:#fff;margin:10px 12px;border-radius:14px;padding:14px;box-shadow:0 1px 6px rgba(0,0,0,.07)}
 .cct{font-size:13px;font-weight:700;color:#1a6b35;margin-bottom:11px}
 .cb{margin-bottom:13px}
@@ -99,12 +99,37 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .brv.cv{color:#3498db}
 .src{font-size:10px;color:#999;margin-top:7px;text-align:right}
 .uib{display:none;background:#fef9e7;border-radius:7px;padding:7px 11px;font-size:12px;margin-top:5px;border:1px solid #f9e79f}
-.udr{display:flex;gap:7px;align-items:center;margin-bottom:9px;flex-wrap:wrap;background:#f8f9fa;padding:7px 9px;border-radius:7px;border:1px solid #eee}
+.udr{display:grid;grid-template-columns:auto minmax(58px,.8fr) auto minmax(76px,1.2fr);gap:6px;align-items:center;margin-bottom:9px;background:#f8f9fa;padding:7px 8px;border-radius:7px;border:1px solid #eee}
 .udl2{font-size:11px;color:#777;white-space:nowrap}
-.udv2{font-size:13px;font-weight:700;color:#333;white-space:nowrap}
+.udv2{font-size:13px;font-weight:800;color:#333;white-space:nowrap;overflow:visible;text-align:left}
 .sep{color:#ddd;font-size:11px}
 .ss{background:#2c3e50;margin:10px 12px;border-radius:14px;padding:15px;text-align:center}
-.sg{font-size:11px;color:#aab7b8;margin-top:9px;line-height:1.6}
+.sg{font-size:12px;color:#aab7b8;margin-top:9px;line-height:1.6}
+.simple-compare{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sc-box{background:#fff;border:1px solid #dceee0;border-radius:12px;padding:9px 8px;text-align:center}
+.sc-label{font-size:12px;color:#56705e;font-weight:800;margin-bottom:3px}
+.sc-val{font-size:14px;font-weight:900;color:#173b27;line-height:1.35}
+.sc-val.up{color:#087a40}.sc-val.down{color:#d33b2f}.sc-val.neutral{color:#6b7280}
+.save-small{width:auto!important;min-width:170px;padding:10px 18px!important;font-size:14px!important;border-radius:12px!important;min-height:40px!important}
+
+.btn-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:9px}
+.btn-row .left{margin-right:auto}.btn-row .right{margin-left:auto}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.section-head .ct{margin-bottom:0}
+.memo-box{margin-top:12px;background:#f9fbf9;border:1.5px solid #d9eadb;border-radius:14px;padding:10px}
+.memo-box label{display:block;font-size:13px;font-weight:800;color:#1a6b35;margin-bottom:6px}
+.memo-box textarea{width:100%;min-height:74px;resize:vertical;color:#1f2937;line-height:1.5;font-size:15px;background:#fff}
+.chart-wrap{margin-top:10px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:10px;overflow-x:auto}
+#kosisLine{width:100%;min-width:330px;height:230px;display:block}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.68);z-index:999;display:none;align-items:flex-start;justify-content:center;padding:22px 12px;overflow:auto}
+.modal.open{display:flex}
+.modal-panel{width:min(560px,100%);background:#171717;color:#fff;border-radius:22px;box-shadow:0 18px 50px rgba(0,0,0,.45);overflow:hidden}
+.modal-head{display:flex;justify-content:space-between;align-items:center;padding:18px 18px;border-bottom:1px solid rgba(255,255,255,.12)}
+.modal-title{font-size:21px;font-weight:900}.close-btn{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5);border-radius:24px;padding:8px 16px;font-size:16px;font-weight:800}
+.save-guide{padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.1);font-size:15px;line-height:1.7;color:#ddd}.save-guide b{color:#8fd36f}
+.save-actions{padding:16px 18px;display:grid;gap:10px}.save-main{width:100%;background:#3b8a4b;color:#fff;border:none;border-radius:14px;padding:15px;font-size:18px;font-weight:900}.save-sub{width:100%;background:#2d6cdf;color:#fff;border:none;border-radius:14px;padding:14px;font-size:16px;font-weight:800}.save-info{background:#242424;border-radius:14px;padding:12px 14px;color:#bbb;text-align:center;font-size:14px;line-height:1.6;word-break:break-all}.preview-box{background:#fff;margin:0 18px 18px;border-radius:16px;padding:10px;max-height:62vh;overflow:auto}.preview-box img{display:block;width:100%;height:auto;border-radius:10px}.hidden-canvas{position:absolute;left:-99999px;top:0;width:390px;background:#f4f7f4;padding:12px}
+@media(max-width:430px){.hd-t h1{font-size:16px}.hd-t p{font-size:11px}.home-btn{padding:8px 11px}.s1r{gap:4px}.s1l{font-size:11px}#address{max-width:42%}.btn{font-size:14px}.card{margin:9px 10px;padding:14px}.ct{font-size:15px}.modal-title{font-size:19px}}
+
 </style>
 </head>
 <body>
@@ -113,21 +138,19 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
     <div class="hd-icon">🎤</div>
     <div class="hd-t"><h1>청취 10a당 생산량 계산기</h1><p>면적환산 · 수확단위 환산과 전년자료 비교</p></div>
   </div>
-  <a href="https://ubaldos00-ship-it.github.io/home" class="home-btn">🏠 홈</a>
+  <button type="button" class="home-btn" onclick="goHome()">🏠 홈</button>
 </div>
 
 <div class="card">
-  <div class="ct"><span class="n">1</span>공통사항</div>
+  <div class="section-head"><div class="ct"><span class="n">1</span>공통사항</div><button class="btn bd bsm" onclick="resetAll()">🔄 전체 초기화</button></div>
   <p class="desc">조사필지와 조사일자를 입력하세요.</p>
   <div class="s1r">
     <span class="s1l">필지</span>
-    <input type="text" id="address" placeholder="필지주소 입력" inputmode="text" style="flex:2;font-size:13px">
+    <input type="text" id="address" placeholder="필지주소 입력" inputmode="text" style="flex:1.1;font-size:14px;min-width:0">
     <span class="s1l" style="min-width:36px;text-align:center">조사일</span>
     <input type="date" id="surveyDate" style="flex:1.2;font-size:11px;padding:8px 5px">
   </div>
-  <div style="text-align:right;margin-top:9px">
-    <button class="btn bd bsm" onclick="resetAll()">🔄 전체 초기화</button>
-  </div>
+
 </div>
 
 <div class="card">
@@ -172,11 +195,12 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
       <span class="au">평</span><span class="aa">↔</span>
       <input type="number" inputmode="decimal" pattern="[0-9]*" placeholder="0" class="si" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
       <span class="au">㎡</span>
+      <button class="rb" onclick="rmAR(this)">−</button>
     </div>
   </div>
-  <div style="display:flex;gap:5px;margin-top:7px">
-    <button class="btn bp bsm" onclick="addARow()">＋ 추가</button>
-    <button class="btn bd bsm" onclick="cfmRA()">초기화</button>
+  <div class="btn-row">
+    <button class="btn bd bsm left" onclick="cfmRA()">초기화</button>
+    <button class="btn bp bsm right" onclick="addARow()">＋ 추가</button>
   </div>
   <div class="tb">
     <div class="ti"><div class="tv" id="tPy">0</div><div class="tl">평 합계</div></div>
@@ -193,13 +217,17 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
     <span class="udl2">기본중량</span><span class="udv2" id="dWeight">18 kg</span>
   </div>
   <div id="hRows"></div>
-  <div style="display:flex;gap:5px;margin-top:7px">
-    <button class="btn bp bsm" onclick="addHR()">＋ 추가</button>
-    <button class="btn bd bsm" onclick="cfmRH()">초기화</button>
+  <div class="btn-row">
+    <button class="btn bd bsm left" onclick="cfmRH()">초기화</button>
+    <button class="btn bp bsm right" onclick="addHR()">＋ 추가</button>
   </div>
   <div class="tb">
     <div class="ti"><div class="tv" id="tHU">0</div><div class="tl" id="tULbl">단위 합계</div></div>
     <div class="ti"><div class="tv" id="tHK">0</div><div class="tl">생산량 합계 (kg)</div></div>
+  </div>
+  <div class="memo-box">
+    <label for="memo">비고</label>
+    <textarea id="memo" placeholder="피해상황 등 기타사항 기재" oninput="uAll()"></textarea>
   </div>
 </div>
 
@@ -209,6 +237,10 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
     <div style="font-size:12px;color:#555">10a당 생산량</div>
     <div class="sv" id="resPer10a">0 kg</div>
     <div class="fm" id="fmText">계산식: (생산량 kg ÷ 면적 ㎡) × 1,000</div>
+    <div class="simple-compare">
+      <div class="sc-box"><div class="sc-label">전년 대비</div><div class="sc-val neutral" id="simplePrev">기준값 선택 전</div></div>
+      <div class="sc-box"><div class="sc-label">평년 대비</div><div class="sc-val neutral" id="simpleAvg">기준값 선택 전</div></div>
+    </div>
   </div>
 </div>
 
@@ -218,6 +250,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
     <h3>📊 데이터 테이블 보기</h3><span class="ch">▼</span>
   </div>
   <div class="ab" id="kosisBody">
+    <div class="chart-wrap"><canvas id="kosisLine" width="680" height="300"></canvas></div>
     <div class="tw">
       <table class="dt">
         <thead><tr><th>지역</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th>평년</th></tr></thead>
@@ -239,6 +272,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   <div class="rr"><span class="rl">평년 대비</span><span class="rv" id="rAvg">-</span></div>
   <div class="rr"><span class="rl">재배면적</span><span class="rv" id="rArea">-</span></div>
   <div class="rr"><span class="rl">총 생산량</span><span class="rv" id="rKg">-</span></div>
+  <div class="rr"><span class="rl">비고</span><span class="rv" id="rMemo">-</span></div>
 </div>
 
 <div class="cc">
@@ -269,8 +303,23 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 </div>
 
 <div class="ss">
-  <button class="btn bdk" style="width:100%;padding:13px;font-size:15px" onclick="saveImg()">📸 결과 이미지 저장</button>
-  <p class="sg">📱 아이폰: 길게 눌러 이미지 저장 &nbsp;|&nbsp; 📱 안드로이드: 다운로드 폴더 확인</p>
+  <button class="btn bdk save-small" onclick="saveImg()">결과 이미지 저장</button>
+</div>
+
+<div class="modal" id="saveModal">
+  <div class="modal-panel">
+    <div class="modal-head"><div class="modal-title">📷 결과 이미지</div><button class="close-btn" onclick="closeSaveModal()">× 닫기</button></div>
+    <div class="save-guide">
+      📱 <b>iOS</b>: 아래 버튼을 누른 뒤 공유 시트에서 <b>이미지 저장</b> 또는 <b>파일에 저장</b>을 선택하세요.<br>
+      💻 <b>PC/Android</b>: 이미지 저장 버튼을 누르면 Downloads 폴더에 저장됩니다.
+    </div>
+    <div class="save-actions">
+      <button class="save-main" id="downloadBtn">이미지 저장</button>
+      <button class="save-sub" id="shareBtn">iPhone 공유 / 파일에 저장</button>
+      <div class="save-info" id="saveInfo">파일명: -<br>저장위치: iOS 사진앱 또는 파일앱 / Android·PC Downloads</div>
+    </div>
+    <div class="preview-box"><img id="previewImg" alt="결과 이미지 미리보기"></div>
+  </div>
 </div>
 
 <script>
@@ -295,6 +344,8 @@ document.addEventListener('touchstart',e=>{_ly=e.touches[0].clientY;},{passive:t
 document.addEventListener('touchmove',e=>{if(window.scrollY===0&&e.touches[0].clientY>_ly&&e.cancelable)e.preventDefault();_ly=e.touches[0].clientY;},{passive:false});
 document.getElementById('surveyDate').valueAsDate=new Date();
 bldHR();
+requestAnimationFrame(()=>{const apple=document.querySelector('.bc[data-crop="사과"]'); if(apple) selCrop(apple);});
+function goHome(){if(confirm('모든 데이터가 초기화됩니다. 홈으로 가시겠습니까?')){location.href='https://ubaldos00-ship-it.github.io/home';}}
 
 function selReg(b){document.querySelectorAll('.brg').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.getElementById('otherReg').value='';sR=b.dataset.region;uAll();}
 function selOtherReg(s){if(!s.value)return;document.querySelectorAll('.brg').forEach(x=>x.classList.remove('on'));sR=s.value;uAll();}
@@ -326,13 +377,15 @@ function addARow(){
   <button class="rb" onclick="this.closest('.ar').remove();uAT()">−</button>`;
   document.getElementById('areaRows').appendChild(d);
 }
-function cfmRA(){if(!confirm('면적 입력을 초기화하시겠습니까?'))return;rstA();}
+function rmAR(b){const rows=document.querySelectorAll('#areaRows .ar');if(rows.length>1){b.closest('.ar').remove();}else{const r=b.closest('.ar');r.querySelector('.pi').value='';r.querySelector('.si').value='';}uAT();}
+function cfmRA(){if(!confirm('재배면적이 초기화됩니다. 그래도 초기화하시겠습니까?'))return;rstA();}
 function rstA(){
   document.getElementById('areaRows').innerHTML=`<div class="ar">
     <input type="number" inputmode="decimal" pattern="[0-9]*" placeholder="0" class="pi" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
     <span class="au">평</span><span class="aa">↔</span>
     <input type="number" inputmode="decimal" pattern="[0-9]*" placeholder="0" class="si" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
-    <span class="au">㎡</span></div>`;uAT();
+    <span class="au">㎡</span>
+    <button class="rb" onclick="rmAR(this)">−</button></div>`;uAT();
 }
 function uAT(){
   let tp=0,ts=0;
@@ -346,11 +399,11 @@ function uAT(){
 function bldHR(){
   const w=sC?CU[sC].w:18,u=sC?CU[sC].u:'컨테이너';
   const d=document.createElement('div');d.className='hr2';
-  d.innerHTML=`<input type="number" inputmode="decimal" pattern="[0-9]*" placeholder="수량" class="hq" oninput="rRow(this.closest('.hr2'));uHT()" style="flex:1.2;min-width:0;text-align:right">
+  d.innerHTML=`<input type="number" inputmode="decimal" pattern="[0-9]*" placeholder="수량" class="hq" oninput="rRow(this.closest('.hr2'));uHT()" style="flex:.85;min-width:54px;text-align:right">
   <span class="hl hul" style="padding:0 2px">${u}</span><span class="hl">×</span>
-  <input type="number" inputmode="decimal" class="hw" value="${w}" oninput="this.dataset.m=1;rRow(this.closest('.hr2'));uHT()" style="width:48px;text-align:center;padding:8px 5px">
+  <input type="number" inputmode="decimal" class="hw" pattern="[0-9]*" value="${w}" oninput="this.dataset.m=1;rRow(this.closest('.hr2'));uHT()" style="width:64px;text-align:center;padding:8px 6px">
   <span class="hl">kg =</span>
-  <input type="number" inputmode="decimal" class="hres" placeholder="0" oninput="uHT()" style="flex:1.2;min-width:0;text-align:right;background:#eafaf1">
+  <input type="number" inputmode="decimal" class="hres" pattern="[0-9]*" placeholder="0" oninput="uHT()" style="flex:1.05;min-width:60px;text-align:right;background:#eafaf1">
   <span class="hl">kg</span>
   <button class="rb" onclick="rmHR(this)">−</button>`;
   document.getElementById('hRows').appendChild(d);
@@ -358,7 +411,7 @@ function bldHR(){
 function addHR(){bldHR();}
 function rmHR(b){if(document.querySelectorAll('.hr2').length>1){b.closest('.hr2').remove();uHT();}}
 function rRow(r){const q=parseFloat(r.querySelector('.hq').value)||0,w=parseFloat(r.querySelector('.hw').value)||0;r.querySelector('.hres').value=q&&w?r1(q*w):'';}
-function cfmRH(){if(!confirm('수확량 입력을 초기화하시겠습니까?'))return;document.getElementById('hRows').innerHTML='';bldHR();uHT();}
+function cfmRH(){if(!confirm('수확량 환산이 초기화됩니다. 그래도 초기화하시겠습니까?'))return;document.getElementById('hRows').innerHTML='';bldHR();uHT();}
 function uHT(){
   let tU=0,tK=0;
   document.querySelectorAll('.hr2').forEach(r=>{tU+=parseFloat(r.querySelector('.hq').value)||0;tK+=parseFloat(r.querySelector('.hres').value)||0;});
@@ -368,11 +421,28 @@ function uHT(){
 }
 
 function gRaw(id){return parseFloat(document.getElementById(id).textContent.replace(/,/g,''))||0;}
+function setSimpleCompare(per){
+  const prevEl=document.getElementById('simplePrev'), avgEl=document.getElementById('simpleAvg');
+  if(!prevEl||!avgEl)return;
+  if(!sC||!sR){prevEl.textContent='작물 선택 전';avgEl.textContent='작물 선택 전';prevEl.className=avgEl.className='sc-val neutral';return;}
+  const rd=KD[sC]?.[sR];
+  const prev=rd?gLast(rd):0, avg=rd?gAvg(rd):0;
+  function write(el,base){
+    if(!per||!base){el.textContent=base?`기준 ${f(base)} kg`:'자료 없음';el.className='sc-val neutral';return;}
+    const diff=r1(per-base), pct=r1(diff/base*100);
+    el.className=diff>=0?'sc-val up':'sc-val down';
+    el.textContent=(diff>=0?'▲ ':'▼ ')+`${f(Math.abs(diff))} kg (${diff>=0?'+':''}${f(pct)}%)`;
+  }
+  write(prevEl,prev);
+  write(avgEl,avg);
+}
+
 function uRes(){
   const kg=gRaw('tHK'),sqm=gRaw('tSm');
   const p=sqm>0?r1(kg/sqm*1000):0;
   document.getElementById('resPer10a').textContent=f(p)+' kg';
   document.getElementById('fmText').textContent=`계산식: (${f(kg)} kg ÷ ${f(sqm)} ㎡) × 1,000 = ${f(p)} kg/10a`;
+  setSimpleCompare(p);
   uAll();
 }
 function uAll(){uKT();uRC();uCh();}
@@ -390,6 +460,23 @@ function uKT(){
     h+=`<tr class="${iS?'hlr':''}"><td>${r}${iS?' ★':''}</td>${d.map(v=>`<td>${v!=null&&v>0?f(v):'-'}</td>`).join('')}<td style="color:#e67e22;font-weight:700">${avg?f(avg):'-'}</td></tr>`;
   });
   document.getElementById('kosisTb').innerHTML=h;
+  drawKosisLine(rgs);
+}
+
+function drawKosisLine(rgs){
+  const cvs=document.getElementById('kosisLine'); if(!cvs||!sC)return;
+  const ctx=cvs.getContext('2d'), W=cvs.width, H=cvs.height; ctx.clearRect(0,0,W,H);
+  const years=['2021','2022','2023','2024','2025'];
+  const colors=['#2f80ed','#27ae60','#f2994a','#eb5757','#9b51e0','#00a6a6'];
+  const padL=48,padR=20,padT=28,padB=44;
+  let vals=[]; rgs.forEach(r=>(KD[sC]?.[r]||[]).forEach(v=>{if(v!=null&&v>0)vals.push(v)}));
+  if(!vals.length){ctx.fillStyle='#777';ctx.font='18px sans-serif';ctx.fillText('그래프 데이터가 없습니다.',70,120);return;}
+  const max=Math.ceil(Math.max(...vals)*1.15/100)*100 || Math.max(...vals)*1.15;
+  ctx.strokeStyle='#e5e7eb';ctx.lineWidth=1;ctx.fillStyle='#6b7280';ctx.font='13px sans-serif';ctx.textAlign='right';
+  for(let i=0;i<=4;i++){const y=padT+(H-padT-padB)*i/4; const val=Math.round(max*(1-i/4)); ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke();ctx.fillText(val.toLocaleString('ko-KR'),padL-7,y+4);}
+  ctx.textAlign='center';years.forEach((yr,i)=>{const x=padL+(W-padL-padR)*i/(years.length-1);ctx.fillStyle='#6b7280';ctx.fillText(yr,x,H-18);});
+  rgs.forEach((r,idx)=>{const d=KD[sC]?.[r]||[]; const col=colors[idx%colors.length]; ctx.strokeStyle=col;ctx.lineWidth=r===sR?4:2.5;ctx.beginPath();let started=false; d.forEach((v,i)=>{if(v==null||v<=0)return; const x=padL+(W-padL-padR)*i/(years.length-1); const y=padT+(H-padT-padB)*(1-v/max); if(!started){ctx.moveTo(x,y);started=true}else ctx.lineTo(x,y);});ctx.stroke(); d.forEach((v,i)=>{if(v==null||v<=0)return; const x=padL+(W-padL-padR)*i/(years.length-1); const y=padT+(H-padT-padB)*(1-v/max); ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y,r===sR?5:4,0,Math.PI*2);ctx.fill();});});
+  let lx=padL, ly=14; ctx.textAlign='left'; rgs.forEach((r,idx)=>{const col=colors[idx%colors.length];ctx.fillStyle=col;ctx.fillRect(lx,ly-9,12,12);ctx.fillStyle='#333';ctx.font=(r===sR?'bold ':'')+'13px sans-serif';ctx.fillText(r,lx+16,ly+2);lx+=ctx.measureText(r).width+45;});
 }
 
 function uRC(){
@@ -402,6 +489,7 @@ function uRC(){
   document.getElementById('rP10').textContent=p?f(p)+' kg':'-';
   document.getElementById('rArea').textContent=py?`${f(py)}평 (${f(sqm)}㎡)`:'-';
   document.getElementById('rKg').textContent=kg?f(kg)+' kg':'-';
+  document.getElementById('rMemo').textContent=document.getElementById('memo')?.value||'-';
   if(sC&&sR&&p>0){
     const rd=KD[sC]?.[sR];
     if(rd){const avg=gAvg(rd);if(avg>0){
@@ -466,17 +554,20 @@ function resetAll(){
   if(!confirm('모든 입력을 초기화하시겠습니까?'))return;
   document.getElementById('address').value='';
   document.getElementById('surveyDate').valueAsDate=new Date();
-  document.querySelectorAll('.bc').forEach(b=>b.classList.remove('on'));sC=null;
-  document.getElementById('uib').style.display='none';
+  document.querySelectorAll('.bc').forEach(b=>b.classList.remove('on'));sC='사과';document.getElementById('memo').value='';
+  document.getElementById('uib').style.display='block';
+  document.getElementById('uibT').innerHTML='📌 <b>사과</b> 기본단위: 컨테이너 × 18kg';
   document.getElementById('dUnit').textContent='컨테이너';
   document.getElementById('dWeight').textContent='18 kg';
-  document.getElementById('tULbl').textContent='단위 합계';
+  document.getElementById('tULbl').textContent='컨테이너 합계';
+  const apple=document.querySelector('.bc[data-crop="사과"]'); if(apple) apple.classList.add('on');
   rstA();
   document.getElementById('hRows').innerHTML='';bldHR();
   document.getElementById('resPer10a').textContent='0 kg';
   document.getElementById('fmText').textContent='계산식: (생산량 kg ÷ 면적 ㎡) × 1,000';
+  setSimpleCompare(0);
   document.getElementById('kosisTb').innerHTML='';
-  ['rAddr','rDate','rCrop','rReg','rP10','rAvg','rArea','rKg'].forEach(id=>{const e=document.getElementById(id);e.textContent='-';e.className='rv';});
+  ['rAddr','rDate','rCrop','rReg','rP10','rAvg','rArea','rKg','rMemo'].forEach(id=>{const e=document.getElementById(id);e.textContent='-';e.className='rv';});
   ['c1B','c2B'].forEach(id=>{document.getElementById(id).className='cbg bn';document.getElementById(id).textContent='—';});
   ['c1Bar','c2Bar'].forEach(id=>{document.getElementById(id).style.width='0';document.getElementById(id).className='df';});
   ['c1L','c2L'].forEach((id,i)=>{document.getElementById(id).innerHTML=i===0?'전년 대비 —':'평년 대비 —';});
@@ -485,19 +576,40 @@ function resetAll(){
   document.getElementById('ch2T').textContent='📊 지역별 10a당 수량 비교';
 }
 
-function saveImg(){
-  html2canvas(document.getElementById('capArea'),{scale:2,backgroundColor:'#f0f2f5',useCORS:true,logging:false}).then(c=>{
-    const crop=sC||'작물',addr=(document.getElementById('address').value||'필지').replace(/\s+/g,'_').slice(0,20);
-    const date=document.getElementById('surveyDate').value||'날짜';
-    const now=new Date(),t=now.getHours().toString().padStart(2,'0')+now.getMinutes().toString().padStart(2,'0');
-    const fn=`${crop}_${addr}_${date}_${t}.png`;
-    const lk=document.createElement('a');lk.download=fn;lk.href=c.toDataURL('image/png');lk.click();
-    const w=window.open('');
-    if(w)w.document.write(`<html><head><title>${fn}</title><meta name="viewport" content="width=device-width">
-      <style>body{margin:0;background:#222;display:flex;flex-direction:column;align-items:center;padding:14px}img{max-width:100%;border-radius:8px}p{color:#fff;font-size:13px;margin:10px 0;text-align:center;font-family:sans-serif}</style></head>
-      <body><p>📱 아이폰: 이미지를 길게 눌러 저장 | 📱 안드로이드: 다운로드 폴더 확인</p><img src="${c.toDataURL('image/png')}"></body></html>`);
-  });
+let lastImageUrl='', lastFileName='', lastBlob=null;
+function closeSaveModal(){document.getElementById('saveModal').classList.remove('open');}
+async function saveImg(){
+  const modal=document.getElementById('saveModal');
+  modal.classList.add('open');
+  document.getElementById('previewImg').removeAttribute('src');
+  document.getElementById('saveInfo').innerHTML='이미지 생성 중입니다...';
+  const canvas=await html2canvas(document.getElementById('capArea'),{scale:2,backgroundColor:'#f4f7f4',useCORS:true,logging:false});
+  const crop=sC||'작물',addr=(document.getElementById('address').value||'주소미입력').replace(/[\\/:*?"<>|\s]+/g,'_').slice(0,20);
+  const date=document.getElementById('surveyDate').value||'날짜';
+  const now=new Date(),t=now.getHours().toString().padStart(2,'0')+now.getMinutes().toString().padStart(2,'0');
+  lastFileName=`${crop}_${addr}_${date}_${t}.png`;
+  lastImageUrl=canvas.toDataURL('image/png');
+  lastBlob=await new Promise(res=>canvas.toBlob(res,'image/png'));
+  document.getElementById('previewImg').src=lastImageUrl;
+  document.getElementById('saveInfo').innerHTML=`📁 파일명: <b>${lastFileName}</b><br>📂 저장위치: iOS 사진앱 또는 파일앱 / Android·PC Downloads`;
+  document.getElementById('downloadBtn').onclick=()=>downloadImage();
+  document.getElementById('shareBtn').onclick=()=>shareImage();
 }
+function downloadImage(){
+  if(!lastImageUrl)return;
+  const a=document.createElement('a');a.download=lastFileName;a.href=lastImageUrl;document.body.appendChild(a);a.click();a.remove();
+}
+async function shareImage(){
+  if(!lastBlob)return;
+  const file=new File([lastBlob],lastFileName,{type:'image/png'});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){
+    await navigator.share({files:[file],title:'10a 생산량 결과 이미지',text:'청취 10a당 생산량 계산 결과'});
+  }else{
+    downloadImage();
+    alert('공유 기능을 지원하지 않는 환경입니다. 이미지 저장으로 다운로드했습니다.');
+  }
+}
+
 </script>
 </body>
 </html>
