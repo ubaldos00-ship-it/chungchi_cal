@@ -7,14 +7,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{overscroll-behavior-y:contain;font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;background:#f4f7f4;color:#1a1a2e;font-size:16px;line-height:1.55}
-body{padding:0 0 80px}
+html{background:#e9eee9}
+html,body{overscroll-behavior-y:contain;font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;color:#1a1a2e;font-size:16px;line-height:1.55}
+body{padding:0 0 80px;background:#f4f7f4;max-width:430px;margin:0 auto;min-height:100vh;box-shadow:0 0 28px rgba(0,0,0,.08)}
 html{overflow-y:scroll}
 .header{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,#1a6b35,#27ae60);color:#fff;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.18)}
 .hd-left{display:flex;align-items:center;gap:10px}
-.hd-icon{width:38px;height:38px;background:rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.hd-t h1{font-size:15px;font-weight:700}
+.hd-icon{width:38px;height:38px;background:rgba(255,255,255,.16);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:30px;line-height:1;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.hd-t h1{font-size:15px;font-weight:700;white-space:nowrap}
 .hd-t p{font-size:11px;opacity:.8}
+.hd-status{display:inline-block;margin-left:6px;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.18);color:#fff2a6;font-size:12px;font-weight:900;vertical-align:middle}
 .home-btn{background:rgba(255,255,255,.2);border:none;color:#fff;padding:7px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap}
 .card{background:#fff;margin:10px 12px;border-radius:16px;padding:15px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
 .ct{font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;color:#1a6b35}
@@ -65,7 +67,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .rr:last-child{border:none}
 .rl{font-size:13px;color:#56705e;font-weight:700;white-space:nowrap}
 .rv{font-size:15px;font-weight:800;color:#163b28;text-align:right;word-break:break-word}
-.ri{color:#087a40!important}.rd{color:#d33b2f!important}
+.ri{color:#1455d9!important}.rd{color:#d33b2f!important}
 .cc{background:#fff;margin:10px 12px;border-radius:14px;padding:14px;box-shadow:0 1px 6px rgba(0,0,0,.07)}
 .cct{font-size:13px;font-weight:700;color:#1a6b35;margin-bottom:11px}
 .cb{margin-bottom:13px}
@@ -99,18 +101,18 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .brv.cv{color:#3498db}
 .src{font-size:10px;color:#999;margin-top:7px;text-align:right}
 .uib{display:none;background:#fef9e7;border-radius:7px;padding:7px 11px;font-size:12px;margin-top:5px;border:1px solid #f9e79f}
-.udr{display:grid;grid-template-columns:auto minmax(58px,.8fr) auto minmax(76px,1.2fr);gap:6px;align-items:center;margin-bottom:9px;background:#f8f9fa;padding:7px 8px;border-radius:7px;border:1px solid #eee}
+.udr{display:flex;align-items:center;gap:5px;margin-bottom:9px;background:#f8f9fa;padding:7px 8px;border-radius:7px;border:1px solid #eee;flex-wrap:nowrap;white-space:nowrap;overflow-x:auto}
 .udl2{font-size:11px;color:#777;white-space:nowrap}
-.udv2{font-size:13px;font-weight:800;color:#333;white-space:nowrap;overflow:visible;text-align:left}
+.udv2{font-size:13px;font-weight:800;color:#333;white-space:nowrap;overflow:visible;text-align:left;min-width:max-content}
 .sep{color:#ddd;font-size:11px}
-.ss{background:#2c3e50;margin:10px 12px;border-radius:14px;padding:15px;text-align:center}
+.ss{background:transparent;margin:10px 12px;border-radius:14px;padding:0;text-align:center}.bottom-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.bottom-reset{width:100%;background:#fff;color:#e03131;border:1.5px solid #ffb3b3;min-height:38px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:900}.bottom-save{width:100%;background:#fff;color:#1f2937;border:1.5px solid #cfd8dc;min-height:38px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:900}
 .sg{font-size:12px;color:#aab7b8;margin-top:9px;line-height:1.6}
 .simple-compare{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .sc-box{background:#fff;border:1px solid #dceee0;border-radius:12px;padding:9px 8px;text-align:center}
 .sc-label{font-size:12px;color:#56705e;font-weight:800;margin-bottom:3px}
 .sc-val{font-size:14px;font-weight:900;color:#173b27;line-height:1.35}
-.sc-val.up{color:#087a40}.sc-val.down{color:#d33b2f}.sc-val.neutral{color:#6b7280}
-.save-small{width:auto!important;min-width:170px;padding:10px 18px!important;font-size:14px!important;border-radius:12px!important;min-height:40px!important}
+.sc-val.up{color:#1455d9}.sc-val.down{color:#d33b2f}.sc-val.neutral{color:#6b7280}.sc-val .pct{display:block;font-size:13px;margin-top:2px}
+.save-small{width:auto!important;min-width:132px;padding:7px 14px!important;font-size:13px!important;border-radius:10px!important;min-height:32px!important}
 
 .btn-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:9px}
 .btn-row .left{margin-right:auto}.btn-row .right{margin-left:auto}
@@ -119,8 +121,16 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .memo-box{margin-top:12px;background:#f9fbf9;border:1.5px solid #d9eadb;border-radius:14px;padding:10px}
 .memo-box label{display:block;font-size:13px;font-weight:800;color:#1a6b35;margin-bottom:6px}
 .memo-box textarea{width:100%;min-height:74px;resize:vertical;color:#1f2937;line-height:1.5;font-size:15px;background:#fff}
-.chart-wrap{margin-top:10px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:10px;overflow-x:auto}
-#kosisLine{width:100%;min-width:330px;height:230px;display:block}
+.chart-wrap{margin-top:10px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:10px;overflow:hidden}
+#kosisLine{width:100%;min-width:0;height:220px;display:block}
+.kosis-legend{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;background:#f8fafc;border:1px solid #dce4ee;border-radius:10px;padding:8px;margin:8px 0 10px;font-size:12px;font-weight:800;color:#374151}.kosis-legend span{display:flex;align-items:center;gap:5px}.dot{width:10px;height:10px;border-radius:50%;display:inline-block}.dot-n{background:#8b5cf6}.dot-g{background:#0b7a53}.dot-r{background:#e52828}.dot-b{background:#2563eb}.dot-p{background:#f59e0b}
+.dt.pretty{border:1px solid #dce4ee;border-radius:12px;overflow:hidden;border-collapse:separate;border-spacing:0;background:#fff}.dt.pretty th{background:#f3f6fa;color:#334155;font-size:11px}.dt.pretty td{border-bottom:1px solid #e6edf5;padding:8px 4px}.dt.pretty tr:last-child td{border-bottom:0}.dt.pretty td:first-child,.dt.pretty th:first-child{text-align:left;padding-left:8px;font-weight:900;white-space:nowrap}
+#chartTooltip{position:fixed;background:#1e2a3a;color:#fff;border-radius:14px;padding:11px 14px;z-index:999;box-shadow:0 6px 28px rgba(0,0,0,.45);min-width:155px;pointer-events:auto;display:none;transition:opacity .15s}
+#chartTooltip .tt-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:10px}
+#chartTooltip .tt-yr{font-weight:900;font-size:14px;color:#fff}
+#chartTooltip .tt-x{background:rgba(255,255,255,.18);border:none;color:#fff;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:18px;line-height:1;padding:0;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+#chartTooltip .tt-row{display:flex;align-items:center;gap:7px;padding:3px 0}
+#chartTooltip .tt-row.sel{background:rgba(255,255,255,.09);border-radius:7px;padding:3px 6px;margin:1px -6px}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.68);z-index:999;display:none;align-items:flex-start;justify-content:center;padding:22px 12px;overflow:auto}
 .modal.open{display:flex}
 .modal-panel{width:min(560px,100%);background:#171717;color:#fff;border-radius:22px;box-shadow:0 18px 50px rgba(0,0,0,.45);overflow:hidden}
@@ -135,13 +145,13 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 <body>
 <div class="header">
   <div class="hd-left">
-    <div class="hd-icon">🎤</div>
-    <div class="hd-t"><h1>청취 10a당 생산량 계산기</h1><p>면적환산 · 수확단위 환산과 전년자료 비교</p></div>
+    <div class="hd-icon">🎙️</div>
+    <div class="hd-t"><h1>청취 10a당 생산량 계산기 <span class="hd-status" id="headStatus">경북 · 사과</span></h1><p>면적환산 · 수확단위 환산과 전년자료 비교</p></div>
   </div>
   <button type="button" class="home-btn" onclick="goHome()">🏠 홈</button>
 </div>
 
-<div class="card">
+<div class="card" id="commonCard">
   <div class="section-head"><div class="ct"><span class="n">1</span>공통사항</div><button class="btn bd bsm" onclick="resetAll()">🔄 전체 초기화</button></div>
   <p class="desc">조사필지와 조사일자를 입력하세요.</p>
   <div class="s1r">
@@ -155,6 +165,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 
 <div class="card">
   <div class="ct"><span class="n">2</span>지역 및 작물 선택</div>
+  <p class="desc">지역 및 작물을 선택하세요.</p>
   <p style="font-size:12px;color:#555;margin-bottom:5px">■ 지역 선택</p>
   <div class="bg">
     <button class="brg" data-region="대구" onclick="selReg(this)">대구</button>
@@ -191,9 +202,9 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   <p class="desc">응답자의 재배면적 평을 입력하고 ㎡로 환산하세요.</p>
   <div id="areaRows">
     <div class="ar">
-      <input type="number" inputmode="decimal" pattern="[0-9]*" placeholder="0" class="pi" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
+      <input type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="0" class="pi" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
       <span class="au">평</span><span class="aa">↔</span>
-      <input type="number" inputmode="decimal" pattern="[0-9]*" placeholder="0" class="si" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
+      <input type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="0" class="si" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
       <span class="au">㎡</span>
       <button class="rb" onclick="rmAR(this)">−</button>
     </div>
@@ -238,21 +249,22 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
     <div class="sv" id="resPer10a">0 kg</div>
     <div class="fm" id="fmText">계산식: (생산량 kg ÷ 면적 ㎡) × 1,000</div>
     <div class="simple-compare">
-      <div class="sc-box"><div class="sc-label">전년 대비</div><div class="sc-val neutral" id="simplePrev">기준값 선택 전</div></div>
       <div class="sc-box"><div class="sc-label">평년 대비</div><div class="sc-val neutral" id="simpleAvg">기준값 선택 전</div></div>
+      <div class="sc-box"><div class="sc-label">전년 대비</div><div class="sc-val neutral" id="simplePrev">기준값 선택 전</div></div>
     </div>
   </div>
 </div>
 
 <div class="card">
-  <div class="ct"><span class="n">6</span>지역별 5년 생산량 (KOSIS)</div>
+  <div class="ct"><span class="n">6</span>지역별 5년 10a당 생산량 (kg/10a)</div>
   <div class="ah" onclick="togAcc(this)">
-    <h3>📊 데이터 테이블 보기</h3><span class="ch">▼</span>
+    <h3>📊 그래프·통계표 보기</h3><span class="ch op">▼</span>
   </div>
-  <div class="ab" id="kosisBody">
-    <div class="chart-wrap"><canvas id="kosisLine" width="680" height="300"></canvas></div>
+  <div class="ab op" id="kosisBody">
+    <div class="chart-wrap"><canvas id="kosisLine" width="680" height="320"></canvas></div>
+    <div class="kosis-legend" id="kosisLegend"></div>
     <div class="tw">
-      <table class="dt">
+      <table class="dt pretty">
         <thead><tr><th>지역</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th>평년</th></tr></thead>
         <tbody id="kosisTb"></tbody>
       </table>
@@ -270,6 +282,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   <div class="rr"><span class="rl">지역</span><span class="rv" id="rReg">-</span></div>
   <div class="rr"><span class="rl">10a당 수량</span><span class="rv" id="rP10" style="font-size:20px">-</span></div>
   <div class="rr"><span class="rl">평년 대비</span><span class="rv" id="rAvg">-</span></div>
+  <div class="rr"><span class="rl">전년 대비</span><span class="rv" id="rPrev">-</span></div>
   <div class="rr"><span class="rl">재배면적</span><span class="rv" id="rArea">-</span></div>
   <div class="rr"><span class="rl">총 생산량</span><span class="rv" id="rKg">-</span></div>
   <div class="rr"><span class="rl">비고</span><span class="rv" id="rMemo">-</span></div>
@@ -278,14 +291,14 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 <div class="cc">
   <div class="cct">📊 국가데이터포털 데이터 비교</div>
   <div class="cb">
-    <div class="ct2"><span class="cl" id="c1L">전년 대비 —</span><span class="cbg bn" id="c1B">—</span></div>
-    <div class="dw"><div class="dc"></div><div class="df" id="c1Bar" style="width:0"></div></div>
-    <div class="dl"><span>◀ 감소</span><span class="mid" id="c1M">—</span><span>증가 ▶</span></div>
-  </div>
-  <div class="cb">
     <div class="ct2"><span class="cl" id="c2L">평년 대비 —</span><span class="cbg bn" id="c2B">—</span></div>
     <div class="dw"><div class="dc"></div><div class="df" id="c2Bar" style="width:0"></div></div>
     <div class="dl"><span>◀ 감소</span><span class="mid" id="c2M">—</span><span>증가 ▶</span></div>
+  </div>
+  <div class="cb">
+    <div class="ct2"><span class="cl" id="c1L">전년 대비 —</span><span class="cbg bn" id="c1B">—</span></div>
+    <div class="dw"><div class="dc"></div><div class="df" id="c1Bar" style="width:0"></div></div>
+    <div class="dl"><span>◀ 감소</span><span class="mid" id="c1M">—</span><span>증가 ▶</span></div>
   </div>
   <p class="src">※ 출처: KOSIS 농작물생산조사 (2021~2025). 전년: 최신연도 / 평년: 5개년 평균</p>
 </div>
@@ -303,7 +316,10 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 </div>
 
 <div class="ss">
-  <button class="btn bdk save-small" onclick="saveImg()">결과 이미지 저장</button>
+  <div class="bottom-actions">
+    <button class="bottom-reset" onclick="resetAll(true)">🔄 전체 초기화</button>
+    <button class="bottom-save" onclick="saveImg()">🖼️ 결과 이미지로 저장</button>
+  </div>
 </div>
 
 <div class="modal" id="saveModal">
@@ -314,12 +330,20 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
       💻 <b>PC/Android</b>: 이미지 저장 버튼을 누르면 Downloads 폴더에 저장됩니다.
     </div>
     <div class="save-actions">
-      <button class="save-main" id="downloadBtn">이미지 저장</button>
+      <button class="save-main" id="downloadBtn">🖼️ 이미지 저장</button>
       <button class="save-sub" id="shareBtn">iPhone 공유 / 파일에 저장</button>
       <div class="save-info" id="saveInfo">파일명: -<br>저장위치: iOS 사진앱 또는 파일앱 / Android·PC Downloads</div>
     </div>
     <div class="preview-box"><img id="previewImg" alt="결과 이미지 미리보기"></div>
   </div>
+</div>
+
+<div id="chartTooltip">
+  <div class="tt-head">
+    <span class="tt-yr" id="ttYear"></span>
+    <button class="tt-x" onclick="closeChartTip()">×</button>
+  </div>
+  <div id="ttBody"></div>
 </div>
 
 <script>
@@ -337,8 +361,24 @@ const KD={
 const CU={'사과':{u:'컨테이너',w:18},'배':{u:'컨테이너',w:18},'고추':{u:'근',w:0.6},'참깨':{u:'되',w:1.2},'고구마':{u:'박스',w:10},'겉보리':{u:'톤백',w:500},'쌀보리':{u:'톤백',w:500},'밀':{u:'톤백',w:500},'가을감자':{u:'박스',w:10}};
 const EM={'대구':'🏙️','경북':'🌄','강원':'⛰️','서울':'🗼','부산':'🌊','인천':'✈️','광주':'🌻','대전':'🚀','울산':'🏭','세종':'🏛️','경기':'🌿','충북':'🌲','충남':'🌾','전북':'🌻','전남':'🌊','경남':'🌺','제주':'🍊'};
 let sR='경북',sC=null;
+function updateHeadStatus(){
+  const el=document.getElementById('headStatus');
+  if(el) el.textContent=`${sR||'-'} · ${sC||'사과'}`;
+}
 function f(n){if(n===null||n===undefined||isNaN(n))return '-';return Number(n).toLocaleString('ko-KR');}
 function r1(v){return Math.round(v*10)/10;}
+function numVal(v){if(v===null||v===undefined)return 0;return parseFloat(String(v).replace(/,/g,'').trim())||0;}
+function formatDecimalInput(inp){
+  if(!inp)return;
+  const raw=String(inp.value).replace(/,/g,'').replace(/[^0-9.]/g,'');
+  if(raw===''||raw==='.') {inp.value=raw;return;}
+  const parts=raw.split('.');
+  let int=parts[0]||'0';
+  int=String(parseInt(int,10)||0);
+  const dec=parts.length>1?'.'+parts.slice(1).join('').slice(0,3):'';
+  inp.value=Number(int).toLocaleString('ko-KR')+dec;
+}
+function setInputVal(inp,val){inp.value=(val||val===0)?f(r1(val)):'';}
 let _ly=0;
 document.addEventListener('touchstart',e=>{_ly=e.touches[0].clientY;},{passive:true});
 document.addEventListener('touchmove',e=>{if(window.scrollY===0&&e.touches[0].clientY>_ly&&e.cancelable)e.preventDefault();_ly=e.touches[0].clientY;},{passive:false});
@@ -347,8 +387,8 @@ bldHR();
 requestAnimationFrame(()=>{const apple=document.querySelector('.bc[data-crop="사과"]'); if(apple) selCrop(apple);});
 function goHome(){if(confirm('모든 데이터가 초기화됩니다. 홈으로 가시겠습니까?')){location.href='https://ubaldos00-ship-it.github.io/home';}}
 
-function selReg(b){document.querySelectorAll('.brg').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.getElementById('otherReg').value='';sR=b.dataset.region;uAll();}
-function selOtherReg(s){if(!s.value)return;document.querySelectorAll('.brg').forEach(x=>x.classList.remove('on'));sR=s.value;uAll();}
+function selReg(b){document.querySelectorAll('.brg').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.getElementById('otherReg').value='';sR=b.dataset.region;updateHeadStatus();uAll();}
+function selOtherReg(s){if(!s.value)return;document.querySelectorAll('.brg').forEach(x=>x.classList.remove('on'));sR=s.value;updateHeadStatus();uAll();}
 function selCrop(b){
   document.querySelectorAll('.bc').forEach(x=>x.classList.remove('on'));b.classList.add('on');sC=b.dataset.crop;
   const c=CU[sC];
@@ -363,16 +403,16 @@ function selCrop(b){
     if(!wi.dataset.m)wi.value=c.w;
     rRow(row);
   });
-  uHT();uAll();
+  uHT();updateHeadStatus();uAll();
 }
 
-function cA(inp){const row=inp.closest('.ar');const p=parseFloat(inp.value)||0;row.querySelector('.si').value=p?r1(p*3.3058):'';uAT();}
-function cAR(inp){const row=inp.closest('.ar');const s=parseFloat(inp.value)||0;row.querySelector('.pi').value=s?r1(s/3.3058):'';uAT();}
+function cA(inp){formatDecimalInput(inp);const row=inp.closest('.ar');const p=numVal(inp.value);setInputVal(row.querySelector('.si'),p?p*3.3058:'');uAT();}
+function cAR(inp){formatDecimalInput(inp);const row=inp.closest('.ar');const sm=numVal(inp.value);setInputVal(row.querySelector('.pi'),sm?sm/3.3058:'');uAT();}
 function addARow(){
   const d=document.createElement('div');d.className='ar';
-  d.innerHTML=`<input type="number" inputmode="decimal" pattern="[0-9]*" placeholder="0" class="pi" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
+  d.innerHTML=`<input type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="0" class="pi" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
   <span class="au">평</span><span class="aa">↔</span>
-  <input type="number" inputmode="decimal" pattern="[0-9]*" placeholder="0" class="si" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
+  <input type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="0" class="si" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
   <span class="au">㎡</span>
   <button class="rb" onclick="this.closest('.ar').remove();uAT()">−</button>`;
   document.getElementById('areaRows').appendChild(d);
@@ -381,16 +421,16 @@ function rmAR(b){const rows=document.querySelectorAll('#areaRows .ar');if(rows.l
 function cfmRA(){if(!confirm('재배면적이 초기화됩니다. 그래도 초기화하시겠습니까?'))return;rstA();}
 function rstA(){
   document.getElementById('areaRows').innerHTML=`<div class="ar">
-    <input type="number" inputmode="decimal" pattern="[0-9]*" placeholder="0" class="pi" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
+    <input type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="0" class="pi" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
     <span class="au">평</span><span class="aa">↔</span>
-    <input type="number" inputmode="decimal" pattern="[0-9]*" placeholder="0" class="si" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
+    <input type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="0" class="si" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
     <span class="au">㎡</span>
     <button class="rb" onclick="rmAR(this)">−</button></div>`;uAT();
 }
 function uAT(){
   let tp=0,ts=0;
-  document.querySelectorAll('.pi').forEach(i=>tp+=parseFloat(i.value)||0);
-  document.querySelectorAll('.si').forEach(i=>ts+=parseFloat(i.value)||0);
+  document.querySelectorAll('.pi').forEach(i=>tp+=numVal(i.value));
+  document.querySelectorAll('.si').forEach(i=>ts+=numVal(i.value));
   document.getElementById('tPy').textContent=f(r1(tp));
   document.getElementById('tSm').textContent=f(r1(ts));
   uRes();
@@ -399,22 +439,22 @@ function uAT(){
 function bldHR(){
   const w=sC?CU[sC].w:18,u=sC?CU[sC].u:'컨테이너';
   const d=document.createElement('div');d.className='hr2';
-  d.innerHTML=`<input type="number" inputmode="decimal" pattern="[0-9]*" placeholder="수량" class="hq" oninput="rRow(this.closest('.hr2'));uHT()" style="flex:.85;min-width:54px;text-align:right">
+  d.innerHTML=`<input type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="수량" class="hq" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" oninput="rRow(this.closest('.hr2'));uHT()" style="flex:.72;min-width:48px;text-align:right">
   <span class="hl hul" style="padding:0 2px">${u}</span><span class="hl">×</span>
-  <input type="number" inputmode="decimal" class="hw" pattern="[0-9]*" value="${w}" oninput="this.dataset.m=1;rRow(this.closest('.hr2'));uHT()" style="width:64px;text-align:center;padding:8px 6px">
+  <input type="text" inputmode="decimal" class="hw" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" pattern="[0-9.,]*" value="${w}" oninput="this.dataset.m=1;rRow(this.closest('.hr2'));uHT()" style="width:82px;text-align:center;padding:8px 6px">
   <span class="hl">kg =</span>
-  <input type="number" inputmode="decimal" class="hres" pattern="[0-9]*" placeholder="0" oninput="uHT()" style="flex:1.05;min-width:60px;text-align:right;background:#eafaf1">
+  <input type="text" inputmode="decimal" class="hres" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" pattern="[0-9.,]*" placeholder="0" oninput="formatDecimalInput(this);uHT()" style="flex:1.05;min-width:60px;text-align:right;background:#eafaf1">
   <span class="hl">kg</span>
   <button class="rb" onclick="rmHR(this)">−</button>`;
   document.getElementById('hRows').appendChild(d);
 }
 function addHR(){bldHR();}
 function rmHR(b){if(document.querySelectorAll('.hr2').length>1){b.closest('.hr2').remove();uHT();}}
-function rRow(r){const q=parseFloat(r.querySelector('.hq').value)||0,w=parseFloat(r.querySelector('.hw').value)||0;r.querySelector('.hres').value=q&&w?r1(q*w):'';}
+function rRow(r){const qi=r.querySelector('.hq'),wi=r.querySelector('.hw');formatDecimalInput(qi);formatDecimalInput(wi);const q=numVal(qi.value),w=numVal(wi.value);setInputVal(r.querySelector('.hres'),q&&w?q*w:'');}
 function cfmRH(){if(!confirm('수확량 환산이 초기화됩니다. 그래도 초기화하시겠습니까?'))return;document.getElementById('hRows').innerHTML='';bldHR();uHT();}
 function uHT(){
   let tU=0,tK=0;
-  document.querySelectorAll('.hr2').forEach(r=>{tU+=parseFloat(r.querySelector('.hq').value)||0;tK+=parseFloat(r.querySelector('.hres').value)||0;});
+  document.querySelectorAll('.hr2').forEach(r=>{tU+=numVal(r.querySelector('.hq').value);tK+=numVal(r.querySelector('.hres').value);});
   document.getElementById('tHU').textContent=f(r1(tU));
   document.getElementById('tHK').textContent=f(r1(tK));
   uRes();
@@ -431,7 +471,7 @@ function setSimpleCompare(per){
     if(!per||!base){el.textContent=base?`기준 ${f(base)} kg`:'자료 없음';el.className='sc-val neutral';return;}
     const diff=r1(per-base), pct=r1(diff/base*100);
     el.className=diff>=0?'sc-val up':'sc-val down';
-    el.textContent=(diff>=0?'▲ ':'▼ ')+`${f(Math.abs(diff))} kg (${diff>=0?'+':''}${f(pct)}%)`;
+    el.innerHTML=(diff>=0?'▲ ':'▼ ')+`${f(Math.abs(diff))} kg`+`<span class="pct">${diff>=0?'+':''}${f(pct)}%</span>`;
   }
   write(prevEl,prev);
   write(avgEl,avg);
@@ -450,33 +490,79 @@ function uAll(){uKT();uRC();uCh();}
 function gAvg(a){const v=(a||[]).filter(x=>x!=null&&x>0);return v.length?r1(v.reduce((a,b)=>a+b)/v.length):0;}
 function gLast(a){return[...(a||[])].reverse().find(x=>x!=null&&x>0)||0;}
 
+function getChartRegions(){
+  const base=sR&&['대구','경북','강원'].includes(sR)?['전국','대구','경북','강원']:['전국',sR,'경북','강원'];
+  return base.filter((v,i,a)=>v&&a.indexOf(v)===i);
+}
 function uKT(){
   if(!sC)return;const data=KD[sC];if(!data)return;
-  const rgs=['전국','대구','경북','강원'];
-  if(!rgs.includes(sR))rgs.splice(1,0,sR);
+  const rgs=getChartRegions();
+  const colorMap={'전국':'dot-n','대구':'dot-g','경북':'dot-r','강원':'dot-b'};
   let h='';
-  rgs.forEach(r=>{
+  rgs.forEach((r,i)=>{
     const d=data[r]||[];const avg=gAvg(d);const iS=r===sR;
-    h+=`<tr class="${iS?'hlr':''}"><td>${r}${iS?' ★':''}</td>${d.map(v=>`<td>${v!=null&&v>0?f(v):'-'}</td>`).join('')}<td style="color:#e67e22;font-weight:700">${avg?f(avg):'-'}</td></tr>`;
+    const colorClass=colorMap[r]||['dot-n','dot-g','dot-r','dot-b','dot-p'][i]||'dot-g';
+    h+=`<tr class="${iS?'hlr':''}"><td><span class="dot ${colorClass}"></span> ${r}${iS?' ★':''}</td>${d.map(v=>`<td>${v!=null&&v>0?f(v):'-'}</td>`).join('')}<td style="font-weight:900">${avg?f(avg):'-'}</td></tr>`;
   });
   document.getElementById('kosisTb').innerHTML=h;
+  const legend=document.getElementById('kosisLegend'); if(legend){legend.innerHTML=rgs.map((r,i)=>`<span><i class="dot ${colorMap[r]||['dot-n','dot-g','dot-r','dot-b','dot-p'][i]||'dot-g'}"></i>${r}</span>`).join('');}
   drawKosisLine(rgs);
 }
 
 function drawKosisLine(rgs){
   const cvs=document.getElementById('kosisLine'); if(!cvs||!sC)return;
-  const ctx=cvs.getContext('2d'), W=cvs.width, H=cvs.height; ctx.clearRect(0,0,W,H);
+  const box=cvs.getBoundingClientRect();
+  const ratio=window.devicePixelRatio||1;
+  const cssW=Math.max(320, Math.round(box.width||360));
+  const cssH=220;
+  cvs.width=Math.round(cssW*ratio); cvs.height=Math.round(cssH*ratio);
+  const ctx=cvs.getContext('2d'); ctx.setTransform(ratio,0,0,ratio,0,0);
+  const W=cssW,H=cssH; ctx.clearRect(0,0,W,H);
   const years=['2021','2022','2023','2024','2025'];
-  const colors=['#2f80ed','#27ae60','#f2994a','#eb5757','#9b51e0','#00a6a6'];
-  const padL=48,padR=20,padT=28,padB=44;
+  const colorMap={'전국':'#8b5cf6','대구':'#0b7a53','경북':'#e52828','강원':'#2563eb'};
+  const fallback=['#8b5cf6','#0b7a53','#e52828','#2563eb','#f59e0b'];
+  const padL=44,padR=14,padT=22,padB=34;
   let vals=[]; rgs.forEach(r=>(KD[sC]?.[r]||[]).forEach(v=>{if(v!=null&&v>0)vals.push(v)}));
-  if(!vals.length){ctx.fillStyle='#777';ctx.font='18px sans-serif';ctx.fillText('그래프 데이터가 없습니다.',70,120);return;}
-  const max=Math.ceil(Math.max(...vals)*1.15/100)*100 || Math.max(...vals)*1.15;
-  ctx.strokeStyle='#e5e7eb';ctx.lineWidth=1;ctx.fillStyle='#6b7280';ctx.font='13px sans-serif';ctx.textAlign='right';
-  for(let i=0;i<=4;i++){const y=padT+(H-padT-padB)*i/4; const val=Math.round(max*(1-i/4)); ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke();ctx.fillText(val.toLocaleString('ko-KR'),padL-7,y+4);}
-  ctx.textAlign='center';years.forEach((yr,i)=>{const x=padL+(W-padL-padR)*i/(years.length-1);ctx.fillStyle='#6b7280';ctx.fillText(yr,x,H-18);});
-  rgs.forEach((r,idx)=>{const d=KD[sC]?.[r]||[]; const col=colors[idx%colors.length]; ctx.strokeStyle=col;ctx.lineWidth=r===sR?4:2.5;ctx.beginPath();let started=false; d.forEach((v,i)=>{if(v==null||v<=0)return; const x=padL+(W-padL-padR)*i/(years.length-1); const y=padT+(H-padT-padB)*(1-v/max); if(!started){ctx.moveTo(x,y);started=true}else ctx.lineTo(x,y);});ctx.stroke(); d.forEach((v,i)=>{if(v==null||v<=0)return; const x=padL+(W-padL-padR)*i/(years.length-1); const y=padT+(H-padT-padB)*(1-v/max); ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y,r===sR?5:4,0,Math.PI*2);ctx.fill();});});
-  let lx=padL, ly=14; ctx.textAlign='left'; rgs.forEach((r,idx)=>{const col=colors[idx%colors.length];ctx.fillStyle=col;ctx.fillRect(lx,ly-9,12,12);ctx.fillStyle='#333';ctx.font=(r===sR?'bold ':'')+'13px sans-serif';ctx.fillText(r,lx+16,ly+2);lx+=ctx.measureText(r).width+45;});
+  if(!vals.length){ctx.fillStyle='#777';ctx.font='15px sans-serif';ctx.fillText('그래프 데이터가 없습니다.',70,110);return;}
+  const minVal=Math.min(...vals), maxVal=Math.max(...vals);
+  const step=Math.max(10, Math.ceil((maxVal-minVal)/4/10)*10);
+  const ymin=Math.max(0, Math.floor((minVal-step)/step)*step);
+  const ymax=Math.ceil((maxVal+step)/step)*step;
+  ctx.strokeStyle='#e5e7eb';ctx.lineWidth=1;ctx.fillStyle='#6b7280';ctx.font='11px sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';
+  for(let i=0;i<=4;i++){
+    const y=padT+(H-padT-padB)*i/4; const val=Math.round(ymax-(ymax-ymin)*i/4);
+    ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke();ctx.fillText(val.toLocaleString('ko-KR'),padL-6,y);
+  }
+  ctx.textAlign='center';ctx.textBaseline='alphabetic';ctx.font='bold 11px sans-serif';
+  years.forEach((yr,i)=>{const x=padL+(W-padL-padR)*i/(years.length-1);ctx.fillStyle='#666';ctx.fillText(yr,x,H-10);});
+  function xy(v,i){return [padL+(W-padL-padR)*i/(years.length-1), padT+(H-padT-padB)*(1-(v-ymin)/(ymax-ymin))];}
+  function smoothPath(points){
+    ctx.beginPath();
+    points.forEach((p,i)=>{
+      if(i===0){ctx.moveTo(p[0],p[1]);return;}
+      const prev=points[i-1];
+      const midX=(prev[0]+p[0])/2;
+      ctx.bezierCurveTo(midX,prev[1],midX,p[1],p[0],p[1]);
+    });
+  }
+  _chartPoints=[];const allLabels=[];
+  rgs.forEach((r,idx)=>{
+    const d=KD[sC]?.[r]||[]; const col=colorMap[r]||fallback[idx%fallback.length];
+    const pts=d.map((v,i)=>v!=null&&v>0?xy(v,i):null).filter(Boolean);
+    if(!pts.length)return;
+    ctx.strokeStyle=col;ctx.lineWidth=r===sR?2.8:2.2;ctx.lineCap='round';ctx.lineJoin='round';
+    smoothPath(pts);ctx.stroke();
+    d.forEach((v,i)=>{if(v==null||v<=0)return; const [x,y]=xy(v,i); ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x,y,4.5,0,Math.PI*2);ctx.fill();ctx.strokeStyle=col;ctx.lineWidth=2;ctx.stroke(); ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y,2.4,0,Math.PI*2);ctx.fill(); allLabels.push({x,y,text:f(v),col,colIdx:i});_chartPoints.push({cx:x,cy:y,colIdx:i,region:r,value:v});});
+  });
+  // 겹침 방지: 같은 x열 라벨을 y축으로 분산
+  const byCol={};allLabels.forEach(lb=>{(byCol[lb.colIdx]=byCol[lb.colIdx]||[]).push(lb);});
+  Object.values(byCol).forEach(grp=>{
+    grp.sort((a,b)=>a.y-b.y);
+    grp.forEach(lb=>{lb.ly=lb.y-10;});
+    for(let it=0;it<12;it++){for(let i=0;i<grp.length-1;i++){const ov=12-(grp[i+1].ly-grp[i].ly);if(ov>0){grp[i].ly-=ov/2;grp[i+1].ly+=ov/2;}}}
+    ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.textBaseline='alphabetic';
+    grp.forEach(lb=>{ctx.fillStyle=lb.col;ctx.fillText(lb.text,lb.x,Math.max(10,Math.min(H-padB-2,lb.ly)));});
+  });
 }
 
 function uRC(){
@@ -490,15 +576,22 @@ function uRC(){
   document.getElementById('rArea').textContent=py?`${f(py)}평 (${f(sqm)}㎡)`:'-';
   document.getElementById('rKg').textContent=kg?f(kg)+' kg':'-';
   document.getElementById('rMemo').textContent=document.getElementById('memo')?.value||'-';
+  const avgEl=document.getElementById('rAvg'), prevEl=document.getElementById('rPrev');
+  avgEl.textContent='-'; prevEl.textContent='-'; avgEl.className='rv'; prevEl.className='rv';
   if(sC&&sR&&p>0){
     const rd=KD[sC]?.[sR];
-    if(rd){const avg=gAvg(rd);if(avg>0){
-      const diff=p-avg,pct=r1(diff/avg*100);
-      const el=document.getElementById('rAvg');
-      el.className=diff>=0?'rv ri':'rv rd';
-      el.textContent=diff>=0?`+${f(pct)}% (▲${f(r1(diff))} kg)`:`${f(pct)}% (▼${f(r1(Math.abs(diff)))} kg)`;
-      document.getElementById('rP10').className=diff>=0?'rv ri':'rv rd';
-    }}
+    if(rd){
+      const avg=gAvg(rd), prev=gLast(rd);
+      function writeSummary(el,base){
+        if(!base){el.textContent='자료 없음';el.className='rv';return;}
+        const diff=p-base,pct=r1(diff/base*100);
+        el.className=diff>=0?'rv ri':'rv rd';
+        el.textContent=diff>=0?`+${f(pct)}% (▲${f(r1(diff))} kg)`:`${f(pct)}% (▼${f(r1(Math.abs(diff)))} kg)`;
+      }
+      writeSummary(avgEl,avg);
+      writeSummary(prevEl,prev);
+      document.getElementById('rP10').className=(p>=avg)?'rv ri':'rv rd';
+    }
   }
 }
 
@@ -550,7 +643,7 @@ function uCh(){
 
 function togAcc(h){const b=h.nextElementSibling,c=h.querySelector('.ch');b.classList.toggle('op');c.classList.toggle('op');}
 
-function resetAll(){
+function resetAll(scrollTop=false){
   if(!confirm('모든 입력을 초기화하시겠습니까?'))return;
   document.getElementById('address').value='';
   document.getElementById('surveyDate').valueAsDate=new Date();
@@ -560,20 +653,22 @@ function resetAll(){
   document.getElementById('dUnit').textContent='컨테이너';
   document.getElementById('dWeight').textContent='18 kg';
   document.getElementById('tULbl').textContent='컨테이너 합계';
-  const apple=document.querySelector('.bc[data-crop="사과"]'); if(apple) apple.classList.add('on');
+  const apple=document.querySelector('.bc[data-crop="사과"]'); if(apple) apple.classList.add('on'); updateHeadStatus();
   rstA();
   document.getElementById('hRows').innerHTML='';bldHR();
   document.getElementById('resPer10a').textContent='0 kg';
   document.getElementById('fmText').textContent='계산식: (생산량 kg ÷ 면적 ㎡) × 1,000';
   setSimpleCompare(0);
   document.getElementById('kosisTb').innerHTML='';
-  ['rAddr','rDate','rCrop','rReg','rP10','rAvg','rArea','rKg','rMemo'].forEach(id=>{const e=document.getElementById(id);e.textContent='-';e.className='rv';});
+  ['rAddr','rDate','rCrop','rReg','rP10','rAvg','rPrev','rArea','rKg','rMemo'].forEach(id=>{const e=document.getElementById(id);e.textContent='-';e.className='rv';});
   ['c1B','c2B'].forEach(id=>{document.getElementById(id).className='cbg bn';document.getElementById(id).textContent='—';});
   ['c1Bar','c2Bar'].forEach(id=>{document.getElementById(id).style.width='0';document.getElementById(id).className='df';});
   ['c1L','c2L'].forEach((id,i)=>{document.getElementById(id).innerHTML=i===0?'전년 대비 —':'평년 대비 —';});
   ['c1M','c2M'].forEach(id=>document.getElementById(id).textContent='—');
   document.getElementById('regBars').innerHTML='';
   document.getElementById('ch2T').textContent='📊 지역별 10a당 수량 비교';
+  updateHeadStatus();uAll();
+  if(scrollTop){document.getElementById('commonCard')?.scrollIntoView({behavior:'smooth',block:'start'});}
 }
 
 let lastImageUrl='', lastFileName='', lastBlob=null;
@@ -610,6 +705,57 @@ async function shareImage(){
   }
 }
 
+let _chartPoints=[];
+function attachChartTouchHandler(){
+  const cvs=document.getElementById('kosisLine');if(!cvs)return;
+  cvs.addEventListener('touchstart',function(e){
+    const rect=cvs.getBoundingClientRect();
+    const tx=e.touches[0].clientX-rect.left,ty=e.touches[0].clientY-rect.top;
+    let near=null,md=40;
+    _chartPoints.forEach(p=>{const d=Math.hypot(p.cx-tx,p.cy-ty);if(d<md){md=d;near=p;}});
+    if(near){showChartTip(near.colIdx,e.touches[0].clientX,e.touches[0].clientY);e.preventDefault();}
+    else closeChartTip();
+  },{passive:false});
+  cvs.addEventListener('click',function(e){
+    const rect=cvs.getBoundingClientRect();
+    const tx=e.clientX-rect.left,ty=e.clientY-rect.top;
+    let near=null,md=40;
+    _chartPoints.forEach(p=>{const d=Math.hypot(p.cx-tx,p.cy-ty);if(d<md){md=d;near=p;}});
+    if(near){showChartTip(near.colIdx,e.clientX,e.clientY);e.stopPropagation();}
+    else closeChartTip();
+  });
+}
+function showChartTip(colIdx,cx,cy){
+  const years=['2021','2022','2023','2024','2025'];
+  const rgs=getChartRegions();
+  const colorMap={'전국':'#8b5cf6','대구':'#0b7a53','경북':'#e52828','강원':'#2563eb'};
+  const fallback=['#8b5cf6','#0b7a53','#e52828','#2563eb','#f59e0b'];
+  document.getElementById('ttYear').textContent=years[colIdx]+'년';
+  let html='';
+  rgs.forEach((r,idx)=>{
+    const d=KD[sC]?.[r];if(!d)return;
+    const v=d[colIdx];const col=colorMap[r]||fallback[idx];const iS=r===sR;
+    html+=`<div class="tt-row${iS?' sel':''}">
+      <span style="width:9px;height:9px;border-radius:50%;background:${col};flex-shrink:0;display:inline-block"></span>
+      <span style="flex:1;color:#bbb;font-size:12px">${r}${iS?' ★':''}</span>
+      <span style="font-weight:800;color:#fff;font-size:13px">${v!=null&&v>0?f(v)+' kg':'—'}</span>
+    </div>`;
+  });
+  document.getElementById('ttBody').innerHTML=html;
+  const tt=document.getElementById('chartTooltip');tt.style.display='block';
+  const ttW=170,vw=window.innerWidth;
+  let left=cx-ttW/2;if(left<8)left=8;if(left+ttW>vw-8)left=vw-ttW-8;
+  const ttH=tt.offsetHeight||120;
+  let top=cy-ttH-18;if(top<60)top=cy+22;
+  tt.style.left=left+'px';tt.style.top=top+'px';
+}
+function closeChartTip(){const tt=document.getElementById('chartTooltip');if(tt)tt.style.display='none';}
+document.addEventListener('click',function(e){const tt=document.getElementById('chartTooltip');if(tt&&tt.style.display!=='none'&&!tt.contains(e.target))closeChartTip();});
+document.addEventListener('touchstart',function(e){const tt=document.getElementById('chartTooltip');if(tt&&tt.style.display!=='none'&&!tt.contains(e.target)&&e.target.id!=='kosisLine')closeChartTip();},{passive:true});
+
+window.addEventListener('resize',()=>{if(sC)drawKosisLine(getChartRegions());});
+updateHeadStatus();
+attachChartTouchHandler();
 </script>
 </body>
 </html>
