@@ -202,9 +202,9 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   <p class="desc">응답자의 재배면적 평을 입력하고 ㎡로 환산하세요.</p>
   <div id="areaRows">
     <div class="ar">
-      <input type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="0" class="pi" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
+      <input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="pi" autocomplete="off" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
       <span class="au">평</span><span class="aa">↔</span>
-      <input type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="0" class="si" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
+      <input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="si" autocomplete="off" enterkeyhint="done" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
       <span class="au">㎡</span>
       <button class="rb" onclick="rmAR(this)">−</button>
     </div>
@@ -406,13 +406,13 @@ function selCrop(b){
   uHT();updateHeadStatus();uAll();
 }
 
-function cA(inp){formatDecimalInput(inp);const row=inp.closest('.ar');const p=numVal(inp.value);setInputVal(row.querySelector('.si'),p?p*3.3058:'');uAT();}
-function cAR(inp){formatDecimalInput(inp);const row=inp.closest('.ar');const sm=numVal(inp.value);setInputVal(row.querySelector('.pi'),sm?sm/3.3058:'');uAT();}
+function cA(inp){const row=inp.closest('.ar');const p=parseFloat(inp.value)||0;const si=row.querySelector('.si');si.value=p?r1(p*3.3058):'';uAT();}
+function cAR(inp){const row=inp.closest('.ar');const sm=parseFloat(inp.value)||0;const pi=row.querySelector('.pi');pi.value=sm?r1(sm/3.3058):'';uAT();}
 function addARow(){
   const d=document.createElement('div');d.className='ar';
-  d.innerHTML=`<input type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="0" class="pi" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
+  d.innerHTML=`<input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="pi" autocomplete="off" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
   <span class="au">평</span><span class="aa">↔</span>
-  <input type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="0" class="si" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
+  <input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="si" autocomplete="off" enterkeyhint="done" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
   <span class="au">㎡</span>
   <button class="rb" onclick="this.closest('.ar').remove();uAT()">−</button>`;
   document.getElementById('areaRows').appendChild(d);
@@ -421,16 +421,16 @@ function rmAR(b){const rows=document.querySelectorAll('#areaRows .ar');if(rows.l
 function cfmRA(){if(!confirm('재배면적이 초기화됩니다. 그래도 초기화하시겠습니까?'))return;rstA();}
 function rstA(){
   document.getElementById('areaRows').innerHTML=`<div class="ar">
-    <input type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="0" class="pi" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
+    <input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="pi" autocomplete="off" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
     <span class="au">평</span><span class="aa">↔</span>
-    <input type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="0" class="si" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
+    <input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="si" autocomplete="off" enterkeyhint="done" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
     <span class="au">㎡</span>
     <button class="rb" onclick="rmAR(this)">−</button></div>`;uAT();
 }
 function uAT(){
   let tp=0,ts=0;
-  document.querySelectorAll('.pi').forEach(i=>tp+=numVal(i.value));
-  document.querySelectorAll('.si').forEach(i=>ts+=numVal(i.value));
+  document.querySelectorAll('.pi').forEach(i=>tp+=parseFloat(i.value)||0);
+  document.querySelectorAll('.si').forEach(i=>ts+=parseFloat(i.value)||0);
   document.getElementById('tPy').textContent=f(r1(tp));
   document.getElementById('tSm').textContent=f(r1(ts));
   uRes();
@@ -439,22 +439,22 @@ function uAT(){
 function bldHR(){
   const w=sC?CU[sC].w:18,u=sC?CU[sC].u:'컨테이너';
   const d=document.createElement('div');d.className='hr2';
-  d.innerHTML=`<input type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="수량" class="hq" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" oninput="rRow(this.closest('.hr2'));uHT()" style="flex:.72;min-width:48px;text-align:right">
+  d.innerHTML=`<input type="number" inputmode="decimal" step="any" min="0" placeholder="수량" class="hq" autocomplete="off" enterkeyhint="done" oninput="rRow(this.closest('.hr2'));uHT()" style="flex:.72;min-width:48px;text-align:right">
   <span class="hl hul" style="padding:0 2px">${u}</span><span class="hl">×</span>
-  <input type="text" inputmode="decimal" class="hw" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" pattern="[0-9.,]*" value="${w}" oninput="this.dataset.m=1;rRow(this.closest('.hr2'));uHT()" style="width:82px;text-align:center;padding:8px 6px">
+  <input type="number" inputmode="decimal" step="any" min="0" class="hw" autocomplete="off" enterkeyhint="done" value="${w}" oninput="this.dataset.m=1;rRow(this.closest('.hr2'));uHT()" style="width:82px;text-align:center;padding:8px 6px">
   <span class="hl">kg =</span>
-  <input type="text" inputmode="decimal" class="hres" autocomplete="off" autocorrect="off" autocapitalize="none" enterkeyhint="done" pattern="[0-9.,]*" placeholder="0" oninput="formatDecimalInput(this);uHT()" style="flex:1.05;min-width:60px;text-align:right;background:#eafaf1">
+  <input type="number" inputmode="decimal" step="any" min="0" class="hres" autocomplete="off" enterkeyhint="done" placeholder="0" oninput="uHT()" style="flex:1.05;min-width:60px;text-align:right;background:#eafaf1">
   <span class="hl">kg</span>
   <button class="rb" onclick="rmHR(this)">−</button>`;
   document.getElementById('hRows').appendChild(d);
 }
 function addHR(){bldHR();}
 function rmHR(b){if(document.querySelectorAll('.hr2').length>1){b.closest('.hr2').remove();uHT();}}
-function rRow(r){const qi=r.querySelector('.hq'),wi=r.querySelector('.hw');formatDecimalInput(qi);formatDecimalInput(wi);const q=numVal(qi.value),w=numVal(wi.value);setInputVal(r.querySelector('.hres'),q&&w?q*w:'');}
+function rRow(r){const qi=r.querySelector('.hq'),wi=r.querySelector('.hw');const q=parseFloat(qi.value)||0,w=parseFloat(wi.value)||0;const res=r.querySelector('.hres');res.value=q&&w?r1(q*w):'';}
 function cfmRH(){if(!confirm('수확량 환산이 초기화됩니다. 그래도 초기화하시겠습니까?'))return;document.getElementById('hRows').innerHTML='';bldHR();uHT();}
 function uHT(){
   let tU=0,tK=0;
-  document.querySelectorAll('.hr2').forEach(r=>{tU+=numVal(r.querySelector('.hq').value);tK+=numVal(r.querySelector('.hres').value);});
+  document.querySelectorAll('.hr2').forEach(r=>{tU+=parseFloat(r.querySelector('.hq').value)||0;tK+=parseFloat(r.querySelector('.hres').value)||0;});
   document.getElementById('tHU').textContent=f(r1(tU));
   document.getElementById('tHK').textContent=f(r1(tK));
   uRes();
@@ -552,7 +552,7 @@ function drawKosisLine(rgs){
     if(!pts.length)return;
     ctx.strokeStyle=col;ctx.lineWidth=r===sR?2.8:2.2;ctx.lineCap='round';ctx.lineJoin='round';
     smoothPath(pts);ctx.stroke();
-    d.forEach((v,i)=>{if(v==null||v<=0)return; const [x,y]=xy(v,i); ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x,y,4.5,0,Math.PI*2);ctx.fill();ctx.strokeStyle=col;ctx.lineWidth=2;ctx.stroke(); ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y,2.4,0,Math.PI*2);ctx.fill(); allLabels.push({x,y,text:f(v),col,colIdx:i});_chartPoints.push({cx:x,cy:y,colIdx:i,region:r,value:v});});
+    d.forEach((v,i)=>{if(v==null||v<=0)return; const [x,y]=xy(v,i); ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);ctx.fill(); allLabels.push({x,y,text:f(v),col,colIdx:i});_chartPoints.push({cx:x,cy:y,colIdx:i,region:r,value:v});});
   });
   // 겹침 방지: 같은 x열 라벨을 y축으로 분산
   const byCol={};allLabels.forEach(lb=>{(byCol[lb.colIdx]=byCol[lb.colIdx]||[]).push(lb);});
@@ -561,7 +561,11 @@ function drawKosisLine(rgs){
     grp.forEach(lb=>{lb.ly=lb.y-10;});
     for(let it=0;it<12;it++){for(let i=0;i<grp.length-1;i++){const ov=12-(grp[i+1].ly-grp[i].ly);if(ov>0){grp[i].ly-=ov/2;grp[i+1].ly+=ov/2;}}}
     ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.textBaseline='alphabetic';
-    grp.forEach(lb=>{ctx.fillStyle=lb.col;ctx.fillText(lb.text,lb.x,Math.max(10,Math.min(H-padB-2,lb.ly)));});
+    grp.forEach(lb=>{
+      const lx=lb.x,ly=Math.max(10,Math.min(H-padB-2,lb.ly));
+      ctx.strokeStyle='rgba(255,255,255,0.92)';ctx.lineWidth=3;ctx.lineJoin='round';ctx.strokeText(lb.text,lx,ly);
+      ctx.fillStyle=lb.col;ctx.fillText(lb.text,lx,ly);
+    });
   });
 }
 
@@ -668,7 +672,7 @@ function resetAll(scrollTop=false){
   document.getElementById('regBars').innerHTML='';
   document.getElementById('ch2T').textContent='📊 지역별 10a당 수량 비교';
   updateHeadStatus();uAll();
-  if(scrollTop){document.getElementById('commonCard')?.scrollIntoView({behavior:'smooth',block:'start'});}
+  if(scrollTop){window.scrollTo({top:0,behavior:'smooth'});}
 }
 
 let lastImageUrl='', lastFileName='', lastBlob=null;
