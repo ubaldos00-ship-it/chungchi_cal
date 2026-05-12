@@ -27,6 +27,8 @@ html{overflow-y:scroll}
 input[type="text"],input[type="number"],input[type="date"],select,textarea{padding:10px 10px;border:1.5px solid #d5d8dc;border-radius:10px;font-size:16px;color:#1455d9;background:#fff;transition:all .2s;-webkit-appearance:none;appearance:none}
 input:focus,select:focus{outline:none;border-color:#27ae60;animation:blink .5s ease-in-out 2}
 @keyframes blink{0%{background:#fffde7}50%{background:#fff}100%{background:#fffde7}}
+input.needs-input,input.needs-input:focus{border-color:#F59E0B!important;background:#FFFBEB!important;box-shadow:0 0 0 3px rgba(245,158,11,.22)!important;animation:needsPulse 2s ease-in-out infinite;}
+@keyframes needsPulse{0%,100%{box-shadow:0 0 0 3px rgba(245,158,11,.22);}50%{box-shadow:0 0 0 5px rgba(245,158,11,.38);}}
 input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#e0e0e0!important}
 .s1r{display:flex;gap:5px;align-items:center}
 .s1l{font-size:12px;color:#666;white-space:nowrap}
@@ -107,7 +109,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .udl2{font-size:11px;color:#777;white-space:nowrap}
 .udv2{font-size:13px;font-weight:800;color:#333;white-space:nowrap;overflow:visible;text-align:left;min-width:max-content}
 .sep{color:#ddd;font-size:11px}
-.ss{background:transparent;margin:10px 12px;border-radius:14px;padding:0;text-align:center}.bottom-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.bottom-reset{width:100%;background:#fff;color:#e03131;border:1.5px solid #ffb3b3;min-height:38px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:900}.bottom-save{width:100%;background:#fff;color:#1f2937;border:1.5px solid #cfd8dc;min-height:38px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:900}
+.ss{background:transparent;margin:10px 12px;border-radius:14px;padding:0;text-align:center}.bottom-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.bottom-reset{width:100%;background:#fff;color:#e03131;border:1.5px solid #ffb3b3;min-height:38px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:900}.bottom-save{width:100%;background:#111;color:#fff;border:none;min-height:38px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:900}
 .sg{font-size:12px;color:#aab7b8;margin-top:9px;line-height:1.6}
 .simple-compare{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .sc-box{background:#fff;border:1px solid #dceee0;border-radius:12px;padding:9px 8px;text-align:center}
@@ -198,7 +200,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   <p class="desc">응답자의 재배면적 평을 입력하고 ㎡로 환산하세요.</p>
   <div id="areaRows">
     <div class="ar">
-      <input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="pi" autocomplete="off" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
+      <input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="pi needs-input" autocomplete="off" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
       <span class="au">평</span><span class="aa">↔</span>
       <input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="si" autocomplete="off" enterkeyhint="done" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
       <span class="au">㎡</span>
@@ -243,7 +245,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   <div class="sb">
     <div style="font-size:12px;color:#555">10a당 생산량</div>
     <div class="sv" id="resPer10a">0 kg</div>
-    <div class="fm" id="fmText">계산식: (생산량 kg ÷ 면적 ㎡) × 1,000</div>
+    <div class="fm" id="fmText">계산식: 수확량합계(kg) ÷ 재배면적(㎡) × 1,000</div>
     <div class="simple-compare">
       <div class="sc-box"><div class="sc-label">평년 대비</div><div class="sc-val neutral" id="simpleAvg">기준값 선택 전</div></div>
       <div class="sc-box"><div class="sc-label">전년 대비</div><div class="sc-val neutral" id="simplePrev">기준값 선택 전</div></div>
@@ -277,6 +279,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   <div class="rr"><span class="rl">작물명</span><span class="rv" id="rCrop">-</span></div>
   <div class="rr"><span class="rl">지역</span><span class="rv" id="rReg">-</span></div>
   <div class="rr"><span class="rl">10a당 수량</span><span class="rv" id="rP10" style="font-size:20px">-</span></div>
+  <div style="padding:2px 0 6px;text-align:right;font-size:10.5px;color:#7a9a7e;font-weight:500" id="rP10Fm"></div>
   <div class="rr"><span class="rl">평년 대비</span><span class="rv" id="rAvg">-</span></div>
   <div class="rr"><span class="rl">전년 대비</span><span class="rv" id="rPrev">-</span></div>
   <div class="rr"><span class="rl">재배면적</span><span class="rv" id="rArea">-</span></div>
@@ -406,7 +409,7 @@ function cA(inp){const row=inp.closest('.ar');const p=parseFloat(inp.value)||0;c
 function cAR(inp){const row=inp.closest('.ar');const sm=parseFloat(inp.value)||0;const pi=row.querySelector('.pi');pi.value=sm?r1(sm/3.3058):'';uAT();}
 function addARow(){
   const d=document.createElement('div');d.className='ar';
-  d.innerHTML=`<input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="pi" autocomplete="off" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
+  d.innerHTML=`<input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="pi needs-input" autocomplete="off" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
   <span class="au">평</span><span class="aa">↔</span>
   <input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="si" autocomplete="off" enterkeyhint="done" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
   <span class="au">㎡</span>
@@ -417,7 +420,7 @@ function rmAR(b){const rows=document.querySelectorAll('#areaRows .ar');if(rows.l
 function cfmRA(){if(!confirm('재배면적이 초기화됩니다. 그래도 초기화하시겠습니까?'))return;rstA();}
 function rstA(){
   document.getElementById('areaRows').innerHTML=`<div class="ar">
-    <input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="pi" autocomplete="off" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
+    <input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="pi needs-input" autocomplete="off" enterkeyhint="done" oninput="cA(this)" style="flex:1;min-width:0;text-align:right">
     <span class="au">평</span><span class="aa">↔</span>
     <input type="number" inputmode="decimal" step="any" min="0" placeholder="0" class="si" autocomplete="off" enterkeyhint="done" oninput="cAR(this)" style="flex:1;min-width:0;text-align:right">
     <span class="au">㎡</span>
@@ -425,7 +428,7 @@ function rstA(){
 }
 function uAT(){
   let tp=0,ts=0;
-  document.querySelectorAll('.pi').forEach(i=>tp+=parseFloat(i.value)||0);
+  document.querySelectorAll('.pi').forEach(i=>{const v=parseFloat(i.value)||0;tp+=v;i.classList.toggle('needs-input',v<=0);});
   document.querySelectorAll('.si').forEach(i=>ts+=parseFloat(i.value)||0);
   document.getElementById('tPy').textContent=f(r1(tp));
   document.getElementById('tSm').textContent=f(r1(ts));
@@ -435,11 +438,11 @@ function uAT(){
 function bldHR(){
   const w=sC?CU[sC].w:18,u=sC?CU[sC].u:'컨테이너';
   const d=document.createElement('div');d.className='hr2';
-  d.innerHTML=`<input type="number" inputmode="decimal" step="any" min="0" placeholder="수량" class="hq" autocomplete="off" enterkeyhint="done" oninput="rRow(this.closest('.hr2'));uHT()" style="flex:.72;min-width:48px;text-align:right">
-  <span class="hl hul" style="padding:0 2px">${u}</span><span class="hl">×</span>
-  <input type="number" inputmode="decimal" step="any" min="0" class="hw" autocomplete="off" enterkeyhint="done" value="${w}" oninput="this.dataset.m=1;rRow(this.closest('.hr2'));uHT()" style="width:82px;text-align:center;padding:8px 6px">
+  d.innerHTML=`<input type="number" inputmode="decimal" step="any" min="0" placeholder="수량" class="hq needs-input" autocomplete="off" enterkeyhint="done" oninput="rRow(this.closest('.hr2'));uHT()" style="flex:1.1;min-width:55px;text-align:right;font-size:14px">
+  <span class="hl hul" style="padding:0 2px;font-size:11px">${u}</span><span class="hl">×</span>
+  <input type="number" inputmode="decimal" step="any" min="0" class="hw" autocomplete="off" enterkeyhint="done" value="${w}" oninput="this.dataset.m=1;rRow(this.closest('.hr2'));uHT()" style="width:68px;text-align:center;padding:8px 4px">
   <span class="hl">kg =</span>
-  <input type="number" inputmode="decimal" step="any" min="0" class="hres" autocomplete="off" enterkeyhint="done" placeholder="0" oninput="uHT()" style="flex:1.05;min-width:60px;text-align:right;background:#eafaf1">
+  <input type="number" inputmode="decimal" step="any" min="0" class="hres" autocomplete="off" enterkeyhint="done" placeholder="0" oninput="uHT()" style="flex:.9;min-width:55px;text-align:right;background:#eafaf1">
   <span class="hl">kg</span>
   <button class="rb" onclick="rmHR(this)">−</button>`;
   document.getElementById('hRows').appendChild(d);
@@ -450,7 +453,10 @@ function rRow(r){const qi=r.querySelector('.hq'),wi=r.querySelector('.hw');const
 function cfmRH(){if(!confirm('수확량 환산이 초기화됩니다. 그래도 초기화하시겠습니까?'))return;document.getElementById('hRows').innerHTML='';bldHR();uHT();}
 function uHT(){
   let tU=0,tK=0;
-  document.querySelectorAll('.hr2').forEach(r=>{tU+=parseFloat(r.querySelector('.hq').value)||0;tK+=parseFloat(r.querySelector('.hres').value)||0;});
+  document.querySelectorAll('.hr2').forEach(r=>{
+    const hq=r.querySelector('.hq');const v=parseFloat(hq.value)||0;tU+=v;hq.classList.toggle('needs-input',v<=0);
+    tK+=parseFloat(r.querySelector('.hres').value)||0;
+  });
   document.getElementById('tHU').textContent=f(r1(tU));
   document.getElementById('tHK').textContent=f(r1(tK));
   uRes();
@@ -477,7 +483,7 @@ function uRes(){
   const kg=gRaw('tHK'),sqm=gRaw('tSm');
   const p=sqm>0?r1(kg/sqm*1000):0;
   document.getElementById('resPer10a').textContent=f(p)+' kg';
-  document.getElementById('fmText').textContent=`계산식: (${f(kg)} kg ÷ ${f(sqm)} ㎡) × 1,000 = ${f(p)} kg/10a`;
+  document.getElementById('fmText').textContent=`계산식: 수확량합계(${f(kg)} kg) ÷ 재배면적(${f(sqm)} ㎡) × 1,000 = ${f(p)} kg/10a`;
   setSimpleCompare(p);
   uAll();
 }
@@ -606,6 +612,7 @@ function uRC(){
   document.getElementById('rCrop').textContent=sC||'-';
   document.getElementById('rReg').textContent=sR||'-';
   document.getElementById('rP10').textContent=p?f(p)+' kg':'-';
+  document.getElementById('rP10Fm').textContent=p?`수확량합계(${f(kg)} kg) ÷ 재배면적(${f(sqm)} ㎡) × 1,000`:'';
   document.getElementById('rArea').textContent=py?`${f(py)}평 (${f(sqm)}㎡)`:'-';
   document.getElementById('rKg').textContent=kg?f(kg)+' kg':'-';
   document.getElementById('rMemo').textContent=document.getElementById('memo')?.value||'-';
@@ -690,7 +697,8 @@ function resetAll(scrollTop=false){
   rstA();
   document.getElementById('hRows').innerHTML='';bldHR();
   document.getElementById('resPer10a').textContent='0 kg';
-  document.getElementById('fmText').textContent='계산식: (생산량 kg ÷ 면적 ㎡) × 1,000';
+  document.getElementById('fmText').textContent='계산식: 수확량합계(kg) ÷ 재배면적(㎡) × 1,000';
+  document.getElementById('rP10Fm').textContent='';
   setSimpleCompare(0);
   document.getElementById('kosisTb').innerHTML='';
   ['rAddr','rDate','rCrop','rReg','rP10','rAvg','rPrev','rArea','rKg','rMemo'].forEach(id=>{const e=document.getElementById(id);e.textContent='-';e.className='rv';});
