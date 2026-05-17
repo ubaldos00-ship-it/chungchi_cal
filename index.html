@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1a6b35">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>청취 10a당 생산량 계산기</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -27,8 +30,8 @@ html{overflow-y:scroll}
 input[type="text"],input[type="number"],input[type="date"],select,textarea{padding:10px 10px;border:1.5px solid #d5d8dc;border-radius:10px;font-size:16px;color:#1455d9;background:#fff;transition:all .2s;-webkit-appearance:none;appearance:none}
 input:focus,select:focus{outline:none;border-color:#27ae60;animation:blink .5s ease-in-out 2}
 @keyframes blink{0%{background:#fffde7}50%{background:#fff}100%{background:#fffde7}}
-input.needs-input,input.needs-input:focus{border-color:#F59E0B!important;background:#FFFBEB!important;box-shadow:0 0 0 3px rgba(245,158,11,.22)!important;animation:needsPulse 2s ease-in-out infinite;}
-@keyframes needsPulse{0%,100%{box-shadow:0 0 0 3px rgba(245,158,11,.22);}50%{box-shadow:0 0 0 5px rgba(245,158,11,.38);}}
+input.needs-input,input.needs-input:focus{border-color:#F59E0B!important;border-width:2.5px!important;background:#FFFBEB!important;box-shadow:none!important;animation:needsBlink 0.85s ease-in-out infinite;}
+@keyframes needsBlink{0%,100%{border-color:#F59E0B!important;box-shadow:0 0 0 2px rgba(245,158,11,.28)!important;}50%{border-color:#FFD700!important;box-shadow:0 0 0 5px rgba(255,215,0,.50)!important;}}
 input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#e0e0e0!important}
 .s1r{display:flex;gap:5px;align-items:center}
 .s1l{font-size:12px;color:#666;white-space:nowrap}
@@ -438,9 +441,9 @@ function uAT(){
 function bldHR(){
   const w=sC?CU[sC].w:18,u=sC?CU[sC].u:'컨테이너';
   const d=document.createElement('div');d.className='hr2';
-  d.innerHTML=`<input type="number" inputmode="decimal" step="any" min="0" placeholder="수량" class="hq needs-input" autocomplete="off" enterkeyhint="done" oninput="rRow(this.closest('.hr2'));uHT()" style="flex:1.1;min-width:55px;text-align:right;font-size:14px">
+  d.innerHTML=`<input type="number" inputmode="decimal" step="any" min="0" placeholder="수량" class="hq needs-input" autocomplete="off" enterkeyhint="done" oninput="rRow(this.closest('.hr2'));uHT()" style="flex:2;min-width:75px;text-align:right;font-size:15px">
   <span class="hl hul" style="padding:0 2px;font-size:11px">${u}</span><span class="hl">×</span>
-  <input type="number" inputmode="decimal" step="any" min="0" class="hw" autocomplete="off" enterkeyhint="done" value="${w}" oninput="this.dataset.m=1;rRow(this.closest('.hr2'));uHT()" style="width:68px;text-align:center;padding:8px 4px">
+  <input type="number" inputmode="decimal" step="any" min="0" class="hw" autocomplete="off" enterkeyhint="done" value="${w}" oninput="this.dataset.m=1;rRow(this.closest('.hr2'));uHT()" style="width:52px;text-align:center;padding:8px 3px">
   <span class="hl">kg =</span>
   <input type="number" inputmode="decimal" step="any" min="0" class="hres" autocomplete="off" enterkeyhint="done" placeholder="0" oninput="uHT()" style="flex:.9;min-width:55px;text-align:right;background:#eafaf1">
   <span class="hl">kg</span>
@@ -612,7 +615,7 @@ function uRC(){
   document.getElementById('rCrop').textContent=sC||'-';
   document.getElementById('rReg').textContent=sR||'-';
   document.getElementById('rP10').textContent=p?f(p)+' kg':'-';
-  document.getElementById('rP10Fm').textContent=p?`수확량합계(${f(kg)} kg) ÷ 재배면적(${f(sqm)} ㎡) × 1,000`:'';
+  document.getElementById('rP10Fm').textContent=p?`계산식: 수확량합계(${f(kg)} kg) ÷ 재배면적(${f(sqm)} ㎡) × 1,000 = ${f(p)} kg/10a`:'';
   document.getElementById('rArea').textContent=py?`${f(py)}평 (${f(sqm)}㎡)`:'-';
   document.getElementById('rKg').textContent=kg?f(kg)+' kg':'-';
   document.getElementById('rMemo').textContent=document.getElementById('memo')?.value||'-';
