@@ -344,7 +344,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   </div>
 </div>
 
-<div id="cjsTip" style="display:none;position:fixed;background:rgba(17,24,39,0.94);color:#fff;border-radius:14px;padding:10px 13px;z-index:999;box-shadow:0 6px 28px rgba(0,0,0,.45);min-width:155px;pointer-events:auto">
+<div id="cjsTip" style="display:none;position:absolute;background:rgba(17,24,39,0.94);color:#fff;border-radius:14px;padding:10px 13px;z-index:999;box-shadow:0 6px 28px rgba(0,0,0,.45);min-width:155px;pointer-events:auto">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;gap:10px">
     <span id="cjsTipTitle" style="font-weight:900;font-size:13px;color:#fff"></span>
     <button onclick="document.getElementById('cjsTip').style.display='none'" style="background:rgba(255,255,255,.16);border:none;color:#fff;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:18px;line-height:1;padding:0;flex-shrink:0;display:flex;align-items:center;justify-content:center">×</button>
@@ -535,11 +535,12 @@ function _extTip(context){
     </div>`;
   }).join('');
   const rect=chart.canvas.getBoundingClientRect();
-  const cx=rect.left+tooltip.caretX,cy=rect.top+tooltip.caretY;
+  const cx=rect.left+tooltip.caretX+window.scrollX,cy=rect.top+tooltip.caretY+window.scrollY;
   const tw=175,vw=window.innerWidth;
   let left=cx-tw/2;if(left<8)left=8;if(left+tw>vw-8)left=vw-tw-8;
   const tipH=tip.offsetHeight||120;
-  let top=cy-tipH-12;if(top<rect.top+5)top=cy+16;
+  const canvasPageTop=rect.top+window.scrollY;
+  let top=cy-tipH-12;if(top<canvasPageTop+5)top=cy+16;
   tip.style.left=left+'px';tip.style.top=top+'px';
   tip.style.display='block';
 }
