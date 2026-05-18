@@ -256,6 +256,13 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
       <div class="sc-box"><div class="sc-label">평년 대비</div><div class="sc-val neutral" id="simpleAvg">기준값 선택 전</div></div>
       <div class="sc-box"><div class="sc-label">전년 대비</div><div class="sc-val neutral" id="simplePrev">기준값 선택 전</div></div>
     </div>
+    <div id="pyeongCmpBox" style="display:none;margin-top:10px;border-radius:10px;overflow:hidden;border:1.5px solid #c8e6c9;">
+      <div style="background:#2e7d32;color:#fff;font-size:12px;font-weight:800;padding:6px 12px;">📐 평당(1평=3.3㎡) 생산량 비교</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+        <thead><tr style="background:#e8f5e9;"><th style="padding:5px 10px;text-align:left;color:#1b5e20;font-weight:700;font-size:11px;">구분</th><th style="padding:5px 8px;text-align:right;color:#1b5e20;font-weight:700;font-size:11px;">kg / 10a</th><th style="padding:5px 10px;text-align:right;color:#1b5e20;font-weight:700;font-size:11px;">kg / 평</th></tr></thead>
+        <tbody id="pyeongCmpBody"></tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -626,6 +633,8 @@ function uRC(){
   document.getElementById('rMemo').textContent=document.getElementById('memo')?.value||'-';
   const avgEl=document.getElementById('rAvg'), prevEl=document.getElementById('rPrev');
   avgEl.textContent='-'; prevEl.textContent='-'; avgEl.className='rv'; prevEl.className='rv';
+  const pyBox=document.getElementById('pyeongCmpBox');
+  const pyBody=document.getElementById('pyeongCmpBody');
   if(sC&&sR&&p>0){
     const rd=KD[sC]?.[sR];
     if(rd){
@@ -639,7 +648,22 @@ function uRC(){
       writeSummary(avgEl,avg);
       writeSummary(prevEl,prev);
       document.getElementById('rP10').className=(p>=avg)?'rv ri':'rv rd';
+      // 평당 비교표
+      if(pyBox&&pyBody){
+        const PY=302.5;
+        const fk=v=>v>0?Math.round(v).toLocaleString('ko-KR'):'—';
+        const fp=v=>v>0?(v/PY).toFixed(2):'—';
+        const rows=[
+          {label:'평년 ('+sR+' 5년 평균)',val:avg, bg:'#fff'},
+          {label:'전년 ('+sR+')',         val:prev,bg:'#f9fbe7'},
+          {label:'조사결과',              val:p,   bg:'#e3f2fd',bold:true,color:'#1a237e'}
+        ];
+        pyBody.innerHTML=rows.map(r=>`<tr style="background:${r.bg}"><td style="padding:6px 10px;${r.bold?'font-weight:800;color:'+r.color+';':''}">${r.label}</td><td style="padding:6px 8px;text-align:right;font-family:monospace;">${fk(r.val)}</td><td style="padding:6px 10px;text-align:right;font-family:monospace;${r.bold?'font-weight:800;color:#1565c0;font-size:14px;':''}">${fp(r.val)}</td></tr>`).join('');
+        pyBox.style.display='';
+      }
     }
+  } else {
+    if(pyBox) pyBox.style.display='none';
   }
 }
 
