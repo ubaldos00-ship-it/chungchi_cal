@@ -15,7 +15,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{background:#27500A;overflow-y:scroll;overscroll-behavior:none;}
 html,body{overscroll-behavior:none;touch-action:pan-x pan-y;font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;color:#1a1a2e;font-size:16px;line-height:1.55}
-body{padding:0 0 80px;background:#27500A;max-width:430px;margin:0 auto;min-height:100vh;box-shadow:0 0 28px rgba(0,0,0,.08)}
+body{padding:0 0 80px;background:#f4f7f4;max-width:430px;margin:0 auto;min-height:100vh;box-shadow:0 0 28px rgba(0,0,0,.08)}
 .header{position:sticky;top:0;z-index:100;background:#27500A;color:#fff;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.18)}
 .hd-left{display:flex;align-items:center;gap:10px}
 .hd-icon{width:38px;height:38px;background:rgba(255,255,255,.16);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:30px;line-height:1;box-shadow:0 1px 4px rgba(0,0,0,.12)}
@@ -127,7 +127,6 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .section-head .ct{margin-bottom:0}
 .memo-box{margin-top:12px;background:#f9fbf9;border:1.5px solid #d9eadb;border-radius:14px;padding:10px}
 .memo-box label{display:block;font-size:13px;font-weight:800;color:#27500A;margin-bottom:6px}
-.memo-box textarea{width:100%;min-height:74px;resize:vertical;color:#1f2937;line-height:1.5;font-size:15px;background:#fff}
 .chart-wrap{margin-top:6px;overflow:hidden;position:relative;height:260px}
 #kosisLine{display:block}
 .kosis-legend{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;background:#f8fafc;border:1px solid #dce4ee;border-radius:10px;padding:8px;margin:8px 0 10px;font-size:12px;font-weight:800;color:#374151}.kosis-legend span{display:flex;align-items:center;gap:5px}.dot{width:10px;height:10px;border-radius:50%;display:inline-block}.dot-n{background:#8b5cf6}.dot-g{background:#0b7a53}.dot-r{background:#e52828}.dot-b{background:#2563eb}.dot-p{background:#f59e0b}
@@ -140,6 +139,19 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .save-guide{padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.1);font-size:15px;line-height:1.7;color:#ddd}.save-guide b{color:#8fd36f}
 .save-actions{padding:16px 18px;display:grid;gap:10px}.save-main{width:100%;background:#3b8a4b;color:#fff;border:none;border-radius:14px;padding:15px;font-size:18px;font-weight:900}.save-sub{width:100%;background:#2d6cdf;color:#fff;border:none;border-radius:14px;padding:14px;font-size:16px;font-weight:800}.save-info{background:#242424;border-radius:14px;padding:12px 14px;color:#bbb;text-align:center;font-size:14px;line-height:1.6;word-break:break-all}.preview-box{background:#fff;margin:0 18px 18px;border-radius:16px;padding:10px;max-height:62vh;overflow:auto}.preview-box img{display:block;width:100%;height:auto;border-radius:10px}.hidden-canvas{position:absolute;left:-99999px;top:0;width:390px;background:#f4f7f4;padding:12px}
 @media(max-width:430px){.hd-t h1{font-size:16px}.hd-t p{font-size:11px}.home-btn{padding:8px 11px}.s1r{gap:4px}.s1l{font-size:11px}#address{max-width:42%}.btn{font-size:14px}.card{margin:9px 10px;padding:14px}.ct{font-size:15px}.modal-title{font-size:19px}}
+
+/* 작물 행 배치 */
+.crop-row{display:flex;gap:5px;width:100%;}
+.crop-row .bc{flex:1;}
+
+/* 드럼 피커 */
+.drum-wrap{position:relative;flex-shrink:0;width:72px;touch-action:none;}
+.drum-box{width:100%;height:46px;border:2px solid #27ae60;border-radius:10px;background:#eafaf1;cursor:ns-resize;user-select:none;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;-webkit-user-select:none;}
+.drum-cur{font-size:17px;font-weight:800;color:#27500A;line-height:1.1;}
+.drum-unit{font-size:10px;color:#666;font-weight:500;}
+.drum-arr{position:absolute;color:#27ae60;font-size:9px;line-height:1;left:0;right:0;text-align:center;}
+.drum-arr.up{top:3px;}.drum-arr.dn{bottom:3px;}
+.drum-box:active{background:#d5f5e3;}
 
 </style>
 </head>
@@ -184,16 +196,24 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
     </select>
   </div>
   <p style="font-size:12px;color:#555;margin-bottom:5px;margin-top:9px">■ 작물 선택</p>
-  <div class="bg">
-    <button class="bc" data-crop="사과" onclick="selCrop(this)">🍎사과</button>
-    <button class="bc" data-crop="배" onclick="selCrop(this)">🍐배</button>
-    <button class="bc" data-crop="고추" onclick="selCrop(this)">🌶️고추</button>
-    <button class="bc" data-crop="참깨" onclick="selCrop(this)">🌱참깨</button>
-    <button class="bc" data-crop="고구마" onclick="selCrop(this)">🍠고구마</button>
-    <button class="bc" data-crop="겉보리" onclick="selCrop(this)">🌾겉보리</button>
-    <button class="bc" data-crop="쌀보리" onclick="selCrop(this)">🌾쌀보리</button>
-    <button class="bc" data-crop="밀" onclick="selCrop(this)">🌾밀</button>
-    <button class="bc" data-crop="가을감자" onclick="selCrop(this)">🥔가을감자</button>
+  <div class="bg" style="flex-direction:column;gap:5px;">
+    <div class="crop-row">
+      <button class="bc" data-crop="사과" onclick="selCrop(this)">🍎사과</button>
+      <button class="bc" data-crop="배" onclick="selCrop(this)">🍐배</button>
+    </div>
+    <div class="crop-row">
+      <button class="bc" data-crop="고추" onclick="selCrop(this)">🌶️고추</button>
+      <button class="bc" data-crop="참깨" onclick="selCrop(this)">🌱참깨</button>
+    </div>
+    <div class="crop-row">
+      <button class="bc" data-crop="고구마" onclick="selCrop(this)">🍠고구마</button>
+      <button class="bc" data-crop="가을감자" onclick="selCrop(this)">🥔가을감자</button>
+    </div>
+    <div class="crop-row">
+      <button class="bc" data-crop="겉보리" onclick="selCrop(this)">🌾겉보리</button>
+      <button class="bc" data-crop="쌀보리" onclick="selCrop(this)">🌾쌀보리</button>
+      <button class="bc" data-crop="밀" onclick="selCrop(this)">🌾밀</button>
+    </div>
   </div>
   <div class="uib" id="uib"><span id="uibT"></span></div>
 </div>
@@ -239,7 +259,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   </div>
   <div class="memo-box">
     <label for="memo">비고</label>
-    <textarea id="memo" placeholder="피해상황 등 기타사항 기재" oninput="uAll()"></textarea>
+    <input type="text" id="memo" placeholder="피해상황 등 기타사항 기재" oninput="uAll()" style="width:100%;margin-top:6px;">
   </div>
 </div>
 
@@ -369,6 +389,17 @@ const KD={
   '가을감자':{'전국':[1591,1479,1643,1527,null],'대구':[1352,1402,1215,1188,null],'경북':[1556,1084,1621,1704,null],'강원':[2183,2053,2030,2013,null],'서울':[0,1089,2982,null,null],'부산':[935,941,988,1980,null],'인천':[303,2148,852,850,null],'광주':[1397,1406,1412,1432,null],'대전':[2369,2372,2387,2387,null],'울산':[1010,1036,924,822,null],'세종':[0,958,1017,1593,null],'경기':[1455,1089,2982,1251,null],'충북':[1463,1512,1404,1494,null],'충남':[1917,1763,2028,1718,null],'전북':[1672,1674,1761,1625,null],'전남':[1740,1803,1679,1428,null],'경남':[1428,1405,1446,1611,null],'제주':[1428,1279,1299,1405,null]}
 };
 const CU={'사과':{u:'컨테이너',w:18},'배':{u:'컨테이너',w:18},'고추':{u:'근',w:0.6},'참깨':{u:'되',w:1.2},'고구마':{u:'박스',w:10},'겉보리':{u:'톤백',w:500},'쌀보리':{u:'톤백',w:500},'밀':{u:'톤백',w:500},'가을감자':{u:'박스',w:10}};
+const WO={
+  '사과':[5,10,15,18,20],
+  '배':[5,10,15,18,20],
+  '고추':[0.6],
+  '참깨':[1.2],
+  '고구마':[5,10,15,20],
+  '가을감자':[5,10,15,20],
+  '겉보리':[10,20,40,100,500],
+  '쌀보리':[10,20,40,100,500],
+  '밀':[10,20,40,100,500]
+};
 const EM={'대구':'🏙️','경북':'🌄','강원':'⛰️','서울':'🗼','부산':'🌊','인천':'✈️','광주':'🌻','대전':'🚀','울산':'🏭','세종':'🏛️','경기':'🌿','충북':'🌲','충남':'🌾','전북':'🌻','전남':'🌊','경남':'🌺','제주':'🍊'};
 let sR='경북',sC=null;
 function updateHeadStatus(){
@@ -410,10 +441,22 @@ function selCrop(b){
   document.querySelectorAll('.hr2').forEach(row=>{
     row.querySelector('.hul').textContent=c.u;
     const wi=row.querySelector('.hw');
-    if(!wi.dataset.m)wi.value=c.w;
+    if(wi&&!wi.dataset.m)wi.value=c.w;
+    const db=row.querySelector('.drum-box');
+    if(db){
+      const newOpts=WO[sC]||[c.w];
+      const newIdx=Math.max(0,newOpts.indexOf(c.w));
+      db.dataset.options=JSON.stringify(newOpts);
+      db.dataset.idx=newIdx;
+      db.querySelector('.drum-cur').textContent=newOpts[newIdx];
+    }
     rRow(row);
   });
   uHT();updateHeadStatus();uAll();
+  // drum 유무가 바뀌면 rebuild
+  const hadDrum=!!document.querySelector('#hRows .drum-box');
+  const needDrum=(WO[sC]||[]).length>1;
+  if(hadDrum!==needDrum){document.getElementById('hRows').innerHTML='';bldHR();}
 }
 
 function cA(inp){const row=inp.closest('.ar');const p=parseFloat(inp.value)||0;const si=row.querySelector('.si');si.value=p?r1(p*3.3058):'';uAT();}
@@ -446,21 +489,96 @@ function uAT(){
   uRes();
 }
 
+let _audioCtx=null;
+function getAudioCtx(){if(!_audioCtx||_audioCtx.state==='closed'){_audioCtx=new(window.AudioContext||window.webkitAudioContext)();}return _audioCtx;}
+function playClick(speed){
+  try{
+    const ctx=getAudioCtx();
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.connect(gain);gain.connect(ctx.destination);
+    osc.type='sine';
+    osc.frequency.value=700+speed*30;
+    gain.gain.setValueAtTime(0.25,ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.06);
+    osc.start(ctx.currentTime);osc.stop(ctx.currentTime+0.06);
+  }catch(e){}
+}
+function initDrum(box){
+  let sY=0,lY=0,lT=0,dragging=false,lastStep=0;
+  function step(dir,dt){
+    const opts=JSON.parse(box.dataset.options);
+    let idx=parseInt(box.dataset.idx);
+    idx=(idx+dir+opts.length)%opts.length;
+    box.dataset.idx=idx;
+    box.querySelector('.drum-cur').textContent=opts[idx];
+    const speed=Math.min(15,Math.max(1,Math.round(200/Math.max(dt,20))));
+    playClick(speed);
+    const r=box.closest('.hr2');if(r){rRow(r);uHT();}
+  }
+  box.addEventListener('touchstart',e=>{
+    sY=lY=e.touches[0].clientY;lT=Date.now();dragging=true;lastStep=lY;
+    e.preventDefault();e.stopPropagation();
+  },{passive:false});
+  box.addEventListener('touchmove',e=>{
+    if(!dragging)return;
+    const y=e.touches[0].clientY;
+    const dy=lY-y;
+    const now=Date.now();
+    const dt=now-lT;
+    if(Math.abs(lastStep-y)>=22){
+      const dir=lastStep>y?1:-1;
+      step(dir,dt);
+      lastStep=y;lT=now;
+    }
+    lY=y;
+    e.preventDefault();e.stopPropagation();
+  },{passive:false});
+  box.addEventListener('touchend',e=>{dragging=false;e.preventDefault();},{passive:false});
+  // 클릭(탭)으로도 위/아래 화살표 클릭 가능
+  box.addEventListener('click',e=>{
+    const rect=box.getBoundingClientRect();
+    const rel=(e.clientY-rect.top)/rect.height;
+    if(rel<0.4)step(-1,200);
+    else if(rel>0.6)step(1,200);
+  });
+}
+
 function bldHR(){
-  const w=sC?CU[sC].w:18,u=sC?CU[sC].u:'컨테이너';
+  const crop=sC, cu=crop?CU[crop]:{u:'컨테이너',w:18};
+  const w=cu.w, u=cu.u;
+  const opts=WO[crop]||[w];
+  const hasDrum=opts.length>1;
+  const defIdx=Math.max(0,opts.indexOf(w));
   const d=document.createElement('div');d.className='hr2';
-  d.innerHTML=`<input type="number" inputmode="decimal" step="any" min="0" placeholder="수량" class="hq needs-input" autocomplete="off" enterkeyhint="done" oninput="rRow(this.closest('.hr2'));uHT()" style="flex:2;min-width:75px;text-align:right;font-size:15px">
+  const drumHtml=hasDrum?
+    `<div class="drum-wrap"><div class="drum-box" data-options='${JSON.stringify(opts)}' data-idx="${defIdx}">
+      <div class="drum-arr up">▲</div>
+      <div class="drum-cur">${opts[defIdx]}</div>
+      <div class="drum-unit">kg</div>
+      <div class="drum-arr dn">▼</div>
+    </div></div>`:
+    `<input type="number" inputmode="decimal" step="any" min="0" class="hw" autocomplete="off" value="${w}" oninput="this.dataset.m=1;rRow(this.closest('.hr2'));uHT()" style="width:60px;text-align:center;padding:8px 3px">`;
+  d.innerHTML=`<input type="number" inputmode="decimal" step="any" min="0" placeholder="수량" class="hq needs-input" autocomplete="off" enterkeyhint="done" oninput="rRow(this.closest('.hr2'));uHT()" style="flex:1.2;min-width:55px;text-align:right;font-size:15px">
   <span class="hl hul" style="padding:0 2px;font-size:11px">${u}</span><span class="hl">×</span>
-  <input type="number" inputmode="decimal" step="any" min="0" class="hw" autocomplete="off" enterkeyhint="done" value="${w}" oninput="this.dataset.m=1;rRow(this.closest('.hr2'));uHT()" style="width:52px;text-align:center;padding:8px 3px">
+  ${drumHtml}
   <span class="hl">kg =</span>
-  <input type="number" inputmode="decimal" step="any" min="0" class="hres" autocomplete="off" enterkeyhint="done" placeholder="0" oninput="uHT()" style="flex:.9;min-width:55px;text-align:right;background:#eafaf1">
+  <input type="number" inputmode="decimal" step="any" min="0" class="hres" autocomplete="off" placeholder="0" oninput="uHT()" style="flex:.9;min-width:52px;text-align:right;background:#eafaf1">
   <span class="hl">kg</span>
   <button class="rb" onclick="rmHR(this)">−</button>`;
   document.getElementById('hRows').appendChild(d);
+  if(hasDrum){const box=d.querySelector('.drum-box');initDrum(box);}
 }
 function addHR(){bldHR();}
 function rmHR(b){if(document.querySelectorAll('.hr2').length>1){b.closest('.hr2').remove();uHT();}}
-function rRow(r){const qi=r.querySelector('.hq'),wi=r.querySelector('.hw');const q=parseFloat(qi.value)||0,w=parseFloat(wi.value)||0;const res=r.querySelector('.hres');res.value=q&&w?r1(q*w):'';}
+function rRow(r){
+  const qi=r.querySelector('.hq'),wi=r.querySelector('.hw'),db=r.querySelector('.drum-box');
+  const q=parseFloat(qi.value)||0;
+  let w=0;
+  if(db){const opts=JSON.parse(db.dataset.options);w=opts[parseInt(db.dataset.idx)]||0;}
+  else if(wi){w=parseFloat(wi.value)||0;}
+  const res=r.querySelector('.hres');res.value=q&&w?r1(q*w):'';
+}
 function cfmRH(){if(!confirm('수확량 환산이 초기화됩니다. 그래도 초기화하시겠습니까?'))return;document.getElementById('hRows').innerHTML='';bldHR();uHT();}
 function uHT(){
   let tU=0,tK=0;
