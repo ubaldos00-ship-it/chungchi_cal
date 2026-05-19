@@ -55,8 +55,8 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .tv{font-size:22px;font-weight:900;color:#0f7a3a;letter-spacing:-.5px}
 .tl{font-size:12px;color:#6b7280;font-weight:700}
 .sb{background:#eafaf1;border:2px solid #27ae60;border-radius:11px;padding:13px;margin-top:7px}
-.sv{font-size:22px;font-weight:800;color:#27500A}
-.fm{font-size:10px;color:#888;margin-top:4px;word-break:break-all}
+.sv{font-size:22px;font-weight:800;color:#27500A;text-align:center}
+.fm{font-size:10px;color:#888;margin-top:4px;word-break:break-all;text-align:center}
 .dt{width:100%;border-collapse:collapse;font-size:11px;margin-top:7px}
 .dt th{background:#27500A;color:#fff;padding:6px 3px;text-align:center;font-weight:600}
 .dt td{padding:5px 3px;text-align:center;border-bottom:1px solid #eee}
@@ -67,8 +67,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .ah h3{font-size:13px;font-weight:600;color:#27500A}
 .ab{display:none;padding-top:7px}
 .ab.op{display:block}
-.ch{transition:transform .2s;font-size:11px;color:#888}
-.ch.op{transform:rotate(180deg)}
+.acc-toggle{font-size:12px;font-weight:700;color:#27500A;background:#eaf3e6;border-radius:8px;padding:3px 10px;user-select:none;white-space:nowrap;}
 .rc{background:linear-gradient(135deg,#f7fbf7,#eef8f0);color:#173b27;margin:10px 12px;border:1px solid #cfe7d2;border-radius:16px;padding:15px;box-shadow:0 2px 10px rgba(26,107,53,.10)}
 .rr{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(26,107,53,.12);gap:12px}
 .rr:last-child{border:none}
@@ -152,6 +151,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .drum-arr{position:absolute;color:#27ae60;font-size:9px;line-height:1;left:0;right:0;text-align:center;}
 .drum-arr.up{top:3px;}.drum-arr.dn{bottom:3px;}
 .drum-box:active{background:#d5f5e3;}
+.drum-inp{display:none;position:absolute;inset:0;width:100%;height:100%;text-align:center;font-size:17px;font-weight:800;color:#27500A;background:#fff;border:2px solid #27ae60;border-radius:10px;z-index:10;padding:0;box-sizing:border-box;-webkit-appearance:none;appearance:none;}
 
 </style>
 </head>
@@ -165,7 +165,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 </div>
 
 <div class="card" id="commonCard">
-  <div class="section-head"><div class="ct"><span class="n">1</span>공통사항</div><button class="btn bd bsm" onclick="resetAll()">🔄 전체 초기화</button></div>
+  <div class="section-head"><div class="ct"><span class="n">1</span>공통사항</div><button class="btn bd bsm" onclick="resetAll()">🔄 초기화</button></div>
   <p class="desc">조사필지와 조사일자를 입력하세요.</p>
   <div class="s1r">
     <span class="s1l">필지</span>
@@ -266,7 +266,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 <div class="card">
   <div class="ct"><span class="n">5</span>간단 결과보기</div>
   <div class="sb">
-    <div style="font-size:12px;color:#555">10a당 생산량</div>
+    <div style="font-size:12px;color:#555;text-align:center">10a당 생산량</div>
     <div class="sv" id="resPer10a">0 kg</div>
     <div class="fm" id="fmText">계산식: 수확량합계(kg) ÷ 재배면적(㎡) × 1,000</div>
     <div class="simple-compare">
@@ -286,7 +286,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 <div class="card">
   <div class="ct"><span class="n">6</span>지역별 5년 10a당 생산량 (kg/10a)</div>
   <div class="ah" onclick="togAcc(this)">
-    <h3>📊 그래프·통계표 보기</h3><span class="ch op">▼</span>
+    <h3>📊 그래프·통계표 보기</h3><span class="acc-toggle">접기</span>
   </div>
   <div class="ab op" id="kosisBody">
     <div class="chart-wrap"><canvas id="kosisLine" width="680" height="320"></canvas></div>
@@ -346,7 +346,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 
 <div class="ss">
   <div class="bottom-actions">
-    <button class="bottom-reset" onclick="resetAll(true)">🔄 전체 초기화</button>
+    <button class="bottom-reset" onclick="resetAll(true)">🔄 초기화</button>
     <button class="bottom-save" onclick="saveImg()">🖼️ 결과 이미지로 저장</button>
   </div>
 </div>
@@ -502,11 +502,13 @@ function playClick(speed){
   }catch(e){}
 }
 function initDrum(box){
+  const inp=box.parentNode.querySelector('.drum-inp');
   let lY=0,lT=0,moved=false;
   function setVal(v){
     v=Math.min(1000,Math.max(1,Math.round(v)));
     box.dataset.val=v;
     box.querySelector('.drum-cur').textContent=v;
+    if(inp)inp.value=v;
     const r=box.closest('.hr2');if(r){rRow(r);uHT();}
   }
   function doStep(dir,dt){
@@ -517,20 +519,18 @@ function initDrum(box){
     playClick(speed);
   }
   function showInput(){
-    const cur=box.dataset.val;
-    const inp=document.createElement('input');
-    inp.type='number';inp.inputMode='numeric';inp.min=1;inp.max=1000;inp.value=cur;
-    inp.style.cssText='position:absolute;inset:0;width:100%;height:100%;text-align:center;font-size:17px;font-weight:800;color:#27500A;background:#fff;border:2px solid #27ae60;border-radius:10px;z-index:10;padding:0;box-sizing:border-box;';
-    box.style.position='relative';
-    box.appendChild(inp);
-    setTimeout(()=>{inp.focus();inp.select();},50);
-    function done(){
+    if(!inp)return;
+    inp.value=box.dataset.val;
+    inp.style.display='block';
+    inp.focus();
+  }
+  if(inp){
+    inp.addEventListener('blur',()=>{
       const v=parseInt(inp.value);
-      if(!isNaN(v))setVal(v);
-      if(inp.parentNode)inp.remove();
-    }
-    inp.addEventListener('blur',done);
-    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){inp.blur();}});
+      if(!isNaN(v)&&v>=1&&v<=1000)setVal(v);
+      inp.style.display='none';
+    });
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter')inp.blur();});
   }
   box.addEventListener('touchstart',e=>{
     lY=e.touches[0].clientY;lT=Date.now();moved=false;
@@ -538,8 +538,7 @@ function initDrum(box){
   },{passive:false});
   box.addEventListener('touchmove',e=>{
     const y=e.touches[0].clientY;
-    const now=Date.now();
-    const dt=now-lT;
+    const now=Date.now();const dt=now-lT;
     if(Math.abs(y-lY)>=18){
       moved=true;
       const dir=lY>y?1:-1;
@@ -549,9 +548,13 @@ function initDrum(box){
     e.preventDefault();e.stopPropagation();
   },{passive:false});
   box.addEventListener('touchend',e=>{
-    if(!moved)showInput();
+    if(!moved){
+      // preventDefault 미호출 → iOS 키보드 정상 표시
+      showInput();
+    } else {
+      e.preventDefault();
+    }
     moved=false;
-    e.preventDefault();
   },{passive:false});
   box.addEventListener('click',e=>{
     const rect=box.getBoundingClientRect();
@@ -570,11 +573,14 @@ function bldHR(){
   const defIdx=Math.max(0,opts.indexOf(w));
   const d=document.createElement('div');d.className='hr2';
   const drumHtml=hasDrum?
-    `<div class="drum-wrap"><div class="drum-box" data-val="${w}">
-      <div class="drum-arr up">▲</div>
-      <div class="drum-cur">${w}</div>
-      <div class="drum-arr dn">▼</div>
-    </div></div>`:
+    `<div class="drum-wrap">
+      <div class="drum-box" data-val="${w}">
+        <div class="drum-arr up">▲</div>
+        <div class="drum-cur">${w}</div>
+        <div class="drum-arr dn">▼</div>
+      </div>
+      <input type="number" inputmode="numeric" min="1" max="1000" class="drum-inp" value="${w}">
+    </div>`:
     `<input type="number" inputmode="decimal" step="any" min="0" class="hw" autocomplete="off" value="${w}" oninput="this.dataset.m=1;rRow(this.closest('.hr2'));uHT()" style="width:60px;text-align:center;padding:8px 3px">`;
   d.innerHTML=`<input type="number" inputmode="decimal" step="any" min="0" placeholder="수량" class="hq needs-input" autocomplete="off" enterkeyhint="done" oninput="rRow(this.closest('.hr2'));uHT()" style="flex:1.2;min-width:55px;text-align:right;font-size:15px">
   <span class="hl hul" style="padding:0 2px;font-size:11px">${u}</span><span class="hl">×</span>
@@ -845,7 +851,12 @@ function uCh(){
   document.getElementById('regBars').innerHTML=h;
 }
 
-function togAcc(h){const b=h.nextElementSibling,c=h.querySelector('.ch');b.classList.toggle('op');c.classList.toggle('op');}
+function togAcc(h){
+  const b=h.nextElementSibling,t=h.querySelector('.acc-toggle');
+  const isOpen=b.classList.toggle('op');
+  t.textContent=isOpen?'접기':'펼치기';
+  if(!isOpen){const tip=document.getElementById('cjsTip');if(tip)tip.style.display='none';}
+}
 
 function resetAll(scrollTop=false){
   if(!confirm('모든 입력을 초기화하시겠습니까?'))return;
