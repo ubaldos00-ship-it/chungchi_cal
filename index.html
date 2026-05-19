@@ -444,11 +444,8 @@ function selCrop(b){
     if(wi&&!wi.dataset.m)wi.value=c.w;
     const db=row.querySelector('.drum-box');
     if(db){
-      const newOpts=WO[sC]||[c.w];
-      const newIdx=Math.max(0,newOpts.indexOf(c.w));
-      db.dataset.options=JSON.stringify(newOpts);
-      db.dataset.idx=newIdx;
-      db.querySelector('.drum-cur').textContent=newOpts[newIdx];
+      db.dataset.val=c.w;
+      db.querySelector('.drum-cur').textContent=c.w;
     }
     rRow(row);
   });
@@ -505,42 +502,63 @@ function playClick(speed){
   }catch(e){}
 }
 function initDrum(box){
-  let sY=0,lY=0,lT=0,dragging=false,lastStep=0;
-  function step(dir,dt){
-    const opts=JSON.parse(box.dataset.options);
-    let idx=parseInt(box.dataset.idx);
-    idx=(idx+dir+opts.length)%opts.length;
-    box.dataset.idx=idx;
-    box.querySelector('.drum-cur').textContent=opts[idx];
-    const speed=Math.min(15,Math.max(1,Math.round(200/Math.max(dt,20))));
-    playClick(speed);
+  let lY=0,lT=0,moved=false;
+  function setVal(v){
+    v=Math.min(1000,Math.max(1,Math.round(v)));
+    box.dataset.val=v;
+    box.querySelector('.drum-cur').textContent=v;
     const r=box.closest('.hr2');if(r){rRow(r);uHT();}
   }
+  function doStep(dir,dt){
+    const cur=parseInt(box.dataset.val)||1;
+    const speed=Math.min(15,Math.max(1,Math.round(200/Math.max(dt,20))));
+    const inc=speed>=10?10:speed>=6?5:speed>=3?2:1;
+    setVal(cur+dir*inc);
+    playClick(speed);
+  }
+  function showInput(){
+    const cur=box.dataset.val;
+    const inp=document.createElement('input');
+    inp.type='number';inp.inputMode='numeric';inp.min=1;inp.max=1000;inp.value=cur;
+    inp.style.cssText='position:absolute;inset:0;width:100%;height:100%;text-align:center;font-size:17px;font-weight:800;color:#27500A;background:#fff;border:2px solid #27ae60;border-radius:10px;z-index:10;padding:0;box-sizing:border-box;';
+    box.style.position='relative';
+    box.appendChild(inp);
+    setTimeout(()=>{inp.focus();inp.select();},50);
+    function done(){
+      const v=parseInt(inp.value);
+      if(!isNaN(v))setVal(v);
+      if(inp.parentNode)inp.remove();
+    }
+    inp.addEventListener('blur',done);
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){inp.blur();}});
+  }
   box.addEventListener('touchstart',e=>{
-    sY=lY=e.touches[0].clientY;lT=Date.now();dragging=true;lastStep=lY;
+    lY=e.touches[0].clientY;lT=Date.now();moved=false;
     e.preventDefault();e.stopPropagation();
   },{passive:false});
   box.addEventListener('touchmove',e=>{
-    if(!dragging)return;
     const y=e.touches[0].clientY;
-    const dy=lY-y;
     const now=Date.now();
     const dt=now-lT;
-    if(Math.abs(lastStep-y)>=22){
-      const dir=lastStep>y?1:-1;
-      step(dir,dt);
-      lastStep=y;lT=now;
+    if(Math.abs(y-lY)>=18){
+      moved=true;
+      const dir=lY>y?1:-1;
+      doStep(dir,dt);
+      lY=y;lT=now;
     }
-    lY=y;
     e.preventDefault();e.stopPropagation();
   },{passive:false});
-  box.addEventListener('touchend',e=>{dragging=false;e.preventDefault();},{passive:false});
-  // 클릭(탭)으로도 위/아래 화살표 클릭 가능
+  box.addEventListener('touchend',e=>{
+    if(!moved)showInput();
+    moved=false;
+    e.preventDefault();
+  },{passive:false});
   box.addEventListener('click',e=>{
     const rect=box.getBoundingClientRect();
     const rel=(e.clientY-rect.top)/rect.height;
-    if(rel<0.4)step(-1,200);
-    else if(rel>0.6)step(1,200);
+    if(rel<0.35)doStep(-1,200);
+    else if(rel>0.65)doStep(1,200);
+    else showInput();
   });
 }
 
@@ -552,10 +570,9 @@ function bldHR(){
   const defIdx=Math.max(0,opts.indexOf(w));
   const d=document.createElement('div');d.className='hr2';
   const drumHtml=hasDrum?
-    `<div class="drum-wrap"><div class="drum-box" data-options='${JSON.stringify(opts)}' data-idx="${defIdx}">
+    `<div class="drum-wrap"><div class="drum-box" data-val="${w}">
       <div class="drum-arr up">▲</div>
-      <div class="drum-cur">${opts[defIdx]}</div>
-      <div class="drum-unit">kg</div>
+      <div class="drum-cur">${w}</div>
       <div class="drum-arr dn">▼</div>
     </div></div>`:
     `<input type="number" inputmode="decimal" step="any" min="0" class="hw" autocomplete="off" value="${w}" oninput="this.dataset.m=1;rRow(this.closest('.hr2'));uHT()" style="width:60px;text-align:center;padding:8px 3px">`;
@@ -575,7 +592,7 @@ function rRow(r){
   const qi=r.querySelector('.hq'),wi=r.querySelector('.hw'),db=r.querySelector('.drum-box');
   const q=parseFloat(qi.value)||0;
   let w=0;
-  if(db){const opts=JSON.parse(db.dataset.options);w=opts[parseInt(db.dataset.idx)]||0;}
+  if(db){w=parseFloat(db.dataset.val)||0;}
   else if(wi){w=parseFloat(wi.value)||0;}
   const res=r.querySelector('.hres');res.value=q&&w?r1(q*w):'';
 }
