@@ -23,9 +23,9 @@ body{padding:0 0 80px;background:#f4f7f4;max-width:430px;margin:0 auto;min-heigh
 .hd-t p{font-size:11px;opacity:.8}
 .hd-status{display:inline-block;margin-left:6px;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.18);color:#fff2a6;font-size:12px;font-weight:900;vertical-align:middle}
 .home-btn{background:rgba(255,255,255,.2);border:none;color:#fff;padding:7px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap}
-.card{background:#fff;margin:10px 12px;border-radius:16px;padding:15px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.ct{font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;color:#27500A}
-.ct .n{background:#27500A;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.card{background:#fff;margin:10px 12px;border-radius:16px;padding:15px;box-shadow:0 2px 10px rgba(0,0,0,.06);}
+.ct{font-size:15px;font-weight:800;margin:-15px -15px 12px -15px;padding:11px 15px;display:flex;align-items:center;gap:8px;color:#fff;background:#27500A;border-radius:16px 16px 0 0;}
+.ct .n{background:rgba(255,255,255,0.22);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;}
 .desc{color:#c0392b;font-size:12px;margin-bottom:9px;font-weight:500}
 input[type="text"],input[type="number"],input[type="date"],select,textarea{padding:10px 10px;border:1.5px solid #d5d8dc;border-radius:10px;font-size:16px;color:#1455d9;background:#fff;transition:all .2s;-webkit-appearance:none;appearance:none}
 input:focus,select:focus{outline:none;border-color:#27ae60;animation:blink .5s ease-in-out 2}
@@ -40,10 +40,10 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .bp{background:#27ae60;color:#fff}.bd{background:#fff;color:#c0392b;border:1.5px solid #f5b7b1}.bdk{background:#2c3e50;color:#fff}
 .bsm{padding:6px 12px;font-size:12px;min-height:34px;border-radius:8px}
 .bg{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px}
-.bc{padding:7px 11px;border:2px solid #d5d8dc;border-radius:9px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
-.bc.on{border-color:#27ae60;background:#eafaf1;color:#27500A}
-.brg{padding:7px 12px;border:2px solid #d5d8dc;border-radius:9px;background:#fff;font-size:13px;font-weight:600;cursor:pointer}
-.brg.on{border-color:#27ae60;background:#eafaf1;color:#1e8449}
+.bc{padding:11px 6px;border:2px solid #d5d8dc;border-radius:9px;background:#fff;font-size:16px;font-weight:700;cursor:pointer;white-space:nowrap;text-align:center;}
+.bc.on{border-color:#27ae60;background:#eafaf1;color:#27500A;}
+.brg{padding:13px 0;border:2px solid #d5d8dc;border-radius:12px;background:#fff;font-size:17px;font-weight:800;cursor:pointer;flex:1;text-align:center;}
+.brg.on{border-color:#27ae60;background:#eafaf1;color:#1e8449;}
 .ar{display:flex;gap:3px;align-items:center;margin-bottom:5px}
 .au{font-size:13px;font-weight:700;color:#333;flex-shrink:0}
 .aa{color:#27ae60;font-weight:700;font-size:14px;flex-shrink:0;padding:0 2px}
@@ -122,8 +122,9 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 
 .btn-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:9px}
 .btn-row .left{margin-right:auto}.btn-row .right{margin-left:auto}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
-.section-head .ct{margin-bottom:0}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#27500A;border-radius:16px 16px 0 0;margin:-15px -15px 12px -15px;padding:7px 12px 7px 15px;}
+.section-head .ct{margin:0;padding:0;background:transparent;border-radius:0;flex:1;}
+.section-head .btn.bd{background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.4);flex-shrink:0;}
 .memo-box{margin-top:12px;background:#f9fbf9;border:1.5px solid #d9eadb;border-radius:14px;padding:10px}
 .memo-box label{display:block;font-size:13px;font-weight:800;color:#27500A;margin-bottom:6px}
 .chart-wrap{margin-top:6px;overflow:hidden;position:relative;height:260px}
@@ -180,20 +181,10 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   <div class="ct"><span class="n">2</span>지역 및 작물 선택</div>
   <p class="desc">지역 및 작물을 선택하세요.</p>
   <p style="font-size:12px;color:#555;margin-bottom:5px">■ 지역 선택</p>
-  <div class="bg">
+  <div class="bg" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
     <button class="brg" data-region="대구" onclick="selReg(this)">대구</button>
     <button class="brg on" data-region="경북" onclick="selReg(this)">경북</button>
     <button class="brg" data-region="강원" onclick="selReg(this)">강원</button>
-    <select id="otherReg" style="flex:1;min-width:80px;padding:7px;border:2px solid #d5d8dc;border-radius:9px;font-size:13px;color:blue" onchange="selOtherReg(this)">
-      <option value="">기타 시도</option>
-      <option value="서울">서울</option><option value="부산">부산</option>
-      <option value="인천">인천</option><option value="광주">광주</option>
-      <option value="대전">대전</option><option value="울산">울산</option>
-      <option value="세종">세종</option><option value="경기">경기</option>
-      <option value="충북">충북</option><option value="충남">충남</option>
-      <option value="전북">전북</option><option value="전남">전남</option>
-      <option value="경남">경남</option><option value="제주">제주</option>
-    </select>
   </div>
   <p style="font-size:12px;color:#555;margin-bottom:5px;margin-top:9px">■ 작물 선택</p>
   <div class="bg" style="flex-direction:column;gap:5px;">
@@ -258,7 +249,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
     <div class="ti"><div class="tv" id="tHK">0</div><div class="tl">생산량 합계 (kg)</div></div>
   </div>
   <div class="memo-box">
-    <label for="memo">비고</label>
+    <label for="memo">비고 및 판매처 등</label>
     <input type="text" id="memo" placeholder="피해상황 등 기타사항 기재" oninput="uAll()" style="width:100%;margin-top:6px;">
   </div>
 </div>
@@ -314,7 +305,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   <div class="rr"><span class="rl">전년 대비</span><span class="rv" id="rPrev">-</span></div>
   <div class="rr"><span class="rl">재배면적</span><span class="rv" id="rArea">-</span></div>
   <div class="rr"><span class="rl">총 생산량</span><span class="rv" id="rKg">-</span></div>
-  <div class="rr"><span class="rl">비고</span><span class="rv" id="rMemo">-</span></div>
+  <div class="rr"><span class="rl">비고 및 판매처 등</span><span class="rv" id="rMemo">-</span></div>
 </div>
 
 <div class="cc">
@@ -368,7 +359,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   </div>
 </div>
 
-<div id="cjsTip" style="display:none;position:absolute;background:rgba(17,24,39,0.94);color:#fff;border-radius:14px;padding:10px 13px;z-index:999;box-shadow:0 6px 28px rgba(0,0,0,.45);min-width:155px;pointer-events:auto">
+<div id="cjsTip" style="display:none;position:fixed;background:rgba(17,24,39,0.94);color:#fff;border-radius:14px;padding:10px 13px;z-index:90;box-shadow:0 6px 28px rgba(0,0,0,.45);min-width:155px;pointer-events:auto">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;gap:10px">
     <span id="cjsTipTitle" style="font-weight:900;font-size:13px;color:#fff"></span>
     <button onclick="document.getElementById('cjsTip').style.display='none'" style="background:rgba(255,255,255,.16);border:none;color:#fff;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:18px;line-height:1;padding:0;flex-shrink:0;display:flex;align-items:center;justify-content:center">×</button>
@@ -428,7 +419,7 @@ bldHR();
 requestAnimationFrame(()=>{const apple=document.querySelector('.bc[data-crop="사과"]'); if(apple) selCrop(apple);});
 function goHome(){if(confirm('모든 데이터가 초기화됩니다. 홈으로 가시겠습니까?')){location.href='https://ubaldos00-ship-it.github.io/home';}}
 
-function selReg(b){document.querySelectorAll('.brg').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.getElementById('otherReg').value='';sR=b.dataset.region;updateHeadStatus();uAll();}
+function selReg(b){document.querySelectorAll('.brg').forEach(x=>x.classList.remove('on'));b.classList.add('on');sR=b.dataset.region;updateHeadStatus();uAll();}
 function selOtherReg(s){if(!s.value)return;document.querySelectorAll('.brg').forEach(x=>x.classList.remove('on'));sR=s.value;updateHeadStatus();uAll();}
 function selCrop(b){
   document.querySelectorAll('.bc').forEach(x=>x.classList.remove('on'));b.classList.add('on');sC=b.dataset.crop;
@@ -523,6 +514,7 @@ function initDrum(box){
     inp.value=box.dataset.val;
     inp.style.display='block';
     inp.focus();
+    try{ inp.select(); }catch(e){}
   }
   if(inp){
     inp.addEventListener('blur',()=>{
@@ -680,12 +672,14 @@ function _extTip(context){
     </div>`;
   }).join('');
   const rect=chart.canvas.getBoundingClientRect();
-  const cx=rect.left+tooltip.caretX+window.scrollX,cy=rect.top+tooltip.caretY+window.scrollY;
+  // position:fixed → 뷰포트 좌표 사용 (scrollX/Y 불필요)
+  const cx=rect.left+tooltip.caretX, cy=rect.top+tooltip.caretY;
   const tw=175,vw=window.innerWidth;
   let left=cx-tw/2;if(left<8)left=8;if(left+tw>vw-8)left=vw-tw-8;
   const tipH=tip.offsetHeight||120;
-  const canvasPageTop=rect.top+window.scrollY;
-  let top=cy-tipH-12;if(top<canvasPageTop+5)top=cy+16;
+  const hdrH=(document.querySelector('.header')?.offsetHeight||60)+5;
+  let top=cy-tipH-12;if(top<rect.top+5)top=cy+16;
+  if(top<hdrH)top=hdrH; // 헤더 아래로 제한
   tip.style.left=left+'px';tip.style.top=top+'px';
   tip.style.display='block';
 }
