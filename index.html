@@ -17,13 +17,15 @@ html{background:#27500A;overflow-y:scroll;overscroll-behavior:none;}
 html,body{overscroll-behavior:none;touch-action:pan-x pan-y;font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;color:#1a1a2e;font-size:16px;line-height:1.55}
 body{padding:0 0 80px;background:#f4f7f4;max-width:430px;margin:0 auto;min-height:100vh;box-shadow:0 0 28px rgba(0,0,0,.08)}
 .header{position:sticky;top:0;z-index:100;background:#27500A;color:#fff;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.18)}
-.hd-left{display:flex;align-items:center;gap:10px}
-.hd-icon{width:38px;height:38px;background:rgba(255,255,255,.16);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:30px;line-height:1;box-shadow:0 1px 4px rgba(0,0,0,.12)}
-.hd-t h1{font-size:15px;font-weight:700;white-space:nowrap}
-.hd-t p{font-size:11px;opacity:.8}
-.hd-status{display:inline-block;margin-left:6px;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.18);color:#fff2a6;font-size:12px;font-weight:900;vertical-align:middle}
-.home-btn{background:rgba(255,255,255,.2);border:none;color:#fff;padding:7px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap}
-.card{background:#fff;margin:10px 12px;border-radius:16px;padding:15px;box-shadow:0 2px 10px rgba(0,0,0,.06);}
+.hd-left{display:flex;align-items:center;gap:8px;min-width:0;flex:1;}
+.hd-icon{width:32px;height:32px;background:rgba(255,255,255,.16);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:24px;line-height:1;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.hd-t{min-width:0;overflow:hidden;}
+.hd-t h1{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hd-t p{font-size:10px;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
+.hd-t .hd-ver{display:block;font-size:9px;opacity:.6;margin-top:1px;letter-spacing:-.01em;}
+.hd-status{display:inline-block;margin-left:4px;padding:1px 6px;border-radius:999px;background:rgba(255,255,255,.18);color:#fff2a6;font-size:11px;font-weight:900;vertical-align:middle}
+.home-btn{background:rgba(255,255,255,.2);border:none;color:#fff;padding:5px 9px;border-radius:8px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:36px;line-height:1.3;}
+.card{background:#fff;margin:10px 12px;border-radius:16px;padding:15px;box-shadow:0 2px 10px rgba(0,0,0,.06);overflow:hidden;}
 .ct{font-size:15px;font-weight:800;margin:-15px -15px 12px -15px;padding:11px 15px;display:flex;align-items:center;gap:8px;color:#27500A;background:#eef4eb;border-radius:16px 16px 0 0;border-bottom:1px solid #cfe0c9;}
 .ct .n{background:#27500A;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;}
 .desc{color:#c0392b;font-size:12px;margin-bottom:9px;font-weight:500}
@@ -138,18 +140,37 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .modal-title{font-size:21px;font-weight:900}.close-btn{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5);border-radius:24px;padding:8px 16px;font-size:16px;font-weight:800}
 .save-guide{padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.1);font-size:15px;line-height:1.7;color:#ddd}.save-guide b{color:#8fd36f}
 .save-actions{padding:16px 18px;display:grid;gap:10px}.save-main{width:100%;background:#3b8a4b;color:#fff;border:none;border-radius:14px;padding:15px;font-size:18px;font-weight:900}.save-sub{width:100%;background:#2d6cdf;color:#fff;border:none;border-radius:14px;padding:14px;font-size:16px;font-weight:800}.save-info{background:#242424;border-radius:14px;padding:12px 14px;color:#bbb;text-align:center;font-size:14px;line-height:1.6;word-break:break-all}.preview-box{background:#fff;margin:0 18px 18px;border-radius:16px;padding:10px;max-height:62vh;overflow:auto}.preview-box img{display:block;width:100%;height:auto;border-radius:10px}.hidden-canvas{position:absolute;left:-99999px;top:0;width:390px;background:#f4f7f4;padding:12px}
-@media(max-width:430px){.hd-t h1{font-size:16px}.hd-t p{font-size:11px}.home-btn{padding:8px 11px}.s1r{gap:4px}.s1l{font-size:11px}#address{max-width:42%}.btn{font-size:14px}.card{margin:9px 10px;padding:14px}.ct{font-size:15px}.modal-title{font-size:19px}}
+@media(max-width:430px){.hd-t h1{font-size:13px}.hd-t p{font-size:10px}.home-btn{padding:5px 8px}.s1r{gap:4px}.s1l{font-size:11px}#address{max-width:42%}.btn{font-size:14px}.card{margin:9px 10px;padding:14px}.ct{font-size:15px}.modal-title{font-size:19px}}
 
 /* 저장 버튼 (헤더) */
-.sl-hdr-btn{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.45);color:#fff;padding:7px 11px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;margin-right:5px;}
+.sl-hdr-btn{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.38);color:#fff;padding:5px 9px;border-radius:8px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:36px;line-height:1.3;}
 .sl-hdr-btn:active{opacity:.75}
 
-/* 저장/불러오기 모달 리스트 */
-.sl-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.08);cursor:pointer;}
-.sl-item:last-child{border-bottom:none}
-.sl-item:active{background:rgba(255,255,255,.05)}
-.sl-item-label{font-size:13px;color:#ddd;line-height:1.4;flex:1;word-break:break-all}
-.sl-del-btn{background:rgba(231,76,60,.25);border:none;color:#e74c3c;width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer;flex-shrink:0}
+/* ── 저장/불러오기 모달 (tonghab 스타일) ── */
+.sl-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:3000;overflow-y:auto;padding:16px 14px 40px;overscroll-behavior:contain;}
+.sl-modal.show{display:flex;justify-content:center;align-items:flex-start;}
+.sl-box{width:100%;max-width:430px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45);}
+.sl-head{padding:13px 16px;background:#27500A;display:flex;justify-content:space-between;align-items:center;}
+.sl-head-title{font-size:15px;font-weight:800;color:#fff;}
+.sl-close{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:18px;width:32px;height:32px;border-radius:8px;cursor:pointer;line-height:1;}
+.sl-body{padding:14px 14px 18px;}
+.sl-save-now{width:100%;padding:14px;background:#27500A;border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:14px;letter-spacing:.02em;}
+.sl-save-now:active{opacity:.82;}
+.sl-section{font-size:11px;font-weight:700;color:#888;letter-spacing:.06em;margin-bottom:7px;}
+.sl-list{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;max-height:50vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;}
+.sl-item{background:#f8f6f1;border:1px solid #e0ddd6;border-radius:10px;padding:9px 10px;display:flex;align-items:center;gap:7px;}
+.sl-item-num{min-width:22px;height:22px;background:#27500A;color:#fff;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sl-item-info{flex:1;min-width:0;}
+.sl-item-label{font-size:13px;font-weight:700;color:#1a1918;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sl-item-addr{font-size:11px;color:#5a7a3a;font-weight:600;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sl-item-date{font-size:10px;color:#999;margin-top:2px;}
+.sl-item-load{padding:7px 11px;background:#0A3A8C;border:none;border-radius:7px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.sl-item-del{padding:7px 9px;background:#fdecea;border:none;border-radius:7px;color:#8B0000;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.sl-empty{text-align:center;color:#bbb;font-size:13px;padding:22px 0;}
+.sl-divider{border:none;border-top:1px solid #e8e5de;margin:4px 0 14px;}
+.sl-file-row{display:flex;gap:8px;}
+.sl-file-btn{flex:1;padding:12px 6px;border:2px solid #d0ccc4;border-radius:10px;background:#fff;color:#3D3C39;font-size:13px;font-weight:700;cursor:pointer;text-align:center;display:block;}
+.sl-file-btn:active{background:#f0ede6;}
 
 /* 뒤로가기 토스트 */
 #back-block-toast{display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(30,30,30,.95);color:#fff;border-radius:14px;padding:11px 18px;font-size:13px;font-weight:700;z-index:99999;text-align:center;pointer-events:none;max-width:285px;line-height:1.5;box-shadow:0 4px 18px rgba(0,0,0,.3);transition:opacity .35s;}
@@ -176,11 +197,15 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 <div class="header">
   <div class="hd-left">
     <div class="hd-icon">🎙️</div>
-    <div class="hd-t"><h1>청취 10a당 생산량 계산기 <span class="hd-status" id="headStatus">경북 · 사과</span></h1><p>면적환산 · 수확단위 환산과 전년자료 비교 <span style="opacity:.65;font-size:10px;">(v29: 2026-05-23 10:30)</span></p></div>
+    <div class="hd-t">
+      <h1>청취 10a당 생산량 계산기 <span class="hd-status" id="headStatus">경북 · 사과</span></h1>
+      <p>면적·수확량 환산 &amp; 전년비교</p>
+      <span class="hd-ver">(v31: 2026-05-24 10:00)</span>
+    </div>
   </div>
-  <div style="display:flex;align-items:center;gap:0;">
-    <button type="button" class="sl-hdr-btn" onclick="openSaveLoadModal()">💾 저장</button>
-    <button type="button" class="home-btn" onclick="goHome()">🏠 홈</button>
+  <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
+    <button type="button" class="sl-hdr-btn" onclick="openSaveLoadModal()"><span style="font-size:18px;line-height:1;">💾</span><span>저장</span></button>
+    <button type="button" class="home-btn" onclick="goHome()"><span style="font-size:18px;line-height:1;">🏠</span><span>홈</span></button>
   </div>
 </div>
 
@@ -361,20 +386,24 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   </div>
 </div>
 
-<!-- ── 저장/불러오기 모달 ── -->
-<div id="sl-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9998;align-items:flex-end;justify-content:center;touch-action:none;" ontouchmove="_slModalTouchMove(event)">
-  <div id="sl-panel" style="background:#1a1a1a;color:#fff;width:min(480px,100%);border-radius:22px 22px 0 0;max-height:85vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 -8px 40px rgba(0,0,0,.45);">
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:15px 18px;border-bottom:1px solid rgba(255,255,255,.12);flex-shrink:0;">
-      <div style="font-size:17px;font-weight:900;">💾 저장 / 불러오기</div>
-      <button onclick="closeSaveLoadModal()" style="background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;">×</button>
+<!-- ══ 저장/불러오기 모달 (tonghab 스타일) ══ -->
+<div class="sl-modal" id="sl-modal">
+  <div class="sl-box">
+    <div class="sl-head">
+      <span class="sl-head-title">💾 저장 / 불러오기</span>
+      <button class="sl-close" onclick="closeSaveLoadModal()">✕</button>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;">
-      <button onclick="saveCurrentData(null)" style="grid-column:1/-1;background:#27ae60;color:#fff;border:none;border-radius:12px;padding:13px;font-size:15px;font-weight:900;cursor:pointer;">💾 지금 바로 저장</button>
-      <button onclick="exportJSON()" style="background:#2563eb;color:#fff;border:none;border-radius:12px;padding:12px;font-size:13px;font-weight:800;cursor:pointer;">📤 JSON 내보내기</button>
-      <button onclick="importJSON()" style="background:#7c3aed;color:#fff;border:none;border-radius:12px;padding:12px;font-size:13px;font-weight:800;cursor:pointer;">📥 JSON 가져오기</button>
+    <div class="sl-body">
+      <button class="sl-save-now" onclick="saveCurrentData()">💾 지금 바로 저장</button>
+      <div class="sl-section">저장된 자료 목록</div>
+      <div class="sl-list" id="sl-list"><div class="sl-empty">저장된 자료가 없습니다.</div></div>
+      <hr class="sl-divider">
+      <div class="sl-section" style="margin-bottom:8px;">JSON 파일로 내보내기 / 불러오기</div>
+      <div class="sl-file-row">
+        <button class="sl-file-btn" onclick="exportJSON()">📤 JSON 내보내기</button>
+        <button class="sl-file-btn" onclick="importJSON()">📥 JSON 불러오기</button>
+      </div>
     </div>
-    <div id="sl-list" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:4px 14px 16px;"
-         ontouchstart="_slListTouchStart(event)" ontouchmove="_slListTouchMove(event)"></div>
   </div>
 </div>
 
@@ -953,15 +982,22 @@ async function shareImage(){
 
 window.addEventListener('resize',()=>{if(chartInstance)chartInstance.resize();});
 updateHeadStatus();
+
+/* 스크롤 시 차트 툴팁 숨김 (고정된 채 남아있는 문제 해결) */
+document.addEventListener('scroll',function(){
+  var tip=document.getElementById('cjsTip');
+  if(tip&&tip.style.display!=='none') tip.style.display='none';
+},{passive:true});
 </script>
 
 <script>
 /* ════════════════════════════════════════════════
-   청취조사 v29 — 저장/불러오기 · 뒤로가기방지 · 자동저장
+   청취조사 v31 — 저장/불러오기 · 뒤로가기방지 · 자동저장
    ════════════════════════════════════════════════ */
 
 var CC_AUTO_KEY  = 'chungchiAutoSave_v1';
 var CC_LIST_KEY  = 'chungchiSaveList';
+var CC_DATA_PFX  = 'chungchiSave_';
 
 /* ── 데이터 수집 ── */
 function _ccCollect(){
@@ -1099,64 +1135,71 @@ function ccAutoRestore(){
 function _ccGetList(){ try{ return JSON.parse(localStorage.getItem(CC_LIST_KEY))||[]; }catch(e){ return []; } }
 function _ccSetList(arr){ localStorage.setItem(CC_LIST_KEY, JSON.stringify(arr)); }
 
-function saveCurrentData(key){
+function saveCurrentData(){
   var d = _ccCollect();
+  var crop = d.__sC || '작물';
   var now = new Date();
-  var kst = new Date(now.getTime() + 9*3600*1000);
-  var dateStr = kst.toISOString().replace('T',' ').slice(0,16);
-  var addr = (d.address || '주소없음').slice(0, 12);
-  var crop = d.__sC || '-';
-  var label = dateStr + ' | ' + addr + ' | ' + crop;
+  var kst = new Date(now.getTime() + 9*3600000);
+  var ymd  = kst.toISOString().slice(0,10);
+  var hh   = String(kst.getUTCHours()).padStart(2,'0');
+  var mm2  = String(kst.getUTCMinutes()).padStart(2,'0');
+  var addr = (d.address || '').trim();
+  var addrShort = addr ? addr.slice(0,15)+(addr.length>15?'…':'') : '';
+  var label = crop + (addrShort ? ' · '+addrShort : '') + ' · ' + ymd;
+  var key = Date.now().toString();
+  try{ localStorage.setItem(CC_DATA_PFX+key, JSON.stringify(d)); }
+  catch(e){ alert('저장 실패: 저장 공간이 부족합니다.'); return; }
   var list = _ccGetList();
-  if(!key){
-    key = 'cc_' + Date.now().toString(36);
-    list.unshift({key:key, label:label, ts:Date.now()});
-    if(list.length > 20) list = list.slice(0,20);
-  } else {
-    var idx = list.findIndex(function(x){ return x.key === key; });
-    if(idx >= 0){ list[idx].label = label; list[idx].ts = Date.now(); }
-    else { list.unshift({key:key, label:label, ts:Date.now()}); }
-  }
+  list.unshift({key:key, label:label, ymd:ymd, hm:hh+':'+mm2, crop:crop, addr:addrShort});
+  if(list.length>30){ var rm=list.splice(30); rm.forEach(function(r){ try{ localStorage.removeItem(CC_DATA_PFX+r.key); }catch(e){} }); }
   _ccSetList(list);
-  localStorage.setItem('chungchiSave_'+key, JSON.stringify(d));
   ccAutoSave();
   _slRenderList();
-  _showSaveToast('💾 저장되었습니다');
+  var btn=document.querySelector('.sl-save-now');
+  if(btn){ var orig=btn.textContent; btn.textContent='✅ 저장 완료!'; setTimeout(function(){ btn.textContent=orig; },1600); }
 }
 
 function loadSavedData(key){
+  if(!confirm('저장된 자료를 불러옵니다.\n현재 입력 내용은 덮어씌워집니다. 계속할까요?')) return;
   try{
-    var raw = localStorage.getItem('chungchiSave_'+key);
-    if(!raw) return;
-    var d = JSON.parse(raw);
+    var raw = localStorage.getItem(CC_DATA_PFX+key);
+    if(!raw){ alert('저장 데이터를 찾을 수 없습니다.'); return; }
     closeSaveLoadModal();
-    _ccApply(d);
+    _ccApply(JSON.parse(raw));
     ccAutoSave();
-    setTimeout(function(){ window.scrollTo(0,0); }, 300);
-    _showSaveToast('📂 불러오기 완료');
+    setTimeout(function(){
+      window.scrollTo(0,0);
+      document.documentElement.scrollTop=0;
+      document.body.scrollTop=0;
+    }, 300);
+    setTimeout(function(){ window.scrollTo(0,0); }, 600);
   }catch(e){ alert('불러오기 실패: '+e.message); }
 }
 
 function deleteSavedData(key){
-  if(!confirm('이 저장 데이터를 삭제하시겠습니까?')) return;
-  var list = _ccGetList().filter(function(x){ return x.key !== key; });
-  _ccSetList(list);
-  localStorage.removeItem('chungchiSave_'+key);
+  if(!confirm('이 저장 자료를 삭제할까요?')) return;
+  try{ localStorage.removeItem(CC_DATA_PFX+key); }catch(e){}
+  _ccSetList(_ccGetList().filter(function(x){ return x.key!==key; }));
   _slRenderList();
 }
 
 function _slRenderList(){
   var list = _ccGetList();
-  var container = document.getElementById('sl-list');
-  if(!container) return;
-  if(list.length === 0){
-    container.innerHTML = '<div style="color:#888;text-align:center;padding:28px 0;font-size:14px;">저장된 데이터가 없습니다</div>';
-    return;
-  }
-  container.innerHTML = list.map(function(item){
-    return '<div class="sl-item" onclick="loadSavedData(\''+item.key+'\')">'
-      +'<div class="sl-item-label">'+item.label+'</div>'
-      +'<button class="sl-del-btn" onclick="event.stopPropagation();deleteSavedData(\''+item.key+'\')">🗑</button>'
+  var el = document.getElementById('sl-list');
+  if(!el) return;
+  if(!list.length){ el.innerHTML='<div class="sl-empty">저장된 자료가 없습니다.</div>'; return; }
+  el.innerHTML = list.map(function(it, idx){
+    var num = list.length - idx;   /* 번호: 첫 저장=1, 최신=최고번호 */
+    var addrLine = it.addr ? '<div class="sl-item-addr">📍 '+it.addr+'</div>' : '';
+    return '<div class="sl-item">'
+      +'<div class="sl-item-num">'+num+'</div>'
+      +'<div class="sl-item-info">'
+        +'<div class="sl-item-label">'+it.label+'</div>'
+        +addrLine
+        +'<div class="sl-item-date">'+(it.ymd||'')+' '+(it.hm||'')+'</div>'
+      +'</div>'
+      +'<button class="sl-item-load" onclick="loadSavedData(\''+it.key+'\')">불러오기</button>'
+      +'<button class="sl-item-del"  onclick="deleteSavedData(\''+it.key+'\')">삭제</button>'
       +'</div>';
   }).join('');
 }
@@ -1164,18 +1207,20 @@ function _slRenderList(){
 /* ── JSON 내보내기/가져오기 ── */
 function exportJSON(){
   var d = _ccCollect();
+  var crop = (d.__sC || '작물').replace(/[\\/:*?"<>|\s]+/g,'_');
+  var addr = (d.address||'주소없음').slice(0,12).replace(/[\\/:*?"<>|\s]+/g,'_');
   var now = new Date();
-  var kst = new Date(now.getTime() + 9*3600*1000);
+  var kst = new Date(now.getTime() + 9*3600000);
   var dateStr = kst.toISOString().slice(0,10);
-  var addr = (d.address||'주소없음').slice(0,15).replace(/[\\/:*?"<>|\s]+/g,'_');
-  var fileName = '청취조사_'+addr+'_'+dateStr+'.json';
+  var hh = String(kst.getUTCHours()).padStart(2,'0');
+  var mm2 = String(kst.getUTCMinutes()).padStart(2,'0');
+  var fileName = '청취_'+crop+'_'+addr+'_'+dateStr+'_'+hh+mm2+'.json';
   var blob = new Blob([JSON.stringify(d, null, 2)], {type:'application/json'});
   var url = URL.createObjectURL(blob);
   var a = document.createElement('a');
   a.href = url; a.download = fileName;
   document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(url);
-  _showSaveToast('📤 JSON 내보내기 완료');
 }
 
 function importJSON(){
@@ -1184,6 +1229,7 @@ function importJSON(){
   inp.accept = 'application/json,text/plain,.json';
   inp.onchange = function(e){
     var file = e.target.files[0]; if(!file) return;
+    if(!confirm('JSON 파일을 불러옵니다.\n현재 입력 내용이 덮어씌워집니다. 계속할까요?')) return;
     var reader = new FileReader();
     reader.onload = function(ev){
       try{
@@ -1191,8 +1237,8 @@ function importJSON(){
         closeSaveLoadModal();
         _ccApply(d);
         ccAutoSave();
-        setTimeout(function(){ window.scrollTo(0,0); }, 300);
-        _showSaveToast('📥 JSON 가져오기 완료');
+        setTimeout(function(){ window.scrollTo(0,0); document.documentElement.scrollTop=0; }, 300);
+        setTimeout(function(){ window.scrollTo(0,0); }, 600);
       }catch(ex){ alert('JSON 파일 오류: '+ex.message); }
     };
     reader.readAsText(file);
@@ -1204,12 +1250,26 @@ function importJSON(){
 function openSaveLoadModal(){
   _slRenderList();
   var modal = document.getElementById('sl-modal');
-  modal.style.display = 'flex';
-  var list = document.getElementById('sl-list');
+  var list  = document.getElementById('sl-list');
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
   if(list) list.scrollTop = 0;
+  if(list){
+    list.addEventListener('touchstart', _slListTouchStart, {passive:true});
+    list.addEventListener('touchmove',  _slListTouchMove,  {passive:false});
+  }
+  modal.addEventListener('touchmove', _slModalTouchMove, {passive:false});
 }
 function closeSaveLoadModal(){
-  document.getElementById('sl-modal').style.display = 'none';
+  var modal = document.getElementById('sl-modal');
+  var list  = document.getElementById('sl-list');
+  modal.classList.remove('show');
+  document.body.style.overflow = '';
+  if(list){
+    list.removeEventListener('touchstart', _slListTouchStart);
+    list.removeEventListener('touchmove',  _slListTouchMove);
+  }
+  modal.removeEventListener('touchmove', _slModalTouchMove);
 }
 
 /* ── 모달 iOS 스크롤 분리 ── */
@@ -1262,13 +1322,14 @@ function _showSaveToast(msg, dur){
     window._backBlockedAt = Date.now();
     history.pushState(null, '', location.href);
     window._showBackToast(
-      '🚫 뒤로가기가 차단되었습니다<br>'
-      +'<span style="font-size:11px;font-weight:500;opacity:.85;">데이터 보호를 위해 이탈이 제한됩니다</span>',
-      3000
+      '🚫 뒤로가기 차단중<br>'
+      +'<span style="font-size:11px;font-weight:500;opacity:.85;">초기화·홈 버튼이 안 눌리면<br>새로고침 후 눌러주세요</span>',
+      4000
     );
   });
 
   window.addEventListener('beforeunload', function(e){
+    ccAutoSave(); /* 새로고침·탭닫기 직전 즉시 저장 */
     e.preventDefault();
     e.returnValue = '';
   });
@@ -1291,9 +1352,8 @@ function _showSaveToast(msg, dur){
       if(!ok && elapsed < 100){
         setTimeout(function(){
           window._showBackToast(
-            '⚠ 새로고침 후 다시 시도하세요<br>'
-            +'<span style="font-size:11px;font-weight:500;opacity:.85;">'
-            +'뒤로가기 차단 중에는 일부 버튼이<br>제한될 수 있습니다</span>',
+            '🔒 뒤로가기 차단중<br>'
+            +'<span style="font-size:11px;font-weight:500;opacity:.85;">새로고침 후 사용하세요</span>',
             5000
           );
         }, 80);
@@ -1308,9 +1368,14 @@ function _showSaveToast(msg, dur){
 /* ── 자동저장 이벤트 연결 ── */
 (function(){
   var _ccSaveTimer = null;
-  function _debounced(){ clearTimeout(_ccSaveTimer); _ccSaveTimer = setTimeout(ccAutoSave, 800); }
-  document.addEventListener('input', _debounced);
+  function _debounced(){ clearTimeout(_ccSaveTimer); _ccSaveTimer = setTimeout(ccAutoSave, 200); }
+  document.addEventListener('input',  _debounced);
   document.addEventListener('change', _debounced);
+
+  /* iOS Safari는 beforeunload 미지원 → visibilitychange로 백업 저장 */
+  document.addEventListener('visibilitychange', function(){
+    if(document.visibilityState === 'hidden'){ ccAutoSave(); }
+  });
 })();
 
 /* ── 초기 자동복원 (페이지 로드시) ── */
