@@ -114,6 +114,16 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .udl2{font-size:11px;color:#777;white-space:nowrap}
 .udv2{font-size:13px;font-weight:800;color:#333;white-space:nowrap;overflow:visible;text-align:left;min-width:max-content}
 .sep{color:#ddd;font-size:11px}
+/* 통합계산기 모양 통일 — 작은 빨간 외곽선 초기화 버튼 */
+.btn-reset-mini{
+  flex-shrink:0;display:inline-flex;align-items:center;gap:4px;
+  padding:6px 11px;border:1.5px solid #C0392B;background:#fff;color:#C0392B;
+  border-radius:50px;font-size:11px;font-weight:800;font-family:inherit;
+  cursor:pointer;letter-spacing:.02em;text-transform:none;
+  transition:all .12s;
+}
+.btn-reset-mini:hover{background:#FEF2F2;}
+.btn-reset-mini:active{transform:scale(.95);}
 .ss{background:transparent;margin:10px 12px;border-radius:14px;padding:0;text-align:center}.bottom-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.bottom-reset{width:100%;background:#fff;color:#e03131;border:1.5px solid #ffb3b3;min-height:38px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:900}.bottom-save{width:100%;background:#111;color:#fff;border:none;min-height:38px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:900}
 .sg{font-size:12px;color:#aab7b8;margin-top:9px;line-height:1.6}
 .simple-compare{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -165,14 +175,18 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .sl-item-label{font-size:13px;font-weight:700;color:#1a1918;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .sl-item-addr{font-size:11px;color:#5a7a3a;font-weight:600;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .sl-item-date{font-size:10px;color:#999;margin-top:2px;}
+.sl-item-save{padding:7px 11px;background:#d97706;border:none;border-radius:7px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.sl-item-save:active{opacity:.82;}
 .sl-item-load{padding:7px 11px;background:#0A3A8C;border:none;border-radius:7px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
-.sl-item-del{padding:7px 9px;background:#fdecea;border:none;border-radius:7px;color:#8B0000;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.sl-item-del{padding:7px 9px;background:#c0392b;border:none;border-radius:7px;color:#fff;font-size:14px;font-weight:900;cursor:pointer;white-space:nowrap;flex-shrink:0;min-width:30px;line-height:1;}
 .sl-empty{text-align:center;color:#bbb;font-size:13px;padding:22px 0;}
 .sl-divider{border:none;border-top:1px solid #e8e5de;margin:4px 0 14px;}
 .sl-file-row{display:flex;gap:8px;}
 .sl-file-btn{flex:1;padding:12px 6px;border:2px solid #d0ccc4;border-radius:10px;background:#fff;color:#3D3C39;font-size:13px;font-weight:700;cursor:pointer;text-align:center;display:block;}
 .sl-file-btn:active{opacity:.82;}
-.sl-file-row .sl-file-btn:first-child{background:#6d28d9;color:#fff;border-color:#6d28d9;}
+.sl-file-row .sl-file-btn{padding:10px 4px;font-size:12px;}
+.sl-file-row .sl-share-btn{background:#1f8a3a;color:#fff;border-color:#1f8a3a;}
+.sl-file-row .sl-file-btn:nth-child(2){background:#6d28d9;color:#fff;border-color:#6d28d9;}
 .sl-file-row .sl-file-btn:last-child{background:#0A3A8C;color:#fff;border-color:#0A3A8C;}
 
 /* 뒤로가기 토스트 */
@@ -203,7 +217,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
     <div class="hd-t">
       <h1>청취 10a당 생산량 계산기</h1>
       <span class="hd-status-row"><span class="hd-status" id="headStatus">경북 · 사과</span></span>
-      <span class="hd-ver">(v38: 2026-05-24 20:02)</span>
+      <span class="hd-ver">(v39: 2026-05-25 06:00)</span>
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
@@ -213,7 +227,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 </div>
 
 <div class="card" id="commonCard">
-  <div class="section-head"><div class="ct"><span class="n">1</span>공통사항</div><button class="btn bd bsm" onclick="resetAll()">🔄 초기화</button></div>
+  <div class="section-head"><div class="ct"><span class="n">1</span>공통사항</div><button type="button" class="btn-reset-mini" onclick="resetAll()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 018-8 8 8 0 016.93 4H16v2h6V2h-2v2.54A9.99 9.99 0 0012 2C6.48 2 2 6.48 2 12h2z" fill="#C0392B"/><path d="M20 12a8 8 0 01-8 8 8 8 0 01-6.93-4H8v-2H2v6h2v-2.54A9.99 9.99 0 0012 22c5.52 0 10-4.48 10-10h-2z" fill="#C0392B"/></svg>초기화</button></div>
   <p class="desc">조사필지와 조사일자를 입력하세요.</p>
   <div class="s1r">
     <span class="s1l">필지</span>
@@ -269,7 +283,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
     </div>
   </div>
   <div class="btn-row">
-    <button class="btn bd bsm left" onclick="cfmRA()">초기화</button>
+    <button type="button" class="btn-reset-mini left" onclick="cfmRA()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 018-8 8 8 0 016.93 4H16v2h6V2h-2v2.54A9.99 9.99 0 0012 2C6.48 2 2 6.48 2 12h2z" fill="#C0392B"/><path d="M20 12a8 8 0 01-8 8 8 8 0 01-6.93-4H8v-2H2v6h2v-2.54A9.99 9.99 0 0012 22c5.52 0 10-4.48 10-10h-2z" fill="#C0392B"/></svg>초기화</button>
     <button class="btn bp bsm right" onclick="addARow()">＋ 추가</button>
   </div>
   <div class="tb">
@@ -288,7 +302,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   </div>
   <div id="hRows"></div>
   <div class="btn-row">
-    <button class="btn bd bsm left" onclick="cfmRH()">초기화</button>
+    <button type="button" class="btn-reset-mini left" onclick="cfmRH()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 018-8 8 8 0 016.93 4H16v2h6V2h-2v2.54A9.99 9.99 0 0012 2C6.48 2 2 6.48 2 12h2z" fill="#C0392B"/><path d="M20 12a8 8 0 01-8 8 8 8 0 01-6.93-4H8v-2H2v6h2v-2.54A9.99 9.99 0 0012 22c5.52 0 10-4.48 10-10h-2z" fill="#C0392B"/></svg>초기화</button>
     <button class="btn bp bsm right" onclick="addHR()">＋ 추가</button>
   </div>
   <div class="tb">
@@ -384,7 +398,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 
 <div class="ss">
   <div class="bottom-actions">
-    <button class="bottom-reset" onclick="resetAll(true)">🔄 초기화</button>
+    <button type="button" class="btn-reset-mini" onclick="resetAll(true)" style="padding:9px 18px;font-size:13px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 018-8 8 8 0 016.93 4H16v2h6V2h-2v2.54A9.99 9.99 0 0012 2C6.48 2 2 6.48 2 12h2z" fill="#C0392B"/><path d="M20 12a8 8 0 01-8 8 8 8 0 01-6.93-4H8v-2H2v6h2v-2.54A9.99 9.99 0 0012 22c5.52 0 10-4.48 10-10h-2z" fill="#C0392B"/></svg>초기화</button>
     <button class="bottom-save" onclick="saveImg()">🖼️ 결과 이미지로 저장</button>
   </div>
 </div>
@@ -397,12 +411,13 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
       <button class="sl-close" onclick="closeSaveLoadModal()">✕</button>
     </div>
     <div class="sl-body">
-      <button class="sl-save-now" onclick="saveCurrentData()">💾 지금 바로 저장</button>
-      <div class="sl-section">저장된 자료 목록 <span style="color:#c0392b;font-size:10px;font-weight:700;letter-spacing:-.01em;">(불러오기·삭제 버튼 안될때 새로고침 후 사용하세요)</span></div>
+      <button class="sl-save-now" onclick="saveCurrentData()">💾 새로 저장</button>
+      <div class="sl-section">저장된 자료 목록 <span style="color:#c0392b;font-size:10px;font-weight:700;letter-spacing:-.01em;">(버튼이 안 눌리면 새로고침 후 사용하세요)</span></div>
       <div class="sl-list" id="sl-list"><div class="sl-empty">저장된 자료가 없습니다.</div></div>
       <hr class="sl-divider">
-      <div class="sl-section" style="margin-bottom:8px;">JSON 파일로 내보내기 / 불러오기</div>
+      <div class="sl-section" style="margin-bottom:8px;">JSON 파일로 공유 / 내보내기 / 불러오기</div>
       <div class="sl-file-row">
+        <button class="sl-file-btn sl-share-btn" onclick="shareJSON()">📱 JSON 공유</button>
         <button class="sl-file-btn" onclick="exportJSON()">📤 JSON 내보내기</button>
         <button class="sl-file-btn" onclick="importJSON()">📥 JSON 불러오기</button>
       </div>
@@ -558,6 +573,8 @@ function addARow(){
   <span class="au">㎡</span>
   <button class="rb" onclick="this.closest('.ar').remove();uAT()">−</button>`;
   document.getElementById('areaRows').appendChild(d);
+  /* 추가된 첫 입력창에 포커스 → 키보드 즉시 표시 */
+  setTimeout(function(){ var inp=d.querySelector('input.pi'); if(inp){ inp.focus(); try{inp.click();}catch(e){} } }, 30);
 }
 function rmAR(b){const rows=document.querySelectorAll('#areaRows .ar');if(rows.length>1){b.closest('.ar').remove();}else{const r=b.closest('.ar');r.querySelector('.pi').value='';r.querySelector('.si').value='';}uAT();}
 function cfmRA(){if(!confirm('재배면적이 초기화됩니다. 그래도 초기화하시겠습니까?'))return;rstA();}
@@ -685,7 +702,17 @@ function bldHR(){
   document.getElementById('hRows').appendChild(d);
   if(hasDrum){const box=d.querySelector('.drum-box');initDrum(box);}
 }
-function addHR(){bldHR();}
+function addHR(){
+  bldHR();
+  /* 추가된 마지막 행의 첫 수량 입력창에 포커스 → 키보드 즉시 표시 */
+  setTimeout(function(){
+    var rows=document.querySelectorAll('#hRows .hr2');
+    if(!rows.length) return;
+    var last=rows[rows.length-1];
+    var inp=last.querySelector('input.hq') || last.querySelector('input');
+    if(inp){ inp.focus(); try{inp.click();}catch(e){} }
+  }, 30);
+}
 function rmHR(b){if(document.querySelectorAll('.hr2').length>1){b.closest('.hr2').remove();uHT();}}
 function rRow(r){
   const qi=r.querySelector('.hq'),wi=r.querySelector('.hw'),db=r.querySelector('.drum-box');
@@ -1216,7 +1243,71 @@ function saveCurrentData(){
   ccAutoSave();
   _slRenderList();
   var btn=document.querySelector('.sl-save-now');
-  if(btn){ var orig=btn.textContent; btn.textContent='✅ 저장 완료!'; setTimeout(function(){ btn.textContent=orig; },1600); }
+  if(btn){ var orig=btn.textContent; btn.textContent='✅ 새로 저장 완료!'; setTimeout(function(){ btn.textContent=orig; },1600); }
+}
+
+/* 덮어쓰기 — 기존 항목을 현재 데이터로 갱신 */
+function overwriteSavedData(key){
+  if(!confirm('이 항목에 현재 데이터를 덮어쓰시겠습니까?\n(기존 내용은 사라집니다)')) return;
+  var d = _ccCollect();
+  var crop = d.__sC || '작물';
+  var now = new Date();
+  var kst = new Date(now.getTime() + 9*3600000);
+  var ymd  = kst.toISOString().slice(0,10);
+  var hh   = String(kst.getUTCHours()).padStart(2,'0');
+  var mm2  = String(kst.getUTCMinutes()).padStart(2,'0');
+  var addr = (d.address || '').trim();
+  var addrShort = addr ? addr.slice(0,15)+(addr.length>15?'…':'') : '';
+  var label = crop + (addrShort ? ' · '+addrShort : '') + ' · ' + ymd + ' ' + hh + ':' + mm2;
+  try{ localStorage.setItem(CC_DATA_PFX+key, JSON.stringify(d)); }
+  catch(e){ alert('덮어쓰기 실패: 저장 공간이 부족합니다.'); return; }
+  var list = _ccGetList();
+  for(var i=0;i<list.length;i++){
+    if(list[i].key===key){
+      list[i].label=label; list[i].ymd=ymd; list[i].hm=hh+':'+mm2;
+      list[i].crop=crop;   list[i].addr=addrShort; break;
+    }
+  }
+  _ccSetList(list);
+  _slRenderList();
+  var t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#d97706;color:#fff;padding:10px 18px;border-radius:12px;font-size:13px;font-weight:700;z-index:99999;box-shadow:0 4px 16px rgba(0,0,0,.35);';
+  t.textContent='✅ 덮어쓰기 완료';
+  document.body.appendChild(t);
+  setTimeout(function(){try{document.body.removeChild(t);}catch(e){}},1800);
+}
+
+/* JSON 공유 — Web Share API */
+function shareJSON(){
+  var d = _ccCollect();
+  var crop = (d.__sC || '작물').replace(/[\\/:*?"<>|\s]+/g,'_');
+  var addr = (d.address||'주소없음').slice(0,12).replace(/[\\/:*?"<>|\s]+/g,'_');
+  var now = new Date(); var kst = new Date(now.getTime() + 9*3600000);
+  var dateStr = kst.toISOString().slice(0,10);
+  var hh = String(kst.getUTCHours()).padStart(2,'0');
+  var mm2 = String(kst.getUTCMinutes()).padStart(2,'0');
+  var fileName = '청취_'+crop+'_'+addr+'_'+dateStr+'_'+hh+mm2+'.json';
+  var jsonText = JSON.stringify(d, null, 2);
+  var blob = new Blob([jsonText], {type:'application/json'});
+  var file = new File([blob], fileName, {type:'application/json'});
+  if(navigator.canShare && navigator.canShare({files:[file]})){
+    navigator.share({files:[file], title:fileName, text:'청취계산기 데이터 공유'})
+      .catch(function(err){ if(err && err.name!=='AbortError') _ccShareFallback(jsonText,fileName); });
+    return;
+  }
+  if(navigator.share){
+    navigator.share({title:fileName, text:jsonText})
+      .catch(function(err){ if(err && err.name!=='AbortError') _ccShareFallback(jsonText,fileName); });
+    return;
+  }
+  _ccShareFallback(jsonText,fileName);
+}
+function _ccShareFallback(jsonText,fname){
+  try{
+    navigator.clipboard.writeText(jsonText).then(function(){
+      alert('📋 JSON이 클립보드에 복사되었습니다.\n메시지·카톡 등에 붙여넣기하여 공유하세요.\n\n파일명: '+fname);
+    }).catch(function(){ window.prompt('아래 JSON을 복사하여 공유하세요:', jsonText); });
+  }catch(e){ window.prompt('아래 JSON을 복사하여 공유하세요:', jsonText); }
 }
 
 function loadSavedData(key){
@@ -1258,8 +1349,9 @@ function _slRenderList(){
         +addrLine
         +'<div class="sl-item-date">'+(it.ymd||'')+' '+(it.hm||'')+'</div>'
       +'</div>'
+      +'<button class="sl-item-save" onclick="overwriteSavedData(\''+it.key+'\')">저장</button>'
       +'<button class="sl-item-load" onclick="loadSavedData(\''+it.key+'\')">불러오기</button>'
-      +'<button class="sl-item-del"  onclick="deleteSavedData(\''+it.key+'\')">삭제</button>'
+      +'<button class="sl-item-del"  onclick="deleteSavedData(\''+it.key+'\')" aria-label="삭제">−</button>'
       +'</div>';
   }).join('');
 }
