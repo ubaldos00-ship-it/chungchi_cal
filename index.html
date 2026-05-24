@@ -217,7 +217,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
     <div class="hd-t">
       <h1>청취 10a당 생산량 계산기</h1>
       <span class="hd-status-row"><span class="hd-status" id="headStatus">경북 · 사과</span></span>
-      <span class="hd-ver">(v39: 2026-05-25 06:00)</span>
+      <span class="hd-ver">(v40: 2026-05-25 06:48)</span>
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
@@ -283,7 +283,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
     </div>
   </div>
   <div class="btn-row">
-    <button type="button" class="btn-reset-mini left" onclick="cfmRA()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 018-8 8 8 0 016.93 4H16v2h6V2h-2v2.54A9.99 9.99 0 0012 2C6.48 2 2 6.48 2 12h2z" fill="#C0392B"/><path d="M20 12a8 8 0 01-8 8 8 8 0 01-6.93-4H8v-2H2v6h2v-2.54A9.99 9.99 0 0012 22c5.52 0 10-4.48 10-10h-2z" fill="#C0392B"/></svg>초기화</button>
+    <button class="btn bd bsm left" onclick="cfmRA()">초기화</button>
     <button class="btn bp bsm right" onclick="addARow()">＋ 추가</button>
   </div>
   <div class="tb">
@@ -302,7 +302,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
   </div>
   <div id="hRows"></div>
   <div class="btn-row">
-    <button type="button" class="btn-reset-mini left" onclick="cfmRH()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 018-8 8 8 0 016.93 4H16v2h6V2h-2v2.54A9.99 9.99 0 0012 2C6.48 2 2 6.48 2 12h2z" fill="#C0392B"/><path d="M20 12a8 8 0 01-8 8 8 8 0 01-6.93-4H8v-2H2v6h2v-2.54A9.99 9.99 0 0012 22c5.52 0 10-4.48 10-10h-2z" fill="#C0392B"/></svg>초기화</button>
+    <button class="btn bd bsm left" onclick="cfmRH()">초기화</button>
     <button class="btn bp bsm right" onclick="addHR()">＋ 추가</button>
   </div>
   <div class="tb">
@@ -398,7 +398,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 
 <div class="ss">
   <div class="bottom-actions">
-    <button type="button" class="btn-reset-mini" onclick="resetAll(true)" style="padding:9px 18px;font-size:13px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 018-8 8 8 0 016.93 4H16v2h6V2h-2v2.54A9.99 9.99 0 0012 2C6.48 2 2 6.48 2 12h2z" fill="#C0392B"/><path d="M20 12a8 8 0 01-8 8 8 8 0 01-6.93-4H8v-2H2v6h2v-2.54A9.99 9.99 0 0012 22c5.52 0 10-4.48 10-10h-2z" fill="#C0392B"/></svg>초기화</button>
+    <button class="bottom-reset" onclick="resetAll(true)">🔄 초기화</button>
     <button class="bottom-save" onclick="saveImg()">🖼️ 결과 이미지로 저장</button>
   </div>
 </div>
