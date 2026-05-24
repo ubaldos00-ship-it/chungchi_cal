@@ -203,7 +203,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
     <div class="hd-t">
       <h1>청취 10a당 생산량 계산기</h1>
       <span class="hd-status-row"><span class="hd-status" id="headStatus">경북 · 사과</span></span>
-      <span class="hd-ver">(v36: 2026-05-24 10:56)</span>
+      <span class="hd-ver">(v38: 2026-05-24 20:02)</span>
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
@@ -514,8 +514,9 @@ function goHome(){
   try{document.getElementById('regBars').innerHTML='';}catch(e){}
   try{document.getElementById('ch2T').textContent='📊 지역별 10a당 수량 비교';}catch(e){}
   try{updateHeadStatus();uAll();}catch(e){}
-  /* 자동저장 클리어 후 홈 이동 */
+  /* 자동저장 클리어 후 홈 이동 (pagehide가 다시 저장하지 않도록 _allowLeave 설정) */
   try{localStorage.removeItem('chungchiAutoSave_v1');}catch(e){}
+  window._allowLeave = true;
   location.href='https://ubaldos00-ship-it.github.io/home';
 }
 
@@ -1151,20 +1152,44 @@ function _ccApply(d){
   setTimeout(function(){ uAll(); }, 100);
 }
 
-/* ── 자동저장 ── */
+/* ── 자동저장 / 복원 (v38: 통합계산기와 동일한 데이터 보호 체계) ──
+   _ccRestoring     : 복원 중 → 미완성 DOM 덮어쓰기 방지
+   _ccInitDone      : 초기 복원 완료(또는 데이터 없음 확정) 전 저장 차단
+                      → pagehide 시 빈 DOM이 저장 데이터를 덮어쓰는 치명적 버그 해결
+   window._allowLeave : 홈/초기화 이탈 중 → 지운 후 재저장 차단 */
+window._ccRestoring = false;
+window._ccInitDone  = false;
+
 function ccAutoSave(){
+  if(window._allowLeave) return;
+  if(window._ccRestoring) return;
+  if(!window._ccInitDone) return;
   try{ localStorage.setItem(CC_AUTO_KEY, JSON.stringify(_ccCollect())); }catch(e){}
 }
 
 function ccAutoRestore(){
   try{
     var raw = localStorage.getItem(CC_AUTO_KEY);
-    if(!raw) return;
+    if(!raw){
+      window._ccInitDone = true;  // 저장 데이터 없음 → 새 입력 즉시 저장 허용
+      return;
+    }
+    window._ccRestoring = true;
     var d = JSON.parse(raw);
     _ccApply(d);
-    setTimeout(function(){ window.scrollTo(0,0); }, 300);
-  }catch(e){}
+    setTimeout(function(){
+      window.scrollTo(0,0);
+      window._ccRestoring = false;
+      window._ccInitDone  = true;  // 복원 완료 → 정상 저장 허용
+    }, 300);
+  }catch(e){
+    window._ccRestoring = false;
+    window._ccInitDone  = true;    // 에러 시에도 입력 가능하도록 해제
+  }
 }
+
+/* 최종 안전망: 어떤 이유로든 5초 후엔 무조건 저장 허용 */
+setTimeout(function(){ window._ccInitDone = true; }, 5000);
 
 /* ── 수동 저장 목록 ── */
 function _ccGetList(){ try{ return JSON.parse(localStorage.getItem(CC_LIST_KEY))||[]; }catch(e){ return []; } }
@@ -1361,33 +1386,100 @@ function _showSaveToast(msg, dur){
   }, dur||2200);
 }
 
-/* ── 뒤로가기 차단 ── */
+/* ══════════════════════════════════════════
+   링크 진입 시 자동 새로고침 — iOS Safari 뒤로가기 차단 정상화
+   (통합계산기 v47 동일 메커니즘) */
 (function(){
-  history.pushState(null, '', location.href);
+  var RKEY = '_chungchiRld';
+  if(sessionStorage.getItem(RKEY)){
+    sessionStorage.removeItem(RKEY);
+    return;
+  }
+  var ref = document.referrer;
+  var curBase = location.href.split('#')[0];
+  if(ref && ref.split('#')[0] !== curBase){
+    sessionStorage.setItem(RKEY, '1');
+    location.reload();
+  }
+})();
+
+/* ══════════════════════════════════════════
+   뒤로가기 차단 (v38 iOS 완전 차단)
+   고유 해시(#_0,#_1,...) + popstate + hashchange + 스와이프백 4중 방어
+   (통합계산기 v48 동일 메커니즘) */
+(function(){
+  window._allowLeave = window._allowLeave || false;
   window._backBlockedAt = null;
 
-  window.addEventListener('popstate', function(){
+  var _bbIdx = 0;
+  var _BASE = location.pathname + (location.search || '');
+
+  function _pushBlock(){
+    try{
+      var h1 = '#_' + (_bbIdx++);
+      var h2 = '#_' + (_bbIdx++);
+      var h3 = '#_' + (_bbIdx++);
+      history.replaceState({_bb:'r', i:_bbIdx}, '', _BASE + h1);
+      history.pushState( {_bb:'g', i:_bbIdx}, '', _BASE + h2);
+      history.pushState( {_bb:'g', i:_bbIdx}, '', _BASE + h3);
+    }catch(e){}
+  }
+
+  function _onBlock(){
+    if(window._allowLeave) return;
     window._backBlockedAt = Date.now();
-    history.pushState(null, '', location.href);
-    window._showBackToast(
-      '🚫 뒤로가기 차단중<br>'
-      +'<span style="font-size:11px;font-weight:500;opacity:.85;">초기화·홈 버튼이 안 눌리면<br>새로고침 후 눌러주세요</span>',
-      4000
-    );
+    _pushBlock();
+    if(typeof window._showBackToast === 'function'){
+      window._showBackToast(
+        '🚫 뒤로가기 차단중<br>'
+        +'<span style="font-size:11px;font-weight:500;opacity:.85;">초기화·홈 버튼이 안 눌리면<br>새로고침 후 눌러주세요</span>',
+        4000
+      );
+    }
+  }
+
+  _pushBlock();  // 1차: 즉시
+  document.addEventListener('DOMContentLoaded', function(){
+    if(!window._allowLeave){ _pushBlock(); }  // 2차: DOM 준비 후 (Android 링크진입 보완)
   });
 
-  window.addEventListener('beforeunload', function(e){
-    ccAutoSave(); /* 새로고침·탭닫기 직전 즉시 저장 */
-    e.preventDefault();
-    e.returnValue = '';
-  });
+  window.addEventListener('popstate',    _onBlock);
+  window.addEventListener('hashchange',  _onBlock);  // iOS Safari fallback
 
+  /* bfcache 복원 시 차단 엔트리 재삽입 + 데이터 재복원 */
   window.addEventListener('pageshow', function(e){
     if(e.persisted){
-      history.pushState(null, '', location.href);
+      _pushBlock();
       ccAutoRestore();
     }
   });
+
+  /* 이탈 직전 저장 — beforeunload + pagehide (iOS 신뢰성 보강) */
+  window.addEventListener('beforeunload', function(e){
+    ccAutoSave();
+    if(window._allowLeave) return;
+    e.preventDefault();
+    e.returnValue = '';
+  });
+  window.addEventListener('pagehide', function(){ ccAutoSave(); });
+
+  /* iOS 좌측 엣지 스와이프백 제스처 차단 */
+  var _tsX = 0, _tsY = 0;
+  document.addEventListener('touchstart', function(e){
+    if(e.touches && e.touches[0]){
+      _tsX = e.touches[0].clientX;
+      _tsY = e.touches[0].clientY;
+    }
+  }, {passive:true});
+  document.addEventListener('touchmove', function(e){
+    if(window._allowLeave) return;
+    if(!e.touches || !e.touches[0]) return;
+    var dx = e.touches[0].clientX - _tsX;
+    var dy = Math.abs(e.touches[0].clientY - _tsY);
+    if(_tsX < 30 && dx > 8 && dx > dy){
+      if(e.cancelable) e.preventDefault();
+    }
+  }, {passive:false});
 
   /* confirm 재정의 — 뒤로가기 차단 중 순간반환 감지 */
   var _origConfirm = window.confirm.bind(window);
@@ -1426,14 +1518,29 @@ function _showSaveToast(msg, dur){
   });
 })();
 
-/* ── 초기 자동복원 (페이지 로드시) ── */
+/* ── 초기 자동복원 (페이지 로드시) ──
+   1차(350ms): 기본 복원
+   2차(3000ms): 기기 느림·타이밍 실패 대비 — 저장 데이터 있는데 address가
+                여전히 비어있으면 재시도 */
 setTimeout(function(){
   if(location.search.indexOf('reset=') >= 0){
     history.replaceState(null, '', location.pathname);
+    window._ccInitDone = true; // 초기화 모드 → 정상 저장 허용
     return;
   }
   ccAutoRestore();
 }, 350);
+
+setTimeout(function(){
+  if(window._ccRestoring) return;          // 1차 진행 중이면 건너뜀
+  var chk = null;
+  try{ chk = localStorage.getItem(CC_AUTO_KEY); }catch(e){}
+  if(!chk) return;
+  var addr = document.getElementById('address');
+  if(addr && !addr.value.trim()){          // 1차 복원 실패 판단 → 재시도
+    ccAutoRestore();
+  }
+}, 3000);
 </script>
 <div id="back-block-toast"></div>
 <div id="save-toast"></div>
