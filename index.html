@@ -208,6 +208,32 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .drum-box:active{background:#d5f5e3;}
 .drum-inp{display:none;position:absolute;inset:0;width:100%;height:100%;text-align:center;font-size:17px;font-weight:800;color:#27500A;background:#fff;border:2px solid #27ae60;border-radius:10px;z-index:10;padding:0;box-sizing:border-box;-webkit-appearance:none;appearance:none;}
 
+/* ── 계산기 팝업 (통합계산기 동일) v41 ── */
+.calc-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:4000;align-items:flex-end;justify-content:center;}
+.calc-modal.show{display:flex;}
+.calc-box{width:100%;max-width:340px;background:#1c1c1e;border-radius:20px 20px 0 0;padding:14px 12px 28px;box-shadow:0 -8px 40px rgba(0,0,0,.5);user-select:none;touch-action:manipulation;}
+.calc-topbar{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.calc-topbar .calc-title{font-size:14px;font-weight:800;color:#fff;flex:1;}
+.calc-top-clear{background:#505054;color:#fff;border:none;border-radius:9px;padding:7px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0;}
+.calc-top-clear:active{filter:brightness(1.3);}
+.calc-top-close{background:#FF453A;color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;flex-shrink:0;}
+.calc-top-close:active{filter:brightness(1.3);}
+.calc-history{display:none;background:#000;border-radius:12px;padding:6px 12px;margin-bottom:8px;max-height:140px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.calc-history.show{display:block;}
+.calc-history-item{font-size:12.5px;color:rgba(255,255,255,.5);font-family:'SF Mono',Menlo,Consolas,monospace;text-align:right;line-height:1.7;border-bottom:1px solid rgba(255,255,255,.08);padding:3px 0;word-break:break-all;}
+.calc-history-item:last-child{border-bottom:none;}
+.calc-history-item b{color:#FFB340;font-weight:700;}
+.calc-popup-display{background:#000;border-radius:12px;padding:10px 14px;margin-bottom:10px;min-height:64px;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end;}
+.calc-expr{font-size:13px;color:rgba(255,255,255,.45);font-family:'SF Mono',Menlo,Consolas,monospace;min-height:18px;word-break:break-all;text-align:right;}
+.calc-val{font-size:34px;font-weight:700;color:#fff;font-family:'SF Mono',Menlo,Consolas,monospace;letter-spacing:-.02em;word-break:break-all;text-align:right;}
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.calc-btn{height:56px;border:none;border-radius:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:inherit;transition:filter .1s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+.calc-btn:active{filter:brightness(1.3);}
+.calc-btn.fn{background:#505054;color:#fff;}
+.calc-btn.op{background:#FF9F0A;color:#fff;}
+.calc-btn.num{background:#2c2c2e;color:#fff;}
+.calc-btn.zero{grid-column:span 2;text-align:left;padding-left:22px;}
+.calc-btn.eq{background:#FF9F0A;color:#fff;}
 </style>
 </head>
 <body>
@@ -217,10 +243,11 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
     <div class="hd-t">
       <h1>청취 10a당 생산량 계산기</h1>
       <span class="hd-status-row"><span class="hd-status" id="headStatus">경북 · 사과</span></span>
-      <span class="hd-ver">(v40: 2026-05-25 06:48)</span>
+      <span class="hd-ver">(v41: 2026-05-31 08:34)</span>
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
+    <button type="button" class="sl-hdr-btn" onclick="openCalcModal()"><span style="font-size:18px;line-height:1;">🧮</span><span>계산기</span></button>
     <button type="button" class="sl-hdr-btn" onclick="openSaveLoadModal()"><span style="font-size:18px;line-height:1;">💾</span><span>저장</span></button>
     <button type="button" class="home-btn" onclick="goHome()"><span style="font-size:18px;line-height:1;">🏠</span><span>홈</span></button>
   </div>
@@ -1648,6 +1675,119 @@ setTimeout(function(){
       e.preventDefault();
     }
   },{passive:false});
+})();
+</script>
+
+<!-- ══ 계산기 팝업 (통합계산기 동일) v41 ══ -->
+<div class="calc-modal" id="calcModal" onclick="if(event.target===this)closeCalcModal()">
+  <div class="calc-box">
+    <div class="calc-topbar">
+      <span class="calc-title">🧮 계산기</span>
+      <button class="calc-top-clear" onclick="calcClearHistory()" aria-label="기록 지우기">기록 지우기</button>
+      <button class="calc-top-close" onclick="closeCalcModal()" aria-label="닫기">✕ 닫기</button>
+    </div>
+    <div class="calc-history" id="calcHistory"></div>
+    <div class="calc-popup-display">
+      <div class="calc-expr" id="calcExpr"></div>
+      <div class="calc-val" id="calcVal">0</div>
+    </div>
+    <div class="calc-grid">
+      <button class="calc-btn fn" onclick="calcFn('AC')">AC</button>
+      <button class="calc-btn fn" onclick="calcFn('⌫')">⌫</button>
+      <button class="calc-btn fn" onclick="calcFn('%')">%</button>
+      <button class="calc-btn op" onclick="calcOp('÷')">÷</button>
+      <button class="calc-btn num" onclick="calcNum('7')">7</button>
+      <button class="calc-btn num" onclick="calcNum('8')">8</button>
+      <button class="calc-btn num" onclick="calcNum('9')">9</button>
+      <button class="calc-btn op" onclick="calcOp('×')">×</button>
+      <button class="calc-btn num" onclick="calcNum('4')">4</button>
+      <button class="calc-btn num" onclick="calcNum('5')">5</button>
+      <button class="calc-btn num" onclick="calcNum('6')">6</button>
+      <button class="calc-btn op" onclick="calcOp('−')">−</button>
+      <button class="calc-btn num" onclick="calcNum('1')">1</button>
+      <button class="calc-btn num" onclick="calcNum('2')">2</button>
+      <button class="calc-btn num" onclick="calcNum('3')">3</button>
+      <button class="calc-btn op" onclick="calcOp('+')">+</button>
+      <button class="calc-btn num zero" onclick="calcNum('0')">0</button>
+      <button class="calc-btn num" onclick="calcNum('.')">.</button>
+      <button class="calc-btn eq" onclick="calcEq()">=</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var _cv='0', _expr='', _op=null, _prev=null, _newNum=false;
+  var _history=[];
+  function _disp(){
+    document.getElementById('calcVal').textContent = _cv;
+    document.getElementById('calcExpr').textContent = _expr;
+  }
+  function _pushHistory(expr, result){
+    _history.push({e:expr, r:result});
+    if(_history.length>100) _history.shift();
+    _renderHistory();
+  }
+  function _renderHistory(){
+    var el=document.getElementById('calcHistory');
+    if(!el) return;
+    if(!_history.length){el.classList.remove('show');el.innerHTML='';return;}
+    el.innerHTML=_history.map(function(h){
+      return '<div class="calc-history-item">'+h.e+' <b>'+h.r+'</b></div>';
+    }).join('');
+    el.classList.add('show');
+    el.scrollTop=el.scrollHeight;
+  }
+  window.calcClearHistory=function(){ _history=[]; _renderHistory(); };
+  window.openCalcModal=function(){
+    document.getElementById('calcModal').classList.add('show');
+    _renderHistory();
+  };
+  window.closeCalcModal=function(){
+    document.getElementById('calcModal').classList.remove('show');
+  };
+  window.calcNum=function(d){
+    if(_newNum){_cv='';_newNum=false;}
+    if(d==='.'&&_cv.includes('.')) return;
+    if(_cv==='0'&&d!=='.') _cv=d;
+    else _cv+=d;
+    _disp();
+  };
+  window.calcOp=function(op){
+    var v=parseFloat(_cv);
+    if(_op&&!_newNum){ v=_doCalc(_prev,v,_op); _cv=_fmt(v); }
+    _prev=parseFloat(_cv);
+    _op=op; _expr=_cv+' '+op; _newNum=true; _disp();
+  };
+  window.calcEq=function(){
+    if(!_op) return;
+    var v=_doCalc(_prev,parseFloat(_cv),_op);
+    _expr=_expr+' '+_cv+' =';
+    var result=_fmt(v);
+    _pushHistory(_expr, result);
+    _cv=result; _op=null;_prev=null;_newNum=true; _disp();
+  };
+  window.calcFn=function(fn){
+    var v=parseFloat(_cv);
+    if(fn==='AC'){_cv='0';_expr='';_op=null;_prev=null;_newNum=false;}
+    else if(fn==='⌫'){
+      if(_newNum){_cv='0';}
+      else if(_cv.length>1){_cv=_cv.slice(0,-1);}
+      else{_cv='0';}
+    }
+    else if(fn==='%'){_cv=_fmt(v/100);}
+    _disp();
+  };
+  function _doCalc(a,b,op){
+    if(op==='+'||op==='＋') return a+b;
+    if(op==='−'||op==='-') return a-b;
+    if(op==='×'||op==='*') return a*b;
+    if(op==='÷'||op==='/') return b!==0?a/b:0;
+    return b;
+  }
+  function _fmt(v){
+    if(!isFinite(v)) return '오류';
+    return parseFloat(v.toPrecision(12)).toString();
+  }
 })();
 </script>
 </body>
