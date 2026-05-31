@@ -25,7 +25,7 @@ body{padding:0 0 80px;background:#f4f7f4;max-width:430px;margin:0 auto;min-heigh
 .hd-t p{font-size:10px;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
 .hd-t .hd-ver{display:block;font-size:9px;opacity:.6;margin-top:1px;letter-spacing:-.01em;}
 .hd-status{display:inline-block;padding:2px 8px;border-radius:999px;background:rgba(255,255,255,.22);color:#fff2a6;font-size:12px;font-weight:900;vertical-align:middle}
-.home-btn{background:rgba(255,255,255,.2);border:none;color:#fff;padding:5px 9px;border-radius:8px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:36px;line-height:1.3;}
+.home-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:48px;height:48px;background:rgba(255,255,255,0.18);color:#fff;font-size:10px;font-weight:700;border-radius:12px;text-decoration:none;font-family:inherit;border:1.5px solid rgba(255,255,255,0.35);flex-shrink:0;cursor:pointer;}
 .card{background:#fff;margin:10px 12px;border-radius:16px;padding:15px;box-shadow:0 2px 10px rgba(0,0,0,.06);overflow:hidden;border:1.5px solid #cfe0c9;}
 .ct{font-size:15px;font-weight:800;margin:-15px -15px 12px -15px;padding:11px 15px;display:flex;align-items:center;gap:8px;color:#27500A;background:#eef4eb;border-radius:16px 16px 0 0;border-bottom:1px solid #cfe0c9;}
 .ct .n{background:#27500A;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;}
@@ -154,8 +154,8 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 @media(max-width:430px){.hd-t h1{font-size:13px}.hd-t p{font-size:10px}.home-btn{padding:5px 8px}.s1r{gap:4px}.s1l{font-size:11px}#address{max-width:42%}.btn{font-size:14px}.card{margin:9px 10px;padding:14px}.ct{font-size:15px}.modal-title{font-size:19px}}
 
 /* 저장 버튼 (헤더) */
-.sl-hdr-btn{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.38);color:#fff;padding:5px 9px;border-radius:8px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:36px;line-height:1.3;}
-.sl-hdr-btn:active{opacity:.75}
+.sl-hdr-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:48px;height:48px;background:rgba(255,255,255,.18);color:#fff;font-size:10px;font-weight:700;border-radius:12px;border:1.5px solid rgba(255,255,255,.35);flex-shrink:0;cursor:pointer;font-family:inherit;}
+.sl-hdr-btn:active,.home-btn:active{background:rgba(255,255,255,.28);}
 
 /* ── 저장/불러오기 모달 (tonghab 스타일) ── */
 .sl-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:3000;overflow-y:auto;padding:16px 14px 40px;overscroll-behavior:contain;}
@@ -175,10 +175,14 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
 .sl-item-label{font-size:13px;font-weight:700;color:#1a1918;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .sl-item-addr{font-size:11px;color:#5a7a3a;font-weight:600;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .sl-item-date{font-size:10px;color:#999;margin-top:2px;}
-.sl-item-save{padding:7px 11px;background:#d97706;border:none;border-radius:7px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
-.sl-item-save:active{opacity:.82;}
-.sl-item-load{padding:7px 11px;background:#0A3A8C;border:none;border-radius:7px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
-.sl-item-del{padding:7px 9px;background:#c0392b;border:none;border-radius:7px;color:#fff;font-size:14px;font-weight:900;cursor:pointer;white-space:nowrap;flex-shrink:0;min-width:30px;line-height:1;}
+.sl-item-load{padding:5px 6px;background:#EBF3FF;border:1.5px solid #b3c8f0;border-radius:7px;color:#0A3A8C;font-size:18px;cursor:pointer;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;justify-content:center;min-width:32px;height:32px;transition:background .12s;}
+.sl-item-load:active{background:#d0e4ff;}
+.sl-item-del{padding:7px 8px;background:#fdecea;border:1.5px solid #f5b8b8;border-radius:7px;color:#c0392b;font-size:0;cursor:pointer;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;justify-content:center;min-width:32px;height:32px;transition:background .12s;}
+.sl-item-del:active{background:#f8c8c8;}
+.sl-item-fav{padding:5px 6px;background:none;border:1.5px solid #e0ddd6;border-radius:7px;color:#ccc;font-size:16px;cursor:pointer;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;justify-content:center;min-width:32px;height:32px;transition:all .15s;line-height:1;}
+.sl-item-fav.fav-on{color:#f59e0b;border-color:#f59e0b;background:#fff8e1;}
+.sl-item.sl-selected{background:#edfbe8;border:2px solid #3a7d44;}
+.sl-item.sl-selected .sl-item-label{color:#1a5c22;}
 .sl-empty{text-align:center;color:#bbb;font-size:13px;padding:22px 0;}
 .sl-divider{border:none;border-top:1px solid #e8e5de;margin:4px 0 14px;}
 .sl-file-row{display:flex;gap:8px;}
@@ -243,13 +247,22 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
     <div class="hd-t">
       <h1>청취 10a당 생산량 계산기</h1>
       <span class="hd-status-row"><span class="hd-status" id="headStatus">경북 · 사과</span></span>
-      <span class="hd-ver">(v41: 2026-05-31 08:34)</span>
+      <span class="hd-ver">(v42: 2026-05-31 09:37)</span>
     </div>
   </div>
-  <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
-    <button type="button" class="sl-hdr-btn" onclick="openCalcModal()"><span style="font-size:18px;line-height:1;">🧮</span><span>계산기</span></button>
-    <button type="button" class="sl-hdr-btn" onclick="openSaveLoadModal()"><span style="font-size:18px;line-height:1;">💾</span><span>저장</span></button>
-    <button type="button" class="home-btn" onclick="goHome()"><span style="font-size:18px;line-height:1;">🏠</span><span>홈</span></button>
+  <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+    <button type="button" class="home-btn" onclick="goHome()" aria-label="홈">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 9.5L10 3l7 6.5V17a1 1 0 01-1 1H13v-5H7v5H4a1 1 0 01-1-1V9.5z" fill="#fff"/></svg>
+      홈
+    </button>
+    <button type="button" class="sl-hdr-btn" onclick="openCalcModal()" aria-label="계산기">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="#fff" stroke-width="2"/><path d="M8 7h8M8 12h2m4 0h2M8 17h2m4 0h2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      계산기
+    </button>
+    <button type="button" class="sl-hdr-btn" onclick="openSaveLoadModal()" aria-label="저장/불러오기">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V7l-4-4z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M17 3v4H7V3" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><rect x="9" y="13" width="6" height="6" rx="1" stroke="#fff" stroke-width="2"/></svg>
+      저장
+    </button>
   </div>
 </div>
 
@@ -438,7 +451,7 @@ input[readonly]{background:#f5f5f5!important;color:#888!important;border-color:#
       <button class="sl-close" onclick="closeSaveLoadModal()">✕</button>
     </div>
     <div class="sl-body">
-      <button class="sl-save-now" onclick="saveCurrentData()">💾 새로 저장</button>
+      <button class="sl-save-now" id="slSmartSaveBtn" onclick="slSmartSave()">💾 새로 저장</button>
       <div class="sl-section">저장된 자료 목록 <span style="color:#c0392b;font-size:10px;font-weight:700;letter-spacing:-.01em;">(버튼이 안 눌리면 새로고침 후 사용하세요)</span></div>
       <div class="sl-list" id="sl-list"><div class="sl-empty">저장된 자료가 없습니다.</div></div>
       <hr class="sl-divider">
@@ -1269,8 +1282,8 @@ function saveCurrentData(){
   _ccSetList(list);
   ccAutoSave();
   _slRenderList();
-  var btn=document.querySelector('.sl-save-now');
-  if(btn){ var orig=btn.textContent; btn.textContent='✅ 새로 저장 완료!'; setTimeout(function(){ btn.textContent=orig; },1600); }
+  var btn=document.getElementById('slSmartSaveBtn');
+  if(btn){ var orig=btn.textContent; btn.textContent='✅ 새로 저장 완료!'; setTimeout(function(){ btn.textContent=orig; _slUpdateSaveBtn(); },1600); }
 }
 
 /* 덮어쓰기 — 기존 항목을 현재 데이터로 갱신 */
@@ -1296,7 +1309,9 @@ function overwriteSavedData(key){
     }
   }
   _ccSetList(list);
+  _slSelectedKey = null;
   _slRenderList();
+  _slUpdateSaveBtn();
   var t=document.createElement('div');
   t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#d97706;color:#fff;padding:10px 18px;border-radius:12px;font-size:13px;font-weight:700;z-index:99999;box-shadow:0 4px 16px rgba(0,0,0,.35);';
   t.textContent='✅ 덮어쓰기 완료';
@@ -1361,24 +1376,66 @@ function deleteSavedData(key){
   _slRenderList();
 }
 
+/* ── 선택 항목 key (v42 추가) ── */
+var _slSelectedKey = null;
+
+function slSelectItem(key){
+  _slSelectedKey = (_slSelectedKey === key) ? null : key;
+  _slRenderList();
+  _slUpdateSaveBtn();
+}
+function _slUpdateSaveBtn(){
+  var btn = document.getElementById('slSmartSaveBtn');
+  if(!btn) return;
+  if(_slSelectedKey){
+    var list = _ccGetList();
+    var item = null;
+    for(var i=0;i<list.length;i++){if(list[i].key===_slSelectedKey){item=list[i];break;}}
+    var lbl = item ? item.label.slice(0,18)+(item.label.length>18?'…':'') : '';
+    btn.textContent = '💾 덮어쓰기 · '+lbl;
+    btn.style.background = '#c0392b';
+  } else {
+    btn.textContent = '💾 새로 저장';
+    btn.style.background = '';
+  }
+}
+function slSmartSave(){
+  if(_slSelectedKey){ overwriteSavedData(_slSelectedKey); }
+  else { saveCurrentData(); }
+}
+function toggleFav(key){
+  var list=_ccGetList();
+  for(var i=0;i<list.length;i++){if(list[i].key===key){list[i].fav=!list[i].fav;break;}}
+  _ccSetList(list);
+  _slRenderList();
+}
+var _TRASH_SVG='<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6h14z" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 11v5M14 11v5" stroke="#c0392b" stroke-width="1.8" stroke-linecap="round"/></svg>';
 function _slRenderList(){
-  var list = _ccGetList();
+  var raw = _ccGetList();
   var el = document.getElementById('sl-list');
   if(!el) return;
-  if(!list.length){ el.innerHTML='<div class="sl-empty">저장된 자료가 없습니다.</div>'; return; }
+  if(!raw.length){ el.innerHTML='<div class="sl-empty">저장된 자료가 없습니다.</div>'; return; }
+  /* 관심목록 먼저, 나머지는 원래 순서 */
+  var favList=raw.filter(function(i){return i.fav;});
+  var nonFav=raw.filter(function(i){return !i.fav;});
+  var list=favList.concat(nonFav);
   el.innerHTML = list.map(function(it, idx){
-    var num = list.length - idx;   /* 번호: 첫 저장=1, 최신=최고번호 */
+    var num = list.length - idx;
     var addrLine = it.addr ? '<div class="sl-item-addr">📍 '+it.addr+'</div>' : '';
-    return '<div class="sl-item">'
-      +'<div class="sl-item-num">'+num+'</div>'
-      +'<div class="sl-item-info">'
+    var favCls = it.fav?'sl-item-fav fav-on':'sl-item-fav';
+    var favStar = it.fav?'★':'☆';
+    var numBg = it.fav?'background:#f59e0b;':'';
+    var selCls = (_slSelectedKey===it.key)?' sl-selected':'';
+    return '<div class="sl-item'+selCls+'">'
+      +'<div class="sl-item-num" style="'+numBg+'">'+num+'</div>'
+      +'<div class="sl-item-info" onclick="slSelectItem(\''+it.key+'\')" style="cursor:pointer;">'
         +'<div class="sl-item-label">'+it.label+'</div>'
         +addrLine
         +'<div class="sl-item-date">'+(it.ymd||'')+' '+(it.hm||'')+'</div>'
       +'</div>'
-      +'<button class="sl-item-save" onclick="overwriteSavedData(\''+it.key+'\')">저장</button>'
-      +'<button class="sl-item-load" onclick="loadSavedData(\''+it.key+'\')">불러오기</button>'
-      +'<button class="sl-item-del"  onclick="deleteSavedData(\''+it.key+'\')" aria-label="삭제">−</button>'
+      +'<button class="'+favCls+'" onclick="toggleFav(\''+it.key+'\')" aria-label="관심목록">'+favStar+'</button>'
+      +'<button class="sl-item-load" onclick="loadSavedData(\''+it.key+'\')" aria-label="불러오기">📂</button>'
+      +'<button class="sl-item-del" onclick="deleteSavedData(\''+it.key+'\')" aria-label="삭제">'+_TRASH_SVG+'</button>'
       +'</div>';
   }).join('');
 }
@@ -1440,7 +1497,9 @@ function importJSON(){
 
 /* ── 모달 열기/닫기 ── */
 function openSaveLoadModal(){
+  _slSelectedKey = null;
   _slRenderList();
+  _slUpdateSaveBtn();
   var modal = document.getElementById('sl-modal');
   var list  = document.getElementById('sl-list');
   modal.classList.add('show');
